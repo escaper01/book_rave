@@ -10,4 +10,4 @@ class Vote(models.Model):
     # comment_id = ""
     # vote_type = ""
     created_at = models.DateTimeField(default=timezone.now)
-    user_id = models.ForeignKey(User, on_delete=models.CASACADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
