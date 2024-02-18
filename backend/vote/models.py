@@ -21,5 +21,7 @@ class Vote(models.Model):
     # Build the FK
     content_object = GenericForeignKey('content_type', 'object_id')
 
-    
+    class Meta:
+        pass
+
     # method to track Votes
