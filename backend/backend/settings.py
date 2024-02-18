@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework',
+    "rest_framework",
+    "vote.apps.VoteConfig",
     "user.apps.UserConfig",
     "book.apps.BookConfig",
     "review.apps.ReviewConfig",
