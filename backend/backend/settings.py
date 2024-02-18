@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "rest_framework",
+    "comment.apps.CommentConfig",
+    "favorite.apps.FavoriteConfig",
     "vote.apps.VoteConfig",
     "user.apps.UserConfig",
     "book.apps.BookConfig",
