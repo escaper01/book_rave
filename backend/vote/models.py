@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from backend.review.models import Review
+from review.models import Review
 from django.utils import timezone
 # Create your models here.
 
