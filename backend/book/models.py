@@ -10,12 +10,12 @@ class Book(models.Model):
     publication_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     # Will Be Updated to handle S3 Bucket Storage
     image_url = models.URLField()
 
     class Meta:
         pass
-
+    
     def __str__(self):
         return self.title
