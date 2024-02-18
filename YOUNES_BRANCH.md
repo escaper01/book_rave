@@ -3,4 +3,4 @@
 => add New Field to Book Model.\
 => add rest_framework to installed apps setting.py.\
 => comment pyexpat module ( Review Model).
-
+=> set value None as default in 'added_by', 'cover' fields
