@@ -11,6 +11,7 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Will Be Updated to handle S3 Bucket Storage
     image_url = models.URLField()
 
     class Meta:
