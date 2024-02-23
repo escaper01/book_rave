@@ -12,7 +12,6 @@ class Vote(models.Model):
         ('DOWN', 'DISLIKE'),
         )
     vote_type = models.CharField(max_length=4, choices=VoteType)
-    created_at = models.DateTimeField(default=timezone.now)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     # Detect which Object Review or Comment
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
