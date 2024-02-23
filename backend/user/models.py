@@ -6,8 +6,7 @@ from django.dispatch import receiver
 # Create your models here.
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=15,blank=True,null=True)
-    last_name = models.CharField(max_length=15,blank=True,null=True)
+
     avatar = models.ImageField(upload_to="uploads/avatar/%Y/%m/%d/")
     city = models.CharField(max_length=30,blank=True,null=True)
 
