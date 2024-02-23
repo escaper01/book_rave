@@ -1,5 +1,0 @@
-{
-    "yaml.schemas": {
-        "https://json.schemastore.org/github-workflow.json": "file:///home/younes/book_rave/.github/workflows/update-settings.yml"
-    }
-}
