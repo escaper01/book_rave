@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -34,5 +34,13 @@ def onebook(request, id=0):
                 return JsonResponse({'error': 'Not Book Here'})
         except ValueError:
             return JsonResponse({'error': 'Book ID is not an integer'}, status=400)     
+    else:
+        return JsonResponse({'error': 'Method Not allowed'}, status=405)
+    
+
+@csrf_protect
+def addbook(request):
+    if request.method == 'POST':
+        pass
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
