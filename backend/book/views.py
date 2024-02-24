@@ -72,4 +72,4 @@ def deletebook(request, id=0):
 
 @csrf_exempt
 def deletebook_noid(request):
-    pass
+    return JsonResponse({'error': 'No ID'}, status=400)
