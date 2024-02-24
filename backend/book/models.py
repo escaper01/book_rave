@@ -21,10 +21,3 @@ class Book(models.Model):
     
     def __str__(self):
         return self.name
-    
-    # Since the added_by is mandatory , I assign to the admin for Dev pupose ONLY
-    def save(self, *args, **kwargs):
-        if self.added_by_id is None:
-            default_user = User.objects.get(username='younesdev')
-            self.added_by = default_user
-        super(Book, self).save(*args, **kwargs)
