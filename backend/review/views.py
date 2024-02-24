@@ -21,3 +21,15 @@ def getreview(request, id=0):
             return JsonResponse({'error': 'no such Review'}, status=400)
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+
+@csrf_exempt
+def allreview(request, id=0):
+    if request.method == 'GET':
+        try:
+            reviews = Review.objects.filter(book=id)
+            serializer = ReviewSerializer(reviews, many=True)
+            return JsonResponse(serializer.data, safe=False)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'no such Book'}, status=400)  
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
