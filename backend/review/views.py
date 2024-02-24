@@ -38,3 +38,12 @@ def allreview(request, id=0):
 @csrf_exempt
 def allreview_noid(request):
     return JsonResponse({'error': 'Provide a Correct Book id'}, status=400)
+
+
+@csrf_exempt
+def addreview(request):
+    pass
+
+@csrf_exempt
+def deletereview(request, id=0):
+    pass
