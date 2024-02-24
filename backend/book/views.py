@@ -94,7 +94,16 @@ def updatebook(request):
 
 @csrf_exempt
 def deletebook(request, id=0):
-    pass
+    if request.method == 'DELETE':
+        try:
+            book = Book.objects.get(pk=id)
+            book.delete()
+            return JsonResponse({'message': 'Book Deleted!'}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'No such Object'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+
 
 @csrf_exempt
 def deletebook_noid(request):
