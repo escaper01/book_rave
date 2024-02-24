@@ -73,8 +73,24 @@ def addbook(request):
 
 
 @csrf_exempt
-def updatebook(request, id=0):
-    pass
+def updatebook(request):
+    if request.method == 'PUT':
+        if request.content_type == 'application/json':
+            request_body = json.loads(request.body)
+            book_id = request_body.get('id')
+            try:
+               book = Book.objects.get(id=book_id)
+               new_desc = request_body.get('description')
+               if new_desc is not None:
+                   setattr(book, 'description', new_desc)
+                   book.save()
+                   return JsonResponse({'message': 'book description updated!'}, status=200)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'No such Object'}, status=400)
+        else:
+            return JsonResponse({'error': 'Content type is not JSON'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 @csrf_exempt
 def deletebook(request, id=0):
