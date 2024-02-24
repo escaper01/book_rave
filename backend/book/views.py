@@ -5,6 +5,8 @@ from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Book
 from .serializers import BookSerializer
+import json
+from json.decoder import JSONDecodeError
 
 
 @csrf_exempt
@@ -37,10 +39,25 @@ def onebook(request, id=0):
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
     
-
-@csrf_protect
+# csrf exempt for DEV Only
+@csrf_exempt
 def addbook(request):
     if request.method == 'POST':
-        pass
+        if request.content_type == 'application/json':
+            temp = json.loads(request.body)
+            mandatory_keys = ['name', 'description', 'author', 'publication_date']
+            missing_key = []
+            for key in mandatory_keys:
+                if key not in temp:
+                    missing_key.append(key)
+                if missing_key:
+                    return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_key) }'}, status=400) 
+            try:     
+                new_book = Book(**temp)
+                new_book.save()
+                serializer = BookSerializer(new_book)
+                return JsonResponse(serializer.data, safe=False, status=201)
+            except JSONDecodeError:
+                return JsonResponse({'error': 'Content type is not JSON'}, status=400)
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
