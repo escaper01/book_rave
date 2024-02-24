@@ -33,3 +33,8 @@ def allreview(request, id=0):
             return JsonResponse({'error': 'no such Book'}, status=400)  
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+
+
+@csrf_exempt
+def allreview_noid(request):
+    return JsonResponse({'error': 'Provide a Correct Book id'}, status=400)
