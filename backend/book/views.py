@@ -16,15 +16,23 @@ def allbooks(request):
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
     
+@csrf_exempt
+def onebook_noid(request):
+    return JsonResponse({'error': 'No ID'}, status=400)
+
 
 @csrf_exempt
 def onebook(request, id=0):
     if request.method == 'GET':
         try:
-            book = Book.objects.get(pk=id)
-            serializer = BookSerializer(book)
-            return JsonResponse(serializer.data, safe=False)
-        except ObjectDoesNotExist:
-            return JsonResponse({'error': 'Not Book Here'})
+            book_id = int(id)
+            try:
+                book = Book.objects.get(pk=book_id)
+                serializer = BookSerializer(book)
+                return JsonResponse(serializer.data, safe=False)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'Not Book Here'})
+        except ValueError:
+            return JsonResponse({'error': 'Book ID is not an integer'}, status=400)     
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
