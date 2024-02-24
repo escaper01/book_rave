@@ -61,3 +61,15 @@ def addbook(request):
                 return JsonResponse({'error': 'Content type is not JSON'}, status=400)
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
+    
+@csrf_exempt
+def updatebook(request, id=0):
+    pass
+
+@csrf_exempt
+def deletebook(request, id=0):
+    pass
+
+@csrf_exempt
+def deletebook_noid(request):
+    pass
