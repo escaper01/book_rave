@@ -1,9 +1,9 @@
 from dataclasses import fields
 from rest_framework import serializers
-from backend.book.models import Book
+from .models import Book
 
 
-class BookSerializer(serializers.ModelField):
+class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ["name", "description", "author", "publication_date", "added_by", "cover"]
