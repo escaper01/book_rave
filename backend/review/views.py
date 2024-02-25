@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Review
@@ -8,7 +7,6 @@ from user.models import User
 from book.models import Book
 from .serializers import ReviewSerializer
 import json
-from json.decoder import JSONDecodeError
 
 
 @csrf_exempt

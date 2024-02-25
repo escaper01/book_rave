@@ -22,7 +22,7 @@ urlpatterns = [
     path('user/', include("user.urls")),
     path('api/', include("book.urls")),
     path('api/', include("review.urls")),
-    # path('api/', include("comment.urls")),
+    path('api/', include("comment.urls")),
     # path('api/', include("favorite.urls")),
     # path('api/', include("vote.urls")),
 ]
