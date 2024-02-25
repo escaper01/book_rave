@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Review
 from user.models import User
+from book.models import Book
 from .serializers import ReviewSerializer
 import json
 from json.decoder import JSONDecodeError
@@ -41,14 +42,39 @@ def allreview_noid(request):
 
 
 @csrf_exempt
-def addreview(request):
+def addreview(request, id=None):
     if request.method == 'POST':
         if request.content_type == 'application/json':
-            pass
+            mandatory_keys = ['id', 'title', 'media', 'content', 'rating']
+            missing_keys = []
+            if id is not None:
+                temp = json.loads(request.body)
+                missing_keys = [key for key in mandatory_keys if key not in temp]
+                if missing_keys:
+                    return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_keys)}'}, status=400)
+                owner_id = temp.get('id')
+                reviewer = User.objects.get(pk=owner_id)
+                book = Book.objects.get(pk=id)
+                book_name = book.name
+                new_review = Review.objects.create(
+                    owner=reviewer,
+                    title=temp['title'],
+                    book=book,
+                    media=temp['media'],
+                    content=temp['content'],
+                    rating=temp['rating']
+                    )
+                serialize = ReviewSerializer(new_review)
+                response_data = serialize.data
+                response_data['book_title'] = book_name
+                return JsonResponse(response_data, safe=False, status=201)    
+            else:
+                return JsonResponse({'error': 'No Book to review'})
         else:
             return JsonResponse({'error': 'Content type is Not Json'}, status=400)
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+
 
 @csrf_exempt
 def deletereview(request, id=0):

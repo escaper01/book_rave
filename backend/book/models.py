@@ -21,3 +21,6 @@ class Book(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def get_book_name(self):
+        return self.name
