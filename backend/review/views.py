@@ -78,4 +78,16 @@ def addreview(request, id=None):
 
 @csrf_exempt
 def deletereview(request, id=0):
-    pass
+    if request.method == 'DELETE':
+        try:
+            review_id = int(id)
+            try:
+                review = Review.objects.get(pk=review_id)
+                review.delete()
+                return JsonResponse({'message': 'Review Deleted!'}, status=200)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'No such Object'}, status=400)
+        except ValueError:
+            return JsonResponse({'error': 'ID is not an integer'}, status=400) 
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
