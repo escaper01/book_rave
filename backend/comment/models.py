@@ -13,3 +13,6 @@ class Comment(models.Model):
 
     class Meta:
         pass
+
+    def __str__(self):
+        return "Comment ID {} for Review {}".format(self.id, self.review_id)
