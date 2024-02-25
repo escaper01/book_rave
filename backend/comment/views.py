@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Review
+from .models import Comment
 from user.models import User
 from review.models import Review
 from .serializers import CommentSerializer
