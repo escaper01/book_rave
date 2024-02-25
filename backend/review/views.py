@@ -42,7 +42,13 @@ def allreview_noid(request):
 
 @csrf_exempt
 def addreview(request):
-    pass
+    if request.method == 'POST':
+        if request.content_type == 'application/json':
+            pass
+        else:
+            return JsonResponse({'error': 'Content type is Not Json'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 @csrf_exempt
 def deletereview(request, id=0):

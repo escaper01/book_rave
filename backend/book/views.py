@@ -96,11 +96,15 @@ def updatebook(request):
 def deletebook(request, id=0):
     if request.method == 'DELETE':
         try:
-            book = Book.objects.get(pk=id)
-            book.delete()
-            return JsonResponse({'message': 'Book Deleted!'}, status=200)
-        except ObjectDoesNotExist:
-            return JsonResponse({'error': 'No such Object'}, status=400)
+            book_id = int(id)
+            try:
+                book = Book.objects.get(pk=book_id)
+                book.delete()
+                return JsonResponse({'message': 'Book Deleted!'}, status=200)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'No such Object'}, status=400)
+        except ValueError:
+            return JsonResponse({'error': 'ID is not an integer'}, status=400) 
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
