@@ -30,7 +30,7 @@ def getcomment(request, id=0):
             serializer = CommentSerializer(comment)
             return JsonResponse(serializer.data, safe=False, status=200)
         except ObjectDoesNotExist:
-            JsonResponse({'error': 'no such comment'}, status=404)
+            return JsonResponse({'error': 'no such comment'}, status=404)
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
@@ -45,5 +45,13 @@ def updatecomment(request):
 
 @csrf_exempt
 def removecomment(request, id=0):
-    pass
+    if request.method == 'DELETE':
+        try:
+            comment = Comment.objects.get(pk=id)
+            comment.delete()
+            return JsonResponse({'message': 'Comment Deleted!'}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'No Comment'}, status=404)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
