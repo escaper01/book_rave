@@ -66,7 +66,7 @@ def addbook(request):
                     description=temp['description'],
                     author=temp['author'],
                     publication_date=temp['publication_date'],
-                    added_by=user  # Assign the current user as the added_by user
+                    added_by=user
                 )
                 
                 serializer = BookSerializer(new_book)
@@ -80,18 +80,28 @@ def addbook(request):
 
 
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def updatebook(request):
     if request.method == 'PUT':
         if request.content_type == 'application/json':
+            jwt = JWTAuthentication()
+            try:
+                user, _= jwt.authenticate(request)
+            except Exception as e:
+                return JsonResponse({'error': 'You need to Login'}, status=401)
+
             request_body = json.loads(request.body)
             book_id = request_body.get('id')
             try:
                book = Book.objects.get(id=book_id)
-               new_desc = request_body.get('description')
-               if new_desc is not None:
-                   setattr(book, 'description', new_desc)
-                   book.save()
-                   return JsonResponse({'message': 'book description updated!'}, status=200)
+               if user == book.added_by:
+                   new_desc = request_body.get('description')
+                   if new_desc is not None:
+                       setattr(book, 'description', new_desc)
+                       book.save()
+                       return JsonResponse({'message': 'book description updated!'}, status=200)
+               else:
+                    return JsonResponse({'error': 'Unauthorized'}, status=403)
             except ObjectDoesNotExist:
                 return JsonResponse({'error': 'No such Object'}, status=400)
         else:
@@ -100,14 +110,23 @@ def updatebook(request):
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def deletebook(request, id=0):
     if request.method == 'DELETE':
+        jwt = JWTAuthentication()
+        try:
+            user, _= jwt.authenticate(request)
+        except Exception as e:
+            return JsonResponse({'error': 'You need to Login'}, status=401)
         try:
             book_id = int(id)
             try:
                 book = Book.objects.get(pk=book_id)
-                book.delete()
-                return JsonResponse({'message': 'Book Deleted!'}, status=200)
+                if user == book.added_by:
+                    book.delete()
+                    return JsonResponse({'message': 'Book Deleted!'}, status=200)
+                else:
+                    return JsonResponse({'error': 'Unauthorized'}, status=403)
             except ObjectDoesNotExist:
                 return JsonResponse({'error': 'No such Object'}, status=400)
         except ValueError:
