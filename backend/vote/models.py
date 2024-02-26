@@ -13,14 +13,15 @@ class Vote(models.Model):
         )
     vote_type = models.CharField(max_length=4, choices=VoteType)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    # Detect which Object Review or Comment
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    # Extract the Object id
     object_id = models.PositiveIntegerField()
-    # Build the FK
     content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
         pass
 
-    # method to track Votes
+    def track_votes(self):
+        up = Vote.objects.filter(content_type=self.content_type, object_id=self.object_id, vote_type='UP').count()
+        down = Vote.objects.filter(content_type=self.content_type, object_id=self.object_id, vote_type='DOWN').count()
+        return {'upvotes': up, 'downvotes': down}
+        
