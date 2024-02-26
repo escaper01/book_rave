@@ -36,12 +36,50 @@ def getcomment(request, id=0):
 
 
 @csrf_exempt
-def addcomment(request):
-    pass
+def addcomment(request, id=None):
+    if request.method == 'POST':
+        if request.content_type == 'application/json':
+            mandatory_keys = ['content', 'user']
+            missing_keys = []
+            if id is not None:
+                try:
+                    temp = json.loads(request.body)
+                    missing_keys = [key for key in mandatory_keys if key not in temp]
+                    if missing_keys:
+                        return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_keys)}'}, status=400)
+                    
+                    review = Review.objects.get(pk=id)
+                    userid = temp.get('user')
+                    user = User.objects.get(pk=userid)
+                    username = user.username
+                    
+                    new_comment = Comment.objects.create(
+                        review_id=review,
+                        content=temp['content'],
+                        user=user
+                    )
+                    serilizer = CommentSerializer(new_comment)
+                    response_data = serilizer.data
+                    response_data['username'] = username
+                    return JsonResponse(response_data, status=201)
+                
+                except ObjectDoesNotExist:
+                    return JsonResponse({'error': 'Review or User does not exist'}, status=404)
+                
+                except json.JSONDecodeError:
+                    return JsonResponse({'error': 'Invalid JSON format in request body'}, status=400)
+                    
+            else:
+                return JsonResponse({'error': 'No Review to Comment'})
+        else:
+            return JsonResponse({'error': 'Content type is Not Json'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 @csrf_exempt
 def updatecomment(request):
     pass
+
 
 @csrf_exempt
 def removecomment(request, id=0):
@@ -55,3 +93,6 @@ def removecomment(request, id=0):
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
+@csrf_exempt
+def no_id(request):
+    return JsonResponse({'error': 'Please include the ID'}, status=400)
