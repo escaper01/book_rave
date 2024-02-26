@@ -24,7 +24,16 @@ def getcomments(request, id=0):
 
 @csrf_exempt
 def getcomment(request, id=0):
-    pass
+    if request.method == 'GET':
+        try:
+            comment = Comment.objects.get(pk=id)
+            serializer = CommentSerializer(comment)
+            return JsonResponse(serializer.data, safe=False, status=200)
+        except ObjectDoesNotExist:
+            JsonResponse({'error': 'no such comment'}, status=404)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+
 
 @csrf_exempt
 def addcomment(request):
