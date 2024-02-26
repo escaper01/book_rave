@@ -42,7 +42,7 @@ def onebook(request, id=0):
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
 
-  
+
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 def addbook(request):
