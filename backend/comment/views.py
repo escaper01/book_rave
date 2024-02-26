@@ -78,7 +78,23 @@ def addcomment(request, id=None):
 
 @csrf_exempt
 def updatecomment(request):
-    pass
+    if request.method == 'PUT':
+        if request.content_type == 'application/json':
+            request_body = json.loads(request.body)
+            comment_id = request_body.get('comment_id')
+            try:
+               comment = Comment.objects.get(id=comment_id)
+               new_content= request_body.get('content')
+               if new_content is not None:
+                   setattr(comment, 'content', new_content)
+                   comment.save()
+                   return JsonResponse({'message': 'comment content updated!'}, status=200)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'No such Object'}, status=400)
+        else:
+            return JsonResponse({'error': 'Content type is not JSON'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 
 @csrf_exempt
