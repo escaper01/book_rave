@@ -8,7 +8,9 @@ from user.models import User
 from .serializers import BookSerializer
 import json
 from json.decoder import JSONDecodeError
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 @csrf_exempt
 def allbooks(request):
@@ -39,37 +41,42 @@ def onebook(request, id=0):
             return JsonResponse({'error': 'Book ID is not an integer'}, status=400)     
     else:
         return JsonResponse({'error': 'Method Not allowed'}, status=405)
-    
-# csrf exempt for DEV Only
+
+  
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def addbook(request):
     if request.method == 'POST':
         if request.content_type == 'application/json':
+            jwt_authenticator = JWTAuthentication()
+            try:
+                user, _ = jwt_authenticator.authenticate(request)
+            except Exception as e:
+                return JsonResponse({'error': 'You need to Login'}, status=401)
+
             try:
                 temp = json.loads(request.body)
-                mandatory_keys = ['name', 'description', 'author', 'publication_date', 'added_by']
+                mandatory_keys = ['name', 'description', 'author', 'publication_date']
                 missing_keys = [key for key in mandatory_keys if key not in temp]
                 if missing_keys:
                     return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_keys)}'}, status=400)
-                
-                added_by_user_id = temp.get('added_by')
-                added_by_user = User.objects.get(pk=added_by_user_id)
                 
                 new_book = Book.objects.create(
                     name=temp['name'],
                     description=temp['description'],
                     author=temp['author'],
                     publication_date=temp['publication_date'],
-                    added_by=added_by_user
+                    added_by=user  # Assign the current user as the added_by user
                 )
                 
                 serializer = BookSerializer(new_book)
-                return JsonResponse(serializer.data, status=201)
+                response_data = serializer.data
+                response_data['username'] = user.username
+                return JsonResponse(response_data, status=201)
             except JSONDecodeError:
                 return JsonResponse({'error': 'Content type is not JSON'}, status=400)
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
-
 
 
 @csrf_exempt
