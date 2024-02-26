@@ -9,8 +9,17 @@ from .serializers import CommentSerializer
 import json
 
 @csrf_exempt
-def getcomments(request):
-    pass
+def getcomments(request, id=0):
+    if request.method == 'GET':
+            try:
+                review = Review.objects.get(pk=id)
+                comments = Comment.objects.filter(review_id=id)
+                serialize = CommentSerializer(comments, many=True)
+                return JsonResponse(serialize.data, safe=False, status=200)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'no such review'}, status=404)
+    else:
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 
 @csrf_exempt
