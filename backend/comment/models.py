@@ -15,4 +15,4 @@ class Comment(models.Model):
         pass
 
     def __str__(self):
-        return "Comment ID {} for Review {}".format(self.id, self.review_id)
+        return "Comment from {} for Review {}".format(self.user.username, self.review_id)

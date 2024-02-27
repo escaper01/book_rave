@@ -9,5 +9,6 @@ urlpatterns = [
     path('v1/deletecomment/', no_id, name='no_id'),
     path('v1/addcomment/<id>', addcomment, name='addcomment'),
     path('v1/addcomment/', no_id, name='no_id_add'),
-    path('v1/update/comment/', updatecomment, name='updatecomment'),
+    path('v1/update/comment/<id>', updatecomment, name='updatecomment'),
+    path('v1/update/comment/', no_id, name='noid_updatecomment'),
 ]

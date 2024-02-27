@@ -7,6 +7,10 @@ from user.models import User
 from review.models import Review
 from .serializers import CommentSerializer
 import json
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 
 @csrf_exempt
 def getcomments(request, id=0):
@@ -36,10 +40,16 @@ def getcomment(request, id=0):
 
 
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def addcomment(request, id=None):
     if request.method == 'POST':
         if request.content_type == 'application/json':
-            mandatory_keys = ['content', 'user']
+            jwt = JWTAuthentication()
+            try:
+                user, _ = jwt.authenticate(request)
+            except Exception as e:
+                return JsonResponse({'error': 'You need to Login First'}, status=401)
+            mandatory_keys = ['content']
             missing_keys = []
             if id is not None:
                 try:
@@ -49,9 +59,6 @@ def addcomment(request, id=None):
                         return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_keys)}'}, status=400)
                     
                     review = Review.objects.get(pk=id)
-                    userid = temp.get('user')
-                    user = User.objects.get(pk=userid)
-                    username = user.username
                     
                     new_comment = Comment.objects.create(
                         review_id=review,
@@ -60,7 +67,7 @@ def addcomment(request, id=None):
                     )
                     serilizer = CommentSerializer(new_comment)
                     response_data = serilizer.data
-                    response_data['username'] = username
+                    response_data['username'] = user.username
                     return JsonResponse(response_data, status=201)
                 
                 except ObjectDoesNotExist:
@@ -77,18 +84,27 @@ def addcomment(request, id=None):
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 
 @csrf_exempt
-def updatecomment(request):
+@permission_classes([IsAuthenticated])
+def updatecomment(request, id=0):
     if request.method == 'PUT':
         if request.content_type == 'application/json':
-            request_body = json.loads(request.body)
-            comment_id = request_body.get('comment_id')
+            jwt = JWTAuthentication()
             try:
-               comment = Comment.objects.get(id=comment_id)
-               new_content= request_body.get('content')
-               if new_content is not None:
-                   setattr(comment, 'content', new_content)
-                   comment.save()
-                   return JsonResponse({'message': 'comment content updated!'}, status=200)
+                user, _ = jwt.authenticate(request)
+            except Exception as e:
+                return JsonResponse({'error': 'You need to Login'}, status=401)
+            
+            request_body = json.loads(request.body)
+            try:
+               comment = Comment.objects.get(id=id)
+               if user == comment.user:
+                    new_content= request_body.get('content')
+                    if new_content is not None:
+                        setattr(comment, 'content', new_content)
+                        comment.save()
+                        return JsonResponse({'message': 'comment content updated!'}, status=200)
+               else:
+                   return JsonResponse({'error': 'Unauthorized'}, status=403)
             except ObjectDoesNotExist:
                 return JsonResponse({'error': 'No such Object'}, status=400)
         else:
@@ -98,12 +114,21 @@ def updatecomment(request):
 
 
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def removecomment(request, id=0):
     if request.method == 'DELETE':
+        jwt = JWTAuthentication()
+        try:
+            user, _ = jwt.authenticate(request)
+        except Exception:
+            return JsonResponse({'error': 'You need to Login'}, status=401)
         try:
             comment = Comment.objects.get(pk=id)
-            comment.delete()
-            return JsonResponse({'message': 'Comment Deleted!'}, status=200)
+            if user == comment.user:
+                comment.delete()
+                return JsonResponse({'message': 'Comment Deleted!'}, status=200)
+            else:
+                return JsonResponse({'error': 'Unauthorized'}, status=403)
         except ObjectDoesNotExist:
             return JsonResponse({'error': 'No Comment'}, status=404)
     else:
