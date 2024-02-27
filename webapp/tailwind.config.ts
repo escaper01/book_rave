@@ -10,8 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         'my-yellow': {
+          light: '#F9F9F5',
           primary: '#F4F2E9',
         },
+      },
+      scale: {
+        '103': '1.03',
+        '120': '1.2',
       },
     },
   },
