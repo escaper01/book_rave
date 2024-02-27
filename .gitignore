@@ -1,8 +1,25 @@
 # Created by https://www.toptal.com/developers/gitignore/api/nextjs,django
-# Edit at https://www.toptal.com/developers/gitignore?templates=nextjs,django
+#### ignore all .idea files ...
+*
 
+#### except
+
+# Version Control configuration for your project
+!vcs.xml
+
+# how IDEA should treat the text files in your project
+!encodings.xml
+
+# automatic code formatting
+!codeStyleSettings.xml
+
+# project specific words
+!dictionaries
+
+!copyrights
+!misc.xml
+!sqldialects.xml
 ### Django ###
-.idea/
 migrations/
 *.log
 *.pot
@@ -52,7 +69,9 @@ migrations
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
+*.png
+*.jpg
+*.jpeg
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

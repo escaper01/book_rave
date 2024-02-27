@@ -1,9 +1,17 @@
 from dataclasses import fields
+from django.utils import timezone
 from rest_framework import serializers
-from backend.book.models import Book
+from .models import Book
 
 
-class BookSerializer(serializers.ModelField):
+class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ['id', 'name', 'description', 'author', 'publication_date', 'created_at', 'updated_at', 'added_by', 'cover']
+        extra_kwargs = {
+            'description': {'min_length': 100, 'max_length': 400},
+            'added_by': {'default': serializers.CurrentUserDefault(), },
+        }
+
+
+        
