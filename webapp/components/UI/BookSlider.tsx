@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function BookSlider() {
   return (
-    <div className='my-5'>
+    <div className=''>
       <Flicking
         deceleration={0.0055}
         align='center'

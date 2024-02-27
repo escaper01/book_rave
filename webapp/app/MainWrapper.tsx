@@ -10,7 +10,7 @@ export default function MainWrapper() {
     <div>
       <Navbar />
       <div className='bg-my-yellow-light '>
-        <div className='mx-auto max-w-screen-sm'>
+        <div className='mx-auto max-w-screen-sm py-5'>
           <BookSlider />
           <div className='mt-8'>
             <ReviewPost />
