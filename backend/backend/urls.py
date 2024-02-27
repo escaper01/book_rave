@@ -10,5 +10,5 @@ urlpatterns = [
     re_path('auth/', include('djoser.urls')),
     re_path('auth/', include('djoser.urls.jwt')),
     # path('api/', include("favorite.urls")),
-    # path('api/', include("vote.urls")),
+    path('api/', include("vote.urls")),
 ]

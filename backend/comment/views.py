@@ -10,7 +10,8 @@ import json
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-
+from vote.models import Vote
+from django.contrib.contenttypes.models import ContentType
 
 @csrf_exempt
 def getcomments(request, id=0):
@@ -32,9 +33,16 @@ def getcomment(request, id=0):
         try:
             comment = Comment.objects.get(pk=id)
             serializer = CommentSerializer(comment)
-            return JsonResponse(serializer.data, safe=False, status=200)
+            content_type = ContentType.objects.get_for_model(comment)
+            votes = Vote.objects.filter(content_type=content_type, object_id=id)
+            upvotes = votes.filter(vote_type='UP').count()
+            downvotes = votes.filter(vote_type='DOWN').count()
+            comment_data = serializer.data
+            comment_data['upvotes'] = upvotes
+            comment_data['downvotes'] = downvotes
+            return JsonResponse(comment_data, status=200)
         except ObjectDoesNotExist:
-            return JsonResponse({'error': 'no such comment'}, status=404)
+            return JsonResponse({'error': 'No such comment'}, status=404)
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 

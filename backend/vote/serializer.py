@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from backend.vote.models import Vote
+from .models import Vote
 
 
-class VoteSerializer(serializers.ModelField):
+class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = "__all__"
