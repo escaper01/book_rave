@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework",
     'rest_framework.authtoken',
     'djoser',
+    'rest_framework_simplejwt.token_blacklist', # this one is for the logout
 
     "comment.apps.CommentConfig",
     "favorite.apps.FavoriteConfig",
@@ -88,10 +89,21 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Bookrave_dev',
+        'USER': 'younes_dev',
+        'PASSWORD': 'Bookrave_pwd',
+        'HOST':'localhost',
+        'PORT':'3306',
+    }
+}
+
+"""DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+}"""
 
 
 # Password validation
@@ -146,6 +158,9 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60)
 }
+
+# print email content into the console
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DJOSER = {
 

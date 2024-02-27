@@ -12,11 +12,11 @@ class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     media = models.ImageField(upload_to="uploads/reviews/%Y/%m/%d/")
     content = models.TextField()
-    rating = models.DecimalField(max_digits=1, decimal_places=1)
+    rating = models.DecimalField(max_digits=3, decimal_places=1)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         pass
 
     def __str__(self):
-        self.title
+        return "Review from {} for {} Book".format(self.owner.username, self.book.name)
