@@ -5,7 +5,7 @@ from django.utils import timezone
 
 # Create your models here.
 class Book(models.Model):
-    name = models.CharField(max_length=100, null=False, unique=True, blank=False)
+    name = models.CharField(max_length=100, null=False, unique=False, blank=False)
     description = models.TextField()
     author = models.CharField(max_length=100, null=False, unique=False, blank=False)
     publication_date = models.DateField(null=True)

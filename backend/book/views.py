@@ -65,7 +65,8 @@ def addbook(request):
                     description=temp['description'],
                     author=temp['author'],
                     publication_date=temp['publication_date'],
-                    added_by=user
+                    added_by=user,
+                    cover=temp['cover']
                 )
                 
                 serializer = BookSerializer(new_book)
@@ -74,6 +75,8 @@ def addbook(request):
                 return JsonResponse(response_data, status=201)
             except JSONDecodeError:
                 return JsonResponse({'error': 'Content type is not JSON'}, status=400)
+        else:
+            return JsonResponse({'error': 'Content-type not allowed'}, status=400)    
     else:
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.favorite.models import Favorite
+from favorite.models import Favorite
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
