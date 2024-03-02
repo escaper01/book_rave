@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/v1/comment', include("comment.urls")),
     re_path('api/v1/auth/', include('djoser.urls')),
     re_path('api/v1/auth/', include('djoser.urls.jwt')),
-    # path('api/v1/', include("favorite.urls")),
-    path('api/v1/', include("vote.urls")),
+    path('api/v1/favorite/', include("favorite.urls")),
+    path('api/v1/vote/', include("vote.urls")),
+
 ]
