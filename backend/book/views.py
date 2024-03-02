@@ -70,7 +70,6 @@ def delete_book(request, book_id):
         book = Book.objects.get(id=book_id, added_by=current_user)
         book.delete()
 
-        # demand.delete()
     except Book.DoesNotExist:
         return Response({'message': 'no such book'}, status=status.HTTP_400_BAD_REQUEST)
     return Response({'success': True}, status=status.HTTP_200_OK)
