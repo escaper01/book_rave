@@ -1,142 +1,78 @@
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.http.response import JsonResponse
+from rest_framework.response import Response
+from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Book
-from user.models import User
 from .serializers import BookSerializer
 import json
-from json.decoder import JSONDecodeError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
+from user.models import Person
 
-@csrf_exempt
-def allbooks(request):
-    if request.method == 'GET':
-        books = Book.objects.all()
-        serializer = BookSerializer(books, many=True)
-        return JsonResponse(serializer.data, safe=False)
-    else:
-        return JsonResponse({'error': 'Method Not allowed'}, status=405)
+
+@api_view(['GET'])
+def all_books(request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 5
+    books = Book.objects.all().order_by('-created_at')
+    context = paginator.paginate_queryset(books, request)
+    serializer = BookSerializer(context, many=True)
+    return paginator.get_paginated_response(serializer.data)
     
-@csrf_exempt
-def onebook_noid(request):
-    return JsonResponse({'error': 'No ID'}, status=400)
+
+@api_view(['GET'])
+def get_book(request, book_id):
+    try:
+        book = Book.objects.get(id=book_id)
+        serializer = BookSerializer(book)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    except Book.DoesNotExist:
+        return Response({'message': 'Book was not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
-@csrf_exempt
-def onebook(request, id=0):
-    if request.method == 'GET':
-        try:
-            book_id = int(id)
-            try:
-                book = Book.objects.get(pk=book_id)
-                serializer = BookSerializer(book)
-                return JsonResponse(serializer.data, safe=False)
-            except ObjectDoesNotExist:
-                return JsonResponse({'error': 'Not Book Here'})
-        except ValueError:
-            return JsonResponse({'error': 'Book ID is not an integer'}, status=400)     
-    else:
-        return JsonResponse({'error': 'Method Not allowed'}, status=405)
-
-
-@csrf_exempt
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def addbook(request):
-    if request.method == 'POST':
-        if request.content_type == 'application/json':
-            jwt_authenticator = JWTAuthentication()
-            try:
-                user, _ = jwt_authenticator.authenticate(request)
-            except Exception as e:
-                return JsonResponse({'error': 'You need to Login'}, status=401)
-
-            try:
-                temp = json.loads(request.body)
-                mandatory_keys = ['name', 'description', 'author', 'publication_date']
-                missing_keys = [key for key in mandatory_keys if key not in temp]
-                if missing_keys:
-                    return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_keys)}'}, status=400)
-                
-                new_book = Book.objects.create(
-                    name=temp['name'],
-                    description=temp['description'],
-                    author=temp['author'],
-                    publication_date=temp['publication_date'],
-                    added_by=user,
-                    cover=temp['cover']
-                )
-                
-                serializer = BookSerializer(new_book)
-                response_data = serializer.data
-                response_data['username'] = user.username
-                return JsonResponse(response_data, status=201)
-            except JSONDecodeError:
-                return JsonResponse({'error': 'Content type is not JSON'}, status=400)
-        else:
-            return JsonResponse({'error': 'Content-type not allowed'}, status=400)    
+def add_book(request):
+    serializer = BookSerializer(data=request.data, context={'request': request})
+    if serializer.is_valid():
+        current_person = Person.objects.get(user=request.user)
+        serializer.save(added_by=current_person)
     else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@csrf_exempt
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def updatebook(request):
-    if request.method == 'PUT':
-        if request.content_type == 'application/json':
-            jwt = JWTAuthentication()
-            try:
-                user, _= jwt.authenticate(request)
-            except Exception as e:
-                return JsonResponse({'error': 'You need to Login'}, status=401)
+def update_book(request, book_id):
+    try:
+        current_user = Person.objects.get(user=request.user)
+        book = Book.objects.get(id=book_id, added_by=current_user)
+    except Book.DoesNotExist:
+        return Response({'message': 'no such book'}, status=status.HTTP_400_BAD_REQUEST)
 
-            request_body = json.loads(request.body)
-            book_id = request_body.get('id')
-            try:
-               book = Book.objects.get(id=book_id)
-               if user == book.added_by:
-                   new_desc = request_body.get('description')
-                   if new_desc is not None:
-                       setattr(book, 'description', new_desc)
-                       book.save()
-                       return JsonResponse({'message': 'book description updated!'}, status=200)
-               else:
-                    return JsonResponse({'error': 'Unauthorized'}, status=403)
-            except ObjectDoesNotExist:
-                return JsonResponse({'error': 'No such Object'}, status=400)
-        else:
-            return JsonResponse({'error': 'Content type is not JSON'}, status=400)
-    else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+    serializer = BookSerializer(instance=book, data=request.data, context={'request': request}, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-@csrf_exempt
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def deletebook(request, id=0):
-    if request.method == 'DELETE':
-        jwt = JWTAuthentication()
-        try:
-            user, _= jwt.authenticate(request)
-        except Exception as e:
-            return JsonResponse({'error': 'You need to Login'}, status=401)
-        try:
-            book_id = int(id)
-            try:
-                book = Book.objects.get(pk=book_id)
-                if user == book.added_by:
-                    book.delete()
-                    return JsonResponse({'message': 'Book Deleted!'}, status=200)
-                else:
-                    return JsonResponse({'error': 'Unauthorized'}, status=403)
-            except ObjectDoesNotExist:
-                return JsonResponse({'error': 'No such Object'}, status=400)
-        except ValueError:
-            return JsonResponse({'error': 'ID is not an integer'}, status=400) 
-    else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+def delete_book(request, book_id):
+    try:
+        current_user = Person.objects.get(user=request.user)
+        book = Book.objects.get(id=book_id, added_by=current_user)
+        book.delete()
+
+    except Book.DoesNotExist:
+        return Response({'message': 'no such book'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'success': True}, status=status.HTTP_200_OK)
 
 
-@csrf_exempt
-def deletebook_noid(request):
-    return JsonResponse({'error': 'No ID'}, status=400)
+
