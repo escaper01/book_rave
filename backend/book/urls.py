@@ -1,13 +1,10 @@
 from django.urls import path
-from .views import allbooks, onebook, onebook_noid, addbook, updatebook, deletebook, deletebook_noid
+from .views import all_books, get_book, add_book, update_book, delete_book
 
 urlpatterns = [
-    path('v1/allbooks/', allbooks, name='allbooks'),
-    path('v1/get-book/', onebook_noid, name='onebook_noid'),
-    path('v1/get-book/<id>', onebook, name='onebooks'),
-    path('v1/add-book/', addbook, name='addbook'),
-    path('v1/update-book/', updatebook, name='addbook'),
-    path('v1/delete-book/', deletebook_noid, name='addbook'),
-    path('v1/delete-book/<id>', deletebook, name='addbook'),
-    # Add other URL patterns for the app if needed
+    path('all-books/', all_books),
+    path('get-book/<int:book_id>', get_book),
+    path('add-book/', add_book),
+    path('update-book/<int:book_id>', update_book),
+    path('delete-book/<int:book_id>', delete_book),
 ]
