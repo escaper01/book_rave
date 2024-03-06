@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import RatingStars from '@/components/UI/StaticRatingStars';
-import BookRatingStatus from '@/components/UI/BookRatingStatus';
-import BookDetails from '@/components/UI/BookDetails';
-import ReviewsList from '@/components/UI/ReviewsList';
-import PostReview from '@/components/UI/PostReview';
+import RatingStars from '@/components/book/StaticRatingStars';
+import BookRatingStatus from '@/components/book/BookRatingStatus';
+import BookDetails from '@/components/book/BookDetails';
+import ReviewsList from '@/components/review/ReviewsList';
+import PostReview from '@/components/review/PostReview';
 export default function Review({
   params,
 }: {

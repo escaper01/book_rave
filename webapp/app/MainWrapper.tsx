@@ -2,8 +2,8 @@
 
 import Navbar from '@/components/UI/Navbar';
 import Footer from '@/components/UI/Footer';
-import BookSlider from '@/components/UI/BookSlider';
-import ReviewPost from '@/components/UI/ReviewPost';
+import BookSlider from '@/components/book/BookSlider';
+import ReviewPost from '@/components/review/ReviewPost';
 
 export default function MainWrapper() {
   return (

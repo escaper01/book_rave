@@ -1,6 +1,6 @@
-import StaticRatingStars from '@/components/UI/StaticRatingStars';
-import ProgressBar from '@/components/UI/ProgressBar';
-import ReviewsList from '@/components/UI/ReviewsList';
+import StaticRatingStars from '@/components/book/StaticRatingStars';
+import ProgressBar from '@/components/review/ProgressBar';
+import ReviewsList from '@/components/review/ReviewsList';
 
 export default function BookRatingStatus() {
   return (

@@ -1,4 +1,4 @@
-import StaticRatingStars from '@/components/UI/StaticRatingStars';
+import StaticRatingStars from '@/components/book/StaticRatingStars';
 
 export default function BookDetails() {
   return (

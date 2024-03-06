@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DynamicRatingStars from './DynamicRatingStars';
+import DynamicRatingStars from '../book/DynamicRatingStars';
 
 export default function PostReview() {
   const [bookRating, setBookRating] = useState<number>(0);
