@@ -1,4 +1,4 @@
-import RatingStars from '@/components/UI/RatingStars';
+import StaticRatingStars from '@/components/UI/StaticRatingStars';
 
 export default function BookDetails() {
   return (
@@ -9,7 +9,7 @@ export default function BookDetails() {
       </h1>
       <h3 className='text-2xl font-extralight'>J. Maarten Troost</h3>
       <div>
-        <RatingStars _className='' />
+        <StaticRatingStars _className='' bookRating={2} />
       </div>
       <p className='font-normal'>
         Getting Stoned with Savages tells the hilarious story of Troost’s time

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import RatingStars from '@/components/UI/RatingStars';
+import RatingStars from '@/components/UI/StaticRatingStars';
 import BookRatingStatus from '@/components/UI/BookRatingStatus';
 import BookDetails from '@/components/UI/BookDetails';
 import ReviewsList from '@/components/UI/ReviewsList';

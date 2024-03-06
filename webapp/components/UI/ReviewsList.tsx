@@ -1,4 +1,4 @@
-import RatingStars from '@/components/UI/RatingStars';
+import RatingStars from '@/components/UI/StaticRatingStars';
 import Image from 'next/image';
 
 export default function ReviewsList() {
