@@ -1,3 +1,4 @@
+import StaticRatingStars from '@/components/book/StaticRatingStars';
 import RatingStars from '@/components/book/StaticRatingStars';
 import Image from 'next/image';
 
@@ -22,7 +23,10 @@ export default function ReviewsList() {
           </div>
           <div className='col-span-6 col-start-2'>
             <div className='flex justify-between'>
-              <RatingStars _className='max-w-[90px] w-28' />
+              <StaticRatingStars
+                bookRating={3}
+                _className='max-w-[90px] w-28'
+              />
               <h3 className='hover:cursor-pointer hover:underline'>
                 February 23, 2024
               </h3>
