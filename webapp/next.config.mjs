@@ -6,6 +6,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'd1csarkz8obe9u.cloudfront.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'pics.craiyon.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
     ],
   },
 };

@@ -1,4 +1,4 @@
-import cn from './func';
+import { cn } from './func';
 
 const SVG_WIDTH = 17;
 const SVG_HEIGHT = 17;

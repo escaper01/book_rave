@@ -9,14 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'my-yellow': {
+        'my-khaki': {
           light: '#F9F9F5',
           primary: '#F4F2E9',
+        },
+        'my-gray': {
+          light: '#F5F7F8',
+          primary: '#F1EFEF',
+        },
+        'my-yellow': {
+          light: '#ffcc00',
+          primary: '#ffbf00',
+          dark: '#ff9900',
         },
       },
       scale: {
         '103': '1.03',
         '120': '1.2',
+      },
+      borderWidth: {
+        '1': '0.7px',
       },
     },
   },
