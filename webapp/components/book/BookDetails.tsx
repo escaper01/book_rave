@@ -9,7 +9,7 @@ export default function BookDetails() {
       </h1>
       <h3 className='text-2xl font-extralight'>J. Maarten Troost</h3>
       <div>
-        <StaticRatingStars _className='' bookRating={2} />
+        <StaticRatingStars bookRating={2} />
       </div>
       <p className='font-normal'>
         Getting Stoned with Savages tells the hilarious story of Troost’s time

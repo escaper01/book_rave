@@ -8,7 +8,7 @@ export default function BookRatingStatus() {
       <div className='max-w-screen-sm'>
         <span className='text-xl font-medium'>Community Reviews</span>
         <div className='mb-2 flex flex-col items-center sm:flex-row'>
-          <StaticRatingStars _className='' bookRating={2} />
+          <StaticRatingStars bookRating={2} />
           <div className='mx-5 mb-2 text-center text-3xl sm:mb-0'>4.15</div>
           <div className='text-nowrap text-xs'>
             108,663 ratings . 15,162 reviews

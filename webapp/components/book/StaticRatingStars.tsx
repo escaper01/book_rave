@@ -1,15 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@/constants/func';
 export default function StaticRatingStars({
-  _className,
+  className,
   bookRating,
 }: {
-  _className: string;
+  className?: string;
   bookRating: number;
 }) {
   if (bookRating) {
     return (
-      <div className={cn(_className, ' max-w-[150px]')}>
+      <div className={cn(className, ' max-w-[150px]')}>
         <div className='flex justify-between'>
           {Array(bookRating)
             .fill(1)
@@ -18,7 +17,7 @@ export default function StaticRatingStars({
                 <svg
                   key={i}
                   id={`star_${i + 1}`}
-                  className='h-[50px] w-[50px] text-my-yellow-dark '
+                  className='h-fit w-[50px] text-my-yellow-dark '
                   fill='currentColor'
                   viewBox='0 0 20 20'
                   xmlns='http://www.w3.org/2000/svg'
@@ -35,7 +34,7 @@ export default function StaticRatingStars({
                 <svg
                   key={i}
                   id={`star_${bookRating + 1 + i}`}
-                  className='h-[50px] w-[50px] text-gray-300 dark:text-gray-500'
+                  className='h-fit w-[50px] text-gray-300 dark:text-gray-500'
                   fill='currentColor'
                   viewBox='0 0 20 20'
                   xmlns='http://www.w3.org/2000/svg'

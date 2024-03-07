@@ -23,10 +23,7 @@ export default function ReviewsList() {
           </div>
           <div className='col-span-6 col-start-2'>
             <div className='flex justify-between'>
-              <StaticRatingStars
-                bookRating={3}
-                _className='max-w-[90px] w-28'
-              />
+              <StaticRatingStars bookRating={3} className='w-28 max-w-[90px]' />
               <h3 className='hover:cursor-pointer hover:underline'>
                 February 23, 2024
               </h3>

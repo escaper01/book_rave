@@ -14,8 +14,9 @@ const config: Config = {
           primary: '#F4F2E9',
         },
         'my-gray': {
-          light: '#F5F7F8',
-          primary: '#F1EFEF',
+          light: '#dee2e6',
+          primary: '#ced4da',
+          dark: '#adb5bd',
         },
         'my-yellow': {
           light: '#ffcc00',
