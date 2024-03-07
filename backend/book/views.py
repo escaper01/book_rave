@@ -75,4 +75,15 @@ def delete_book(request, book_id):
     return Response({'success': True}, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+def search(request):
+    query = request.data['query']
+    try:
+        books = Book.objects.filter(name__contains=query)
+    except Book.DoesNotExist:
+        return Response([], status=status.HTTP_200_OK)
+    serialize = BookSerializer(books, many=True)
+    return Response(serialize.data, status=status.HTTP_200_OK)
+
+
 
