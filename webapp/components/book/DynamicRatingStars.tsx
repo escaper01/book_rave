@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { cn } from '@/constants/func';
+import { cn } from '@/utils/constants/func';
 export default function DynamicRatingStars({
   _className,
   bookRating,

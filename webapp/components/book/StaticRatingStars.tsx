@@ -1,4 +1,4 @@
-import { cn } from '@/constants/func';
+import { cn } from '@/utils/constants/func';
 export default function StaticRatingStars({
   className,
   bookRating,

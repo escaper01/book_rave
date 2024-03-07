@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import DynamicRatingStars from '../book/DynamicRatingStars';
+import DynamicRatingStars from '@/components/book/DynamicRatingStars';
 
 export default function PostReview() {
   const [bookRating, setBookRating] = useState<number>(0);
   return (
-    <div className='border-my-gray-dark h-fit border-t-1 py-5'>
+    <div className='h-fit border-t-1 border-my-gray-dark py-5'>
       <div className=''>
         <div className='text-xl font-medium'>Post Review</div>
         <form className='mx-auto max-w-sm'>
@@ -20,7 +20,7 @@ export default function PostReview() {
             <h2>Description: </h2>
             <textarea
               name='review'
-              className='border-my-gray-dark mb-4 border-1 p-2'
+              className='mb-4 border-1 border-my-gray-dark p-2'
               rows={5}
               required
             />

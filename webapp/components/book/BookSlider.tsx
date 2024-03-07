@@ -2,7 +2,7 @@
 
 import Flicking from '@egjs/react-flicking';
 import '@egjs/react-flicking/dist/flicking.css';
-import { listOfImgUrl } from '@/constants/config';
+import { listOfImgUrl } from '@/utils/constants/config';
 import Image from 'next/image';
 import Link from 'next/link';
 

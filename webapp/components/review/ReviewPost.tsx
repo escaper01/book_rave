@@ -5,7 +5,7 @@ import {
   CommentSvg,
   SaveSvg,
   ShareSvg,
-} from '@/constants/svg_library';
+} from '@/utils/constants/svg_library';
 import Link from 'next/link';
 
 export default function ReviewPost() {
