@@ -1,14 +1,10 @@
 from django.urls import path
-from .views import getcomments, getcomment, removecomment, addcomment, updatecomment, no_id
+from .views import all_comments, get_comment, remove_comment, add_comment, update_comment
 
 urlpatterns = [
-    path('v1/review/<id>/comments', getcomments, name='getcomments'),
-    path('v1/getcomment/<id>', getcomment, name='getcomment'),
-    path('v1/getcomment/', no_id, name='getcomment_noid'),
-    path('v1/deletecomment/<id>', removecomment, name='removecomment'),
-    path('v1/deletecomment/', no_id, name='no_id'),
-    path('v1/addcomment/<id>', addcomment, name='addcomment'),
-    path('v1/addcomment/', no_id, name='no_id_add'),
-    path('v1/update/comment/<id>', updatecomment, name='updatecomment'),
-    path('v1/update/comment/', no_id, name='noid_updatecomment'),
+    path('<int:review_id>/comments', all_comments),
+    path('getcomment/<int:comment_id>', get_comment),
+    path('deletecomment/<int:comment_id>', remove_comment),
+    path('addcomment/<int:review_id>', add_comment),
+    path('update/<int:comment_id>', update_comment),
 ]
