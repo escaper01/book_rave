@@ -1,6 +1,5 @@
 from rest_framework.response import Response
 from rest_framework import status
-from django.core.exceptions import ObjectDoesNotExist
 from .models import Book
 from .serializers import BookSerializer
 import json

@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import addfavorite
+from .views import add_favorite
 
 
 urlpatterns = [
-    path('v1/add/<id>/favorite', addfavorite, name='addfavorite'),
+    path('<int:book_id>/', add_favorite),
 ]
