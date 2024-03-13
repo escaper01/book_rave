@@ -1,10 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
-from django.core.exceptions import ObjectDoesNotExist
 from .models import Book
 from .serializers import BookSerializer
-import json
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
@@ -73,6 +70,17 @@ def delete_book(request, book_id):
     except Book.DoesNotExist:
         return Response({'message': 'no such book'}, status=status.HTTP_400_BAD_REQUEST)
     return Response({'success': True}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def search(request):
+    query = request.data['query']
+    try:
+        books = Book.objects.filter(name__contains=query)
+    except Book.DoesNotExist:
+        return Response([], status=status.HTTP_200_OK)
+    serialize = BookSerializer(books, many=True)
+    return Response(serialize.data, status=status.HTTP_200_OK)
 
 
 

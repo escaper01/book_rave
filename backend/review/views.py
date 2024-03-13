@@ -1,108 +1,54 @@
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.http.response import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
 from .models import Review
-from user.models import User
+from user.models import Person
 from book.models import Book
 from .serializers import ReviewSerializer
-import json
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.decorators import permission_classes
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 
 
-@csrf_exempt
-def getreview(request, id=0):
-    if request.method == 'GET':
-        try:
-            review = Review.objects.get(pk=id)
-            serializer = ReviewSerializer(review)
-            return JsonResponse(serializer.data, safe=False)
-        except ObjectDoesNotExist:
-            return JsonResponse({'error': 'no such Review'}, status=400)
-    else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+@api_view(['GET'])
+def get_review(request, review_id):
+    try:
+        review = Review.objects.get(pk=review_id)
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data, status=status.HTTP_200_OK) 
+    except Review.DoesNotExist:
+        return Response ({'error': 'Review was not found'}, status=status.HTTP_404_NOT_FOUND)
 
-@csrf_exempt
-def allreview(request, id=0):
-    if request.method == 'GET':
-        try:
-            reviews = Review.objects.filter(book=id)
-            serializer = ReviewSerializer(reviews, many=True)
-            return JsonResponse(serializer.data, safe=False)
-        except ObjectDoesNotExist:
-            return JsonResponse({'error': 'no such Book'}, status=400)  
-    else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+@api_view(['GET'])
+def all_review(request, book_id):
+    try:
+        reviews = Review.objects.filter(book=book_id)
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Book.DoesNotExist:
+        return Response({'error': 'no such Book'}, status=status.HTTP_404_NOT_FOUND)  
 
-
-@csrf_exempt
-def allreview_noid(request):
-    return JsonResponse({'error': 'Provide a Correct Book id'}, status=400)
-
-
-@csrf_exempt
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def addreview(request, id=None):
-    if request.method == 'POST':
-        jwt = JWTAuthentication()
-        try:
-            user, _ = jwt.authenticate(request)
-        except Exception:
-            return JsonResponse({'error': 'You need to Login'}, status=401)
-        if request.content_type == 'application/json':
-            mandatory_keys = ['title', 'media', 'content', 'rating']
-            missing_keys = []
-            if id is not None:
-                temp = json.loads(request.body)
-                missing_keys = [key for key in mandatory_keys if key not in temp]
-                if missing_keys:
-                    return JsonResponse({'error': f'Missing Key(s): {", ".join(missing_keys)}'}, status=400)
-                book = Book.objects.get(pk=id)
-                book_name = book.name
-                new_review = Review.objects.create(
-                    owner=user,
-                    title=temp['title'],
-                    book=book,
-                    media=temp['media'],
-                    content=temp['content'],
-                    rating=temp['rating']
-                    )
-                serialize = ReviewSerializer(new_review)
-                response_data = serialize.data
-                response_data['book_title'] = book_name
-                response_data['reviewer'] = user.username
-                return JsonResponse(response_data, safe=False, status=201)    
-            else:
-                return JsonResponse({'error': 'No Book to review'})
-        else:
-            return JsonResponse({'error': 'Content type is Not Json'}, status=400)
-    else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+def add_review(request, book_id):
+    try:
+        book = Book.objects.get(pk=book_id)
+    except Book.DoesNotExist:
+        return Response({'error': 'no book to review'}, status=status.HTTP_404_NOT_FOUND)
+    data = request.data
+    data['book'] = book.id
+    serializer = ReviewSerializer(data=data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save(book=book, owner=request.user)
+        return Response(serializer.data, status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
+
+@api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def deletereview(request, id=0):
-    if request.method == 'DELETE':
-        jwt = JWTAuthentication()
-        try:
-            user, _ = jwt.authenticate(request)
-        except Exception:
-            return JsonResponse({'error': 'You need to Login'}, status=401)
-        try:
-            review_id = int(id)
-            try:
-                review = Review.objects.get(pk=review_id)
-                if user == review.owner:
-                    review.delete()
-                    return JsonResponse({'message': 'Review Deleted!'}, status=200)
-                else:
-                    return JsonResponse({'error': 'Unauthorized'}, status=403)
-            except ObjectDoesNotExist:
-                return JsonResponse({'error': 'No such Object'}, status=400)
-        except ValueError:
-            return JsonResponse({'error': 'ID is not an integer'}, status=400) 
-    else:
-        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+def delete_review(request, review_id):
+    try:
+        review = Review.objects.get(pk=review_id, owner=request.user)
+        review.delete()
+        return Response({'success': True}, status=status.HTTP_200_OK)
+    except Review.DoesNotExist:
+        return Response({'error': 'Review not found'}, status=status.HTTP_404_NOT_FOUND)
