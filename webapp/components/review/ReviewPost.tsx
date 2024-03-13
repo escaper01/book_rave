@@ -5,7 +5,7 @@ import {
   CommentSvg,
   SaveSvg,
   ShareSvg,
-} from '@/constants/svg_library';
+} from '@/utils/constants/svg_library';
 import Link from 'next/link';
 
 export default function ReviewPost() {
@@ -43,7 +43,7 @@ export default function ReviewPost() {
   return (
     <div
       onClick={() => GoToReview()}
-      className='my-5 flex flex-col border-2 border-gray-300 bg-white p-5 text-sm hover:cursor-pointer hover:bg-gray-100'
+      className='my-5 flex flex-col border-1 border-gray-300 bg-white p-5 text-sm hover:cursor-pointer hover:bg-gray-100'
     >
       <div className='flex flex-row items-start pb-4'>
         <div>
@@ -74,14 +74,14 @@ export default function ReviewPost() {
         <div className='flex w-20 items-center justify-evenly rounded-full bg-blue-500 px-2.5 py-1'>
           <ArrowSvg
             fill='white'
-            className='hover:scale-120 rotate-0 cursor-pointer'
+            className='rotate-0 cursor-pointer hover:scale-120'
             isClicked={true}
             onClick={() => UpVote()}
           />
           <span className='mx-0.5 font-medium'>23</span>
           <ArrowSvg
             fill='none'
-            className='hover:scale-120 rotate-180 cursor-pointer'
+            className='rotate-180 cursor-pointer hover:scale-120'
             isClicked={false}
             onClick={() => DownVote()}
           />
@@ -89,7 +89,7 @@ export default function ReviewPost() {
 
         <div
           onClick={() => console.log('comment')}
-          className='hover:scale-103 flex w-20 cursor-pointer items-center justify-evenly rounded-2xl bg-blue-500 px-2.5 py-1'
+          className='flex w-20 cursor-pointer items-center justify-evenly rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103'
         >
           <CommentSvg className=' ' />
           <span className='font-medium'>14</span>
@@ -97,13 +97,13 @@ export default function ReviewPost() {
 
         <div
           onClick={() => SharePost()}
-          className='hover:scale-103 flex w-20 items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 '
+          className='flex w-20 items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103 '
         >
           <ShareSvg className='cursor-pointer ' />
         </div>
         <div
           onClick={() => SavePost()}
-          className='hover:scale-103 z-50 flex w-20 cursor-pointer items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 '
+          className='z-50 flex w-20 cursor-pointer items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103 '
         >
           <SaveSvg className='' />
         </div>

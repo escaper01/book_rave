@@ -1,4 +1,4 @@
-import cn from './func';
+import { cn } from './func';
 
 const SVG_WIDTH = 17;
 const SVG_HEIGHT = 17;
@@ -110,14 +110,20 @@ export const ShareSvg = ({ className }: { className: string }) => {
   );
 };
 
-export const SaveSvg = ({ className }: { className: string }) => {
+export const SaveSvg = ({
+  className,
+  fill,
+}: {
+  className: string;
+  fill?: string;
+}) => {
   return (
     <svg
       className={cn(className)}
       width={SVG_WIDTH}
       height={SVG_HEIGHT}
       viewBox='0 0 24 24'
-      fill='none'
+      fill={fill ? fill : 'none'}
       xmlns='http://www.w3.org/2000/svg'
     >
       <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
