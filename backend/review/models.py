@@ -8,7 +8,7 @@ from book.models import Book
 # Create your models here.
 class Review(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-    title = models.CharField(max_length=150, unique=True, blank=False, null=False)
+    title = models.CharField(max_length=150, unique=False, blank=False, null=False)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     media = models.ImageField(upload_to="uploads/reviews/%Y/%m/%d/")
     content = models.TextField()

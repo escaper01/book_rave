@@ -1,11 +1,9 @@
 from django.urls import path
-from .views import getreview, allreview, allreview_noid, deletereview, addreview
+from .views import get_review, all_review, delete_review, add_review
 
 urlpatterns = [
-    path('v1/review/<id>', getreview, name='getreview'),
-    path('v1/book/<id>/review', allreview, name='allreview'),
-    path('v1/book/review', allreview_noid, name='allreview_noid'),
-    path('v1/review/', allreview_noid, name='allreview_noid'),
-    path('v1/delete/<id>', deletereview, name='deletereview'),
-    path('v1/review/<id>/book', addreview, name='addreview'),
+    path('<int:review_id>', get_review),
+    path('<int:book_id>/book', all_review),
+    path('v1/delete/<int:review_id>', delete_review),
+    path('book/<int:book_id>', add_review),
 ]

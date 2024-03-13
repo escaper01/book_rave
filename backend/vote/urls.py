@@ -2,6 +2,6 @@ from django.urls import path
 from .views import like_view, dislike_view
 
 urlpatterns = [
-    path('v1/<str:content_type>/<pk>/like', like_view, name='like_view'),
-    path('v1/<str:content_type>/<pk>/dislike', dislike_view, name='dislike_view')
+    path('<str:content_type>/<int:pk>/like', like_view),
+    path('<str:content_type>/<int:pk>/dislike', dislike_view)
 ]
