@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <div className=' bg-my-khaki-light '>
         <div className='mx-auto max-w-screen-sm py-5'>
-          <BookSlider />
+          <BookSlider query='lala' />
           <div className='mt-8'>
             <ReviewPost />
             <ReviewPost />
