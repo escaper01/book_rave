@@ -25,3 +25,18 @@ export const ACCEPTED_IMAGE_TYPES = [
   'image/png',
   'image/webp',
 ];
+
+export const MOVIES_CATEGORIES = [
+  'Mystery',
+  'Romance',
+  'Science Fiction',
+  'Fantasy',
+  'Self-help',
+  'Biography',
+  'Horror',
+  'Thriller',
+  'Tragedy',
+  'Political',
+  'Experimental Literature',
+  'Technical/Instructional',
+];

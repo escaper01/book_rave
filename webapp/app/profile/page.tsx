@@ -1,8 +1,7 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useState, useRef, useEffect } from 'react';
-import { newReviewSchema } from '@/utils/schemes/review_schema';
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BASE_URL } from '@/utils/constants/config';
 import useSWRMutation from 'swr/mutation';
@@ -54,16 +53,18 @@ export default function Home() {
   useEffect(() => {
     console.log(user, 'user changed from profile');
     if (user.first_name) {
-      for (const key in user) {
-        setValue(key, user[key]);
+      let key: keyof ProfileFormType;
+      for (key in user) {
+        setValue(key, user[key] as string);
       }
     }
   }, [user]);
 
   return (
-    <div className='grow'>
+    <div className='mx-4 grow sm:mx-auto'>
       <Toaster />
-      <div className='container mx-4 max-w-sm sm:mx-auto'>
+      <div className='mx-auto max-w-sm  '>
+        <div className='mt-5 text-3xl  '>Update your info :</div>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='flex w-full flex-col py-5'
@@ -85,7 +86,7 @@ export default function Home() {
             {errors.avatar && (
               <p className='mt-1 text-xs italic text-red-500'>
                 {' '}
-                {errors.avatar?.message}
+                {errors.avatar?.message as string}
               </p>
             )}
           </div>

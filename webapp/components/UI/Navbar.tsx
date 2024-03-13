@@ -8,8 +8,6 @@ import useSWRImmutable from 'swr/immutable';
 import { BASE_URL } from '@/utils/constants/config';
 import { getDataAuth } from '@/utils/constants/api';
 import { useAuthStore } from '@/utils/store/store_auth';
-import { useShallow } from 'zustand/react/shallow';
-import { ProfileFormType } from '@/utils/types/ProfileType';
 
 export default function Navbar() {
   const [accessToken, setAccessToken] = useState<string | undefined>();
@@ -41,7 +39,7 @@ export default function Navbar() {
   );
 
   return (
-    <div className='border-b-2 border-gray-300 bg-my-khaki-primary'>
+    <div className='border-b-1 border-gray-300 bg-my-khaki-primary capitalize'>
       <div className='mx-4 flex flex-row items-center justify-normal py-2 lg:mx-20 lg:justify-between'>
         <div className='flex flex-row items-center justify-normal lg:w-1/2'>
           <Link href='/' className='pr-4'>
@@ -49,14 +47,14 @@ export default function Navbar() {
             <span className='text-2xl font-semibold'>Rave</span>
           </Link>
           <div className=' mx-2 hidden w-full flex-row items-center justify-evenly font-medium lg:flex'>
-            <Link href={'/my-posts'} className='mx-2 text-nowrap'>
-              My Posts
+            <Link href={'/trending_posts'} className='mx-2 text-nowrap'>
+              trending posts
             </Link>
-            <Link href={'/trending'} className='mx-2 text-nowrap'>
-              Trending
+            <Link href={'/books'} className='mx-2 text-nowrap'>
+              books
             </Link>
             <Link href={'/newly-added'} className='mx-2 text-nowrap'>
-              New Added Books
+              browse
             </Link>
           </div>
         </div>
@@ -83,7 +81,7 @@ export default function Navbar() {
             {user.avatar && (
               <Link href={'/profile'}>
                 <Image
-                  className='mx-3 h-12 w-12 rounded-full object-fill'
+                  className='mx-3 h-11 w-11 rounded-full object-fill'
                   alt={user.first_name as string}
                   src={user.avatar as string}
                   width={100}
@@ -94,11 +92,17 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <div className='flex justify-center border-t-2 border-gray-300 py-1 lg:hidden'>
+      <div className='flex justify-center border-t-1 border-gray-300 py-1 lg:hidden'>
         <div className='mx-auto my-2 flex w-full max-w-lg flex-row items-center justify-evenly text-sm font-medium'>
-          <div className='mx-2 text-nowrap'>menu 2</div>
-          <div className='mx-2 text-nowrap'>menu 2</div>
-          <div className='mx-2 text-nowrap'>menu 3</div>
+          <Link href={'/trending_posts'} className='mx-2 text-nowrap'>
+            trending posts
+          </Link>
+          <Link href={'/books'} className='mx-2 text-nowrap'>
+            books
+          </Link>
+          <Link href={'/newly-added'} className='mx-2 text-nowrap'>
+            browse
+          </Link>
         </div>
       </div>
     </div>

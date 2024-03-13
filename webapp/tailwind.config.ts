@@ -31,6 +31,9 @@ const config: Config = {
       borderWidth: {
         '1': '0.7px',
       },
+      fontFamily: {
+        Roboto: ['Roboto', 'serif'],
+      },
     },
   },
   plugins: [],
