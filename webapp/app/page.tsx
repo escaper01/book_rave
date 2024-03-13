@@ -1,6 +1,5 @@
-import Image from 'next/image';
-import MainWrapper from './MainWrapper';
+import Home from './Home';
 
-export default function Home() {
-  return <MainWrapper />;
+export default function HomePage() {
+  return <Home />;
 }

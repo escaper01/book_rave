@@ -1,7 +1,6 @@
 import { ZodType, z } from 'zod';
 import { SubmitErrorHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegistrationFormType, LoginFormType } from '@/utils/types/AuthTypes';
 import { ReviewFormType } from '@/utils/types/ReviewTypes';
 
 const MAX_FILE_SIZE = 500000;
@@ -18,7 +17,7 @@ export const newReviewSchema = z.object({
     .min(15, 'title should be more than 15 charaacters')
     .max(150, 'the title should be less than 150 characters'),
   book: z.number().positive(),
-  media: z
+  avatar: z
     .custom<FileList>()
     .refine((files) => files?.length == 1, 'Image is required.')
     .refine(

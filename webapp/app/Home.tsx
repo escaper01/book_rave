@@ -1,11 +1,13 @@
 'use client';
-
+import { useState } from 'react';
 import Navbar from '@/components/UI/Navbar';
 import Footer from '@/components/UI/Footer';
 import BookSlider from '@/components/book/BookSlider';
 import ReviewPost from '@/components/review/ReviewPost';
+import { ProfileFormType } from '@/utils/types/ProfileType';
 
-export default function MainWrapper() {
+export default function Home() {
+  const [profileInfo, setProfileInfo] = useState<ProfileFormType | undefined>();
   return (
     <div>
       <Navbar />

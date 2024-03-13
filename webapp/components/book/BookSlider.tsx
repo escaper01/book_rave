@@ -21,6 +21,7 @@ export default function BookSlider() {
           return (
             <Link href={`book/${_i}`} key={_i}>
               <Image
+                style={{ width: 'auto' }}
                 className='h-full'
                 src={url}
                 width={100}

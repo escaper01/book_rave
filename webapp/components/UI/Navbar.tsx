@@ -1,8 +1,47 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import Image from 'next/image';
+import useSWRImmutable from 'swr/immutable';
+import { BASE_URL } from '@/utils/constants/config';
+import { getDataAuth } from '@/utils/constants/api';
+import { useAuthStore } from '@/utils/store/store_auth';
+import { useShallow } from 'zustand/react/shallow';
+import { ProfileFormType } from '@/utils/types/ProfileType';
 
 export default function Navbar() {
+  const [accessToken, setAccessToken] = useState<string | undefined>();
+  const [refreshToken, setRefreshToken] = useState<string | undefined>();
+
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  useEffect(() => {
+    console.log(user, 'changeed from navbar');
+  }, [user]);
+
+  useEffect(() => {
+    setAccessToken(Cookies.get('jwtToken'));
+    setRefreshToken(Cookies.get('refreshToken'));
+  }, []);
+
+  const { isLoading } = useSWRImmutable(
+    `${BASE_URL}/user/get_profile_info`,
+    getDataAuth,
+    {
+      errorRetryCount: 2,
+      onSuccess: (data) => {
+        console.log('got new user data and set to global state', data);
+        setUser(data);
+        console.log(user, 'new user');
+      },
+    }
+  );
+
   return (
-    <nav className='bg-my-khaki-primary border-b-2 border-gray-300'>
+    <div className='border-b-2 border-gray-300 bg-my-khaki-primary'>
       <div className='mx-4 flex flex-row items-center justify-normal py-2 lg:mx-20 lg:justify-between'>
         <div className='flex flex-row items-center justify-normal lg:w-1/2'>
           <Link href='/' className='pr-4'>
@@ -31,12 +70,27 @@ export default function Navbar() {
             />
           </div>
           <div className='flex flex-row items-center font-medium'>
-            <Link href={'/login'} className='mx-3 text-nowrap'>
-              Sign in
-            </Link>
-            <Link href={'/register'} className='mx-3'>
-              Join
-            </Link>
+            {!accessToken && (
+              <div>
+                <Link href={'/login'} className='mx-3 text-nowrap'>
+                  Sign in
+                </Link>
+                <Link href={'/register'} className='mx-3'>
+                  Join
+                </Link>
+              </div>
+            )}
+            {user.avatar && (
+              <Link href={'/profile'}>
+                <Image
+                  className='mx-3 h-12 w-12 rounded-full object-fill'
+                  alt={user.first_name as string}
+                  src={user.avatar as string}
+                  width={100}
+                  height={100}
+                />
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -47,6 +101,6 @@ export default function Navbar() {
           <div className='mx-2 text-nowrap'>menu 3</div>
         </div>
       </div>
-    </nav>
+    </div>
   );
 }

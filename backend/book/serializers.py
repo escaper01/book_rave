@@ -1,5 +1,4 @@
 from dataclasses import fields
-from django.utils import timezone
 from rest_framework import serializers
 from .models import Book
 

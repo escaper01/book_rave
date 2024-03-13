@@ -1,3 +1,3 @@
 export default function MyPosts() {
-  return <div>Newly added</div>;
+  return <div className='grow'>Newly added</div>;
 }

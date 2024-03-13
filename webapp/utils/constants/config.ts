@@ -15,3 +15,13 @@ export const listOfImgUrl = [
   // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/romance-love-book-cover-design-template-1a3c7d9d576e8d5e0c79918ac44b2874.webp?ts=1698540908',
   // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/bullying-book-cover-template-design-3910dd198fcad77ef416d6e79f43b8f2.jpg?ts=1637010104',
 ];
+
+export const BASE_URL = 'http://127.0.0.1:8000/api/v1';
+
+export const MAX_FILE_SIZE = 500000;
+export const ACCEPTED_IMAGE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+];
