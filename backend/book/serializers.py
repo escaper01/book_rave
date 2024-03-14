@@ -8,7 +8,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'name', 'description', 'author', 'publication_date', 'created_at', 'updated_at', 'added_by', 'cover', 'category']
         extra_kwargs = {
-            'description': {'min_length': 100, 'max_length': 400},
+            'description': {'min_length': 50, 'max_length': 3000},
             'added_by': {'default': serializers.CurrentUserDefault(), },
         }
 
