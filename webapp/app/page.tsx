@@ -3,6 +3,7 @@ import Footer from '@/components/UI/Footer';
 import Hero from '@/components/home/Hero';
 import Features from '@/components/home/Features';
 import AboutUs from '@/components/home/AboutUs';
+import Teams from '@/components/home/Teams';
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
         <div>
           <Hero />
           <Features />
+          <Teams />
           <AboutUs />
         </div>
       </div>

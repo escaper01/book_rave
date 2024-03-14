@@ -7,17 +7,16 @@ export default function Hero() {
         <div className='grid items-center justify-items-start gap-8 sm:gap-20 lg:grid-cols-2'>
           <div className='flex flex-col'>
             <h1 className='mb-4 text-4xl font-bold md:text-6xl'>
-              The Website You Want Without The Dev Time.
+              Today a reader, tomorrow a leader.
             </h1>
             <p className='mb-6 max-w-lg text-sm text-[#636262] sm:text-xl md:mb-10 lg:mb-12'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus
+            Find your bookish soulmates here, where readers like you come together.
             </p>
           </div>
           <Image
-            width={100}
-            height={100}
-            src='https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a940836e6cf8d_Group%2047854%20(2).svg'
+            width={800}
+            height={800}
+            src='https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
             alt=''
             className='inline-block h-full w-full max-w-[640px]'
           />
