@@ -4,19 +4,11 @@ export default function AboutUs() {
   return (
     <section>
       <div className='mx-auto max-w-7xl px-5 py-6 md:px-8 md:py-10 lg:py-14'>
-        <h2 className='mb-8 text-3xl font-bold md:text-5xl lg:mb-14'>
-          Meet Flowspark
-        </h2>
-        <p className='mb-8 max-w-lg text-sm text-[#808080] sm:text-base lg:mb-24'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          varius enim in eros elementum tristique. Duis cursus, mi quis viverra
-          ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
-        </p>
         <div className='grid gap-10 lg:grid-cols-2 lg:gap-12'>
           <Image
             height={900}
             width={900}
-            src='https://assets.website-files.com/6458c625291a94a195e6cf3a/64b7a30c42421ae3cbe5abb9_about%20image.svg'
+            src='https://plus.unsplash.com/premium_photo-1661962617265-b88538dc15e4?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
             alt=''
             className='inline-block h-full w-full rounded-2xl object-cover'
           />
@@ -24,16 +16,11 @@ export default function AboutUs() {
             <h2 className='text-3xl font-bold md:text-5xl'>Our Mission</h2>
             <p className='text-sm text-[#808080] sm:text-base'>
               {' '}
-              Aliquet risus feugiat in ante metus. Arcu dui vivamus arcu felis
-              bibendum ut. Vestibulum lorem sed risus ultricies tristique nulla.
-              Vitae et leo duis ut diam quam. Bibendum arcu vitae elementum
-              curabitur vitae nunc. Dictumst vestibulum rhoncus est
-              pellentesque. Lectus proin nibh nisl condimentum id. Ullamcorper
-              dignissim cras tincidunt lobortis feugiat vivamus.
-              <br />
-              <br />
-              Massa id neque aliquam vestibulum morbi blandit. Nulla
-              pellentesque dignissim enim sit amet venenatis.
+              Discover, engage, and share your love for literature with our
+              vibrant book community. Our mission is to connect readers
+              worldwide, offering personalized recommendations, insightful
+              reviews, and a collaborative platform for exploring the endless
+              realms of literature.
             </p>
           </div>
         </div>
