@@ -1,22 +1,18 @@
 export default function Footer() {
   return (
-    <footer className=' bg-my-khaki-primary w-full py-7 '>
+    <footer className=' w-full bg-my-khaki-primary py-7 '>
       <div className='mx-4 grid grid-cols-1 justify-items-center  gap-2  sm:grid-cols-3 lg:mx-20'>
         <div className='px-auto max-w-sm text-center text-sm capitalize'>
-          <div className='font-bold leading-8'>Company</div>
-          <div>about us</div>
-          <div>careers</div>
-          <div>terms</div>
-          <div>privacy</div>
-          <div>help</div>
+          <div className='font-bold leading-8'>Main navigation</div>
+          <div>trending posts</div>
+          <div>books</div>
+          <div>browse</div>
         </div>
         <div className='max-w-sm text-center text-sm capitalize'>
-          <div className='font-bold leading-8'>work with us</div>
-          <div>about us</div>
-          <div>careers</div>
+          <div className='font-bold leading-8'>policies</div>
           <div>terms</div>
           <div>privacy</div>
-          <div>help</div>
+          <div>faq</div>
         </div>
         <div className='max-w-sm text-center text-sm capitalize'>
           <div className='font-bold leading-8'>connect</div>
