@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import LOGO from '@/public/assets/logo.png';
+import LOGO from '../../../public/assets/logo.png';
 import Link from 'next/link';
 import { registrationSchema } from '@/utils/schemes/auth_schema';
 import { RegistrationSchemaType } from '@/utils/types/AuthTypes';
