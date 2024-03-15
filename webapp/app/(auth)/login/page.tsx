@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import LOGO from '@/public/assets/logo.png';
+import LOGO from '../../../public/assets/logo.png'
 import Link from 'next/link';
 import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
