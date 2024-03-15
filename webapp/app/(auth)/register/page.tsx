@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import LOGO from '../../../public/assets/logo.png';
+// import LOGO from '../../../public/assets/logo.png';
 import Link from 'next/link';
 import { registrationSchema } from '@/utils/schemes/auth_schema';
 import { RegistrationSchemaType } from '@/utils/types/AuthTypes';
@@ -53,7 +53,7 @@ export default function Register() {
       <div className='flex w-full max-w-sm flex-col '>
         <Image
           priority={true}
-          src={LOGO}
+          src={'https://i.pinimg.com/736x/62/16/3e/62163e30a94bbda09438da284830f1da.jpg'}
           alt='book rave logo'
           width={200}
           height={100}

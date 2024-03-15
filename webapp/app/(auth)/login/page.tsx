@@ -67,7 +67,7 @@ export default function Login() {
       <Toaster />
       <div className='flex w-full max-w-sm flex-col '>
         <Image
-          src={LOGO}
+          src={'https://i.pinimg.com/736x/62/16/3e/62163e30a94bbda09438da284830f1da.jpg'}
           alt='book rave logo'
           width={300}
           height={100}
