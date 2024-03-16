@@ -6,14 +6,17 @@ import {
   SaveSvg,
   ShareSvg,
 } from '@/utils/constants/svg_library';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ReviewFormType } from '@/utils/types/ReviewTypes';
 
-export default function ReviewPost() {
+export default function ReviewPost({ data }: { data: ReviewFormType }) {
+  const router = useRouter();
   const [isButtonClicked, setButtonClicked] = useState(false);
 
   const GoToReview = () => {
     if (!isButtonClicked) {
       console.log('going to the review');
+      router.push(`/review/${data.id}`);
     }
     setButtonClicked(false);
   };
@@ -48,25 +51,17 @@ export default function ReviewPost() {
       <div className='flex flex-row items-start pb-4'>
         <div>
           <Image
+            className='min-w-[250px]'
             alt='bk image'
-            src={
-              'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/romance-love-book-cover-design-template-1a3c7d9d576e8d5e0c79918ac44b2874.webp?ts=1698540908'
-            }
-            height={300}
-            width={600}
+            src={data.media as string}
+            height={800}
+            width={800}
           />
         </div>
         <div className='pl-5 align-text-top'>
-          <div className=' text-lg font-bold '>
-            Tips for being able to read for longer?
-          </div>
+          <div className='text-xl font-semibold '>{data.title}</div>
           <div className='text-sm font-medium'>
-            All sorcerers are evil. Elisabeth has known that as long as she has
-            known anything. Raised as a foundling in one of Austermeer’s Great
-            Libraries, Elisabeth has grown up among the tools of sorcery—magical
-            grimoires that whisper on shelves and rattle beneath iron chains. If
-            provoked, they transform into grotesque monsters of ink and leather.
-            She hopes to become a warden, charged with protecting ....
+            {`${data.content.slice(0, 400)}...`}
           </div>
         </div>
       </div>

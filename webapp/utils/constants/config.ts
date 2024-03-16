@@ -9,14 +9,9 @@ export const listOfImgUrl = [
   'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc.webp?ts=1698303950',
   'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/fantasy-book-cover-beach-design-template-fdc676bb91d0962cf17821e5c0a96316.webp?ts=1698541657',
   'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/business-proposal-book-cover-a4-design-template-8ecd48cac3dd4ef35b9c112972459948.jpg?ts=1684590759',
-  // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/war-design-template-83d00dbdae20a5e32c94c686219356f8.webp?ts=1699651864',
-  // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/motivational-self-help-book-cover-design-template-549362a7c9d568279e866eb81510239c.webp?ts=1704115831',
-  // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/happy-birthday-monster-book-or-postcard-design-template-3578bb2f7adb845942f0a831a6ddea50.jpg?ts=1687596394',
-  // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/romance-love-book-cover-design-template-1a3c7d9d576e8d5e0c79918ac44b2874.webp?ts=1698540908',
-  // 'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/bullying-book-cover-template-design-3910dd198fcad77ef416d6e79f43b8f2.jpg?ts=1637010104',
 ];
 
-export const BASE_URL = 'http://127.0.0.1:8000/api/v1';
+export const BASE_URL = 'http://localhost:8000/api/v1';
 
 export const MAX_FILE_SIZE = 500000;
 export const ACCEPTED_IMAGE_TYPES = [

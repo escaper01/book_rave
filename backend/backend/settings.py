@@ -175,10 +175,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:3000',
     'http://localhost:3000',
 ]
 
+# CORS_ORIGIN_WHITELIST = [
+#     'http://127.0.0.1:3000',
+#     'http://localhost:3000',
+# ]
+
 # set it to true and comment CORS_ALLOWED_ORIGINS to fill your db with fake data
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True

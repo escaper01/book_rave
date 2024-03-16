@@ -13,7 +13,7 @@ from rest_framework.pagination import PageNumberPagination
 def get_review(request, review_id):
     try:
         review = Review.objects.get(pk=review_id)
-        serializer = ReviewSerializer(review)
+        serializer = ReviewSerializerCover(review, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK) 
     except Review.DoesNotExist:
         return Response ({'error': 'Review was not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -25,7 +25,7 @@ def all_reviews(request):
     try:
         reviews = Review.objects.all().order_by('-created_at')
         context = paginator.paginate_queryset(reviews, request)
-        serializer = ReviewSerializer(context, many=True)
+        serializer = ReviewSerializer(context, many=True, context={"request": request})
         return paginator.get_paginated_response(serializer.data)
     except Book.DoesNotExist:
         return Response({'error': 'no such Book'}, status=status.HTTP_404_NOT_FOUND)
@@ -37,7 +37,7 @@ def all_reviews_about_a_book(request, book_id):
     try:
         reviews = Review.objects.filter(book=book_id).order_by('-created_at')
         context = paginator.paginate_queryset(reviews, request)
-        serializer = ReviewSerializer(context, many=True)
+        serializer = ReviewSerializer(context, many=True,context={"request": request})
         return paginator.get_paginated_response(serializer.data)
     except Book.DoesNotExist:
         return Response({'error': 'no such Book'}, status=status.HTTP_404_NOT_FOUND)  
@@ -54,7 +54,7 @@ def add_review(request, book_id):
     serializer = ReviewSerializer(data=data, context={'request': request})
     if serializer.is_valid():
         serializer.save(book=book, owner=request.user)
-        return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.data, status.HTTP_201_CREATED, context={"request": request})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

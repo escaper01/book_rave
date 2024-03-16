@@ -64,6 +64,6 @@ with open("books.json", "r") as json_file:
 		for i, book in enumerate(bundle_of_Books):
 			print(i,' ____ ', bundle_len)
 			try:
-				add_book(payload=book,category=category, token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNTEwMDUyLCJpYXQiOjE3MTA0NTAxMTIsImp0aSI6IjJlNjA1ZTMzNWQzMjQyMDM5NGNlYjkzZTRjNmY3MzRkIiwidXNlcl9pZCI6Mn0.u-MfwgC7irrqIfvqk9cYn2JeXKKf90KDJEBg922U15E")
+				add_book(payload=book,category=category, token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNjgyNzgzLCJpYXQiOjE3MTA2MjI4NDMsImp0aSI6IjcxZDEzMWQ5ZWVlYzRkY2M4NDkwOTVmZDEwNDVjNTQ5IiwidXNlcl9pZCI6Mn0.7KlRUNp7pshuObstaPMzsXQXY8KRTnZWR7SvEBxMpWI")
 			except Exception as e:
 				print(e, " went wrong")

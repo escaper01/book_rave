@@ -17,7 +17,7 @@ export const newReviewSchema = z.object({
     .min(15, 'title should be more than 15 charaacters')
     .max(150, 'the title should be less than 150 characters'),
   book: z.number().positive(),
-  avatar: z
+  media: z
     .custom<FileList>()
     .refine((files) => files?.length == 1, 'Image is required.')
     .refine(
