@@ -11,7 +11,7 @@ export type ReviewFormType = {
 };
 export type ReviewSchemaType = z.infer<typeof newReviewSchema>;
 
-export type ReviewsResponse = {
+export type ReviewsResponseType = {
   count: number;
   next: string | null;
   previous: string | null;

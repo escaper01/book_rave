@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Book
-from .serializers import BookSerializer
+from .serializers import BookSerializer, BookSerializerMin
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
@@ -12,10 +12,10 @@ from user.models import Person
 @api_view(['GET'])
 def all_books(request):
     paginator = PageNumberPagination()
-    paginator.page_size = 5
+    paginator.page_size = 18
     books = Book.objects.all().order_by('-created_at')
     context = paginator.paginate_queryset(books, request)
-    serializer = BookSerializer(context, many=True)
+    serializer = BookSerializerMin(context, many=True, context={'request': request})
     return paginator.get_paginated_response(serializer.data)
     
 
@@ -23,7 +23,7 @@ def all_books(request):
 def get_book(request, book_id):
     try:
         book = Book.objects.get(id=book_id)
-        serializer = BookSerializer(book)
+        serializer = BookSerializer(book,context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     except Book.DoesNotExist:
@@ -79,7 +79,7 @@ def search(request):
         books = Book.objects.filter(name__contains=query)
     except Book.DoesNotExist:
         return Response([], status=status.HTTP_200_OK)
-    serialize = BookSerializer(books, many=True)
+    serialize = BookSerializer(books, many=True, context={'request': request})
     return Response(serialize.data, status=status.HTTP_200_OK)
 
 

@@ -54,7 +54,7 @@ def add_review(request, book_id):
     serializer = ReviewSerializer(data=data, context={'request': request})
     if serializer.is_valid():
         serializer.save(book=book, owner=request.user)
-        return Response(serializer.data, status.HTTP_201_CREATED, context={"request": request})
+        return Response(serializer.data, status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

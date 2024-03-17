@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 import { BASE_URL } from '@/utils/constants/config';
 import { getDataAuth } from '@/utils/constants/api';
 import { useAuthStore } from '@/utils/store/store_auth';
@@ -17,19 +17,18 @@ export default function Navbar() {
   const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
-    console.log(user, 'changeed from navbar');
-  }, [user]);
-
-  useEffect(() => {
     setAccessToken(Cookies.get('jwtToken'));
     setRefreshToken(Cookies.get('refreshToken'));
   }, []);
 
-  const { isLoading } = useSWRImmutable(
-    `${BASE_URL}/user/get_profile_info`,
+  const { isLoading } = useSWR(
+    accessToken ? `${BASE_URL}/user/get_profile_info` : null,
     getDataAuth,
     {
-      errorRetryCount: 2,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshInterval: 0,
       onSuccess: (data) => {
         console.log('got new user data and set to global state', data);
         setUser(data);
@@ -47,10 +46,14 @@ export default function Navbar() {
             <span className='text-2xl font-semibold'>Rave</span>
           </Link>
           <div className=' mx-2 hidden w-full flex-row items-center justify-evenly font-medium lg:flex'>
-            <Link href={'/trending_posts'} className='mx-2 text-nowrap'>
+            <Link
+              href={'/trending_posts'}
+              className='mx-2 text-nowrap'
+              prefetch={true}
+            >
               trending posts
             </Link>
-            <Link href={'/books'} className='mx-2 text-nowrap'>
+            <Link href={'/books'} className='mx-2 text-nowrap' prefetch={true}>
               books
             </Link>
             <Link href={'/newly-added'} className='mx-2 text-nowrap'>

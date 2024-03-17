@@ -1,12 +1,10 @@
 'use client';
 import { useState } from 'react';
-import BookSlider from '@/components/book/BookSlider';
 import ReviewPost from '@/components/review/ReviewPost';
 import useSWR from 'swr';
 import { BASE_URL } from '@/utils/constants/config';
 import { getData } from '@/utils/constants/api';
-import { ReviewFormType, ReviewsResponse } from '@/utils/types/ReviewTypes';
-import Link from 'next/link';
+import { ReviewFormType, ReviewsResponseType } from '@/utils/types/ReviewTypes';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -16,8 +14,8 @@ export default function Home() {
   );
 
   const [reviewPosts, setReviewPosts] = useState<ReviewFormType[] | []>([]);
-  const { data: reviewPostsRes, isloading } = useSWR(currentUrl, getData, {
-    onSuccess: (data: ReviewsResponse) => {
+  const { data: reviewPostsRes } = useSWR(currentUrl, getData, {
+    onSuccess: (data: ReviewsResponseType) => {
       setReviewPosts(data.results);
       console.log(data, 'got post reviews');
     },
