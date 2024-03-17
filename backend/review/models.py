@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from book.models import Book
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models import Sum
 
 
 class Review(models.Model):
@@ -22,11 +21,3 @@ class Review(models.Model):
         return "Review from {} for {} Book".format(self.owner.username, self.book.name)
 
 
-    def get_global_rating(self):
-        all_related_reviews = Review.objects.filter(book=self)
-
-        all_ratings_sum = all_related_reviews.aggregate(Sum('rating'))
-
-        average_rating = all_ratings_sum // all_related_reviews.count()
-
-        return average_rating

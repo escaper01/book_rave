@@ -30,9 +30,9 @@ export default function Navbar() {
       revalidateOnReconnect: false,
       refreshInterval: 0,
       onSuccess: (data) => {
-        console.log('got new user data and set to global state', data);
+        // console.log('got new user data and set to global state', data);
         setUser(data);
-        console.log(user, 'new user');
+        // console.log(user, 'new user');
       },
     }
   );

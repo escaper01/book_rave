@@ -13,7 +13,7 @@ from rest_framework.pagination import PageNumberPagination
 def get_review(request, review_id):
     try:
         review = Review.objects.get(pk=review_id)
-        serializer = ReviewSerializerCover(review, context={"request": request})
+        serializer = ReviewSerializer(review, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK) 
     except Review.DoesNotExist:
         return Response ({'error': 'Review was not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -46,14 +46,20 @@ def all_reviews_about_a_book(request, book_id):
 @permission_classes([IsAuthenticated])
 def add_review(request, book_id):
     try:
-        book = Book.objects.get(pk=book_id)
+        current_book = Book.objects.get(pk=book_id)
     except Book.DoesNotExist:
         return Response({'error': 'no book to review'}, status=status.HTTP_404_NOT_FOUND)
+
+    previous_review_exists = Review.objects.filter(owner=request.user, book=current_book).exists()
+
+    if previous_review_exists:
+        return Response({'error': 'you have already reviewd this book'}, status=status.HTTP_400_BAD_REQUEST)
+
     data = request.data.copy()
-    data['book'] = book.id
+    data['book'] = current_book.id
     serializer = ReviewSerializer(data=data, context={'request': request})
     if serializer.is_valid():
-        serializer.save(book=book, owner=request.user)
+        serializer.save(book=current_book, owner=request.user)
         return Response(serializer.data, status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
