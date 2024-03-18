@@ -8,6 +8,7 @@ type UserStateType = {
 
 export const useAuthStore = create<UserStateType>((set) => ({
   user: {
+    username: null,
     first_name: null,
     last_name: null,
     city: null,

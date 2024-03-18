@@ -10,6 +10,21 @@ from rest_framework.pagination import PageNumberPagination
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def is_illegible_to_review(request, book_id):
+    try:
+        current_book = Book.objects.get(pk=book_id)
+    except Book.DoesNotExist:
+        return Response({'error': 'no book to review'}, status=status.HTTP_404_NOT_FOUND)
+
+    previous_review_exists = Review.objects.filter(owner=request.user, book=current_book).exists()
+    if previous_review_exists:
+        return Response({'state': 'you have already reviewd this book'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'state': 'you can review this book'}, status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
 def get_review(request, review_id):
     try:
         review = Review.objects.get(pk=review_id)

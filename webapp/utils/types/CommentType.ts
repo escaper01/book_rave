@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { updateProfileSchema } from '../schemes/profile_schema';
+import { commentScheme } from '../schemes/comment_schema';
 
-export type ProfileFormType = {
-  review_id?:number;
-  content:string;
-  created_at:string;
-  
+export type CommentFormType = {
+  review_id?: number;
+  content: string;
+  created_at?: string;
+  owner_profile_pic?: string;
+  posted_by?: string;
 };
-export type ProfileSchemaType = z.infer<typeof updateProfileSchema>;
+export type CommentSchemaType = z.infer<typeof commentScheme>;

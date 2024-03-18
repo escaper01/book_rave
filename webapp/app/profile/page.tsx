@@ -5,16 +5,41 @@ import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BASE_URL } from '@/utils/constants/config';
 import useSWRMutation from 'swr/mutation';
-import { patchFormAuth } from '@/utils/constants/api';
+import {
+  getDataAuth,
+  patchFormAuth,
+  postAuth,
+  postDataAuth,
+} from '@/utils/constants/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { ProfileFormType, ProfileSchemaType } from '@/utils/types/ProfileType';
 import { updateProfileSchema } from '@/utils/schemes/profile_schema';
 import { useAuthStore } from '@/utils/store/store_auth';
+import { useRouter } from 'next/navigation';
+import useSWRImmutable from 'swr/immutable';
+import Cookies from 'js-cookie';
 
 export default function Home() {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
 
+  const { trigger: startCheckingIsAuth } = useSWRMutation(
+    `${BASE_URL}/user/is-authenticated`,
+    getDataAuth,
+    {
+      onError: (err) => {
+        console.log(err, 'not auth err');
+        if (err.status == 401) {
+          localStorage.setItem('msg', 'you need to login first');
+          router.push('/login');
+        }
+      },
+      onSuccess: (data) => {
+        console.log(data, ' auth state success');
+      },
+    }
+  );
   const { trigger: updateProfile } = useSWRMutation(
     `${BASE_URL}/user/update_profile_info`,
     patchFormAuth,
@@ -59,6 +84,10 @@ export default function Home() {
       }
     }
   }, [user]);
+
+  useEffect(() => {
+    startCheckingIsAuth();
+  }, []);
 
   return (
     <div className='mx-4 grow sm:mx-auto'>

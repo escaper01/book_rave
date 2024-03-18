@@ -1,3 +1,6 @@
+import { LogoutPayloadType } from '../types/AuthTypes';
+import { ProfileFormType } from '../types/ProfileType';
+
 export const listOfImgUrl = [
   'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/book-cover-design-template-a41c9b2fdf2126dca76d0207b9b0b404.webp?ts=1707476060',
   'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/contemporary-fiction-night-time-book-cover-design-template-1be47835c3058eb42211574e0c4ed8bf.webp?ts=1698210220',
@@ -35,3 +38,11 @@ export const MOVIES_CATEGORIES = [
   'Experimental Literature',
   'Technical/Instructional',
 ];
+
+export const initial_user_state: ProfileFormType = {
+  username: null,
+  first_name: null,
+  last_name: null,
+  city: null,
+  avatar: null,
+};

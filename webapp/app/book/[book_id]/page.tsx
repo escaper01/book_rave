@@ -12,25 +12,36 @@ import { getDataAuth, getData } from '@/utils/constants/api';
 import { useState } from 'react';
 import { ReviewFormType } from '@/utils/types/ReviewTypes';
 import { useAuthStore } from '@/utils/store/store_auth';
-import { CommentFormType } from '@/utils/types/CommentType';
 
-export default function Review({ params }: { params: { review_id: number } }) {
+export default function Book({ params }: { params: { book_id: number } }) {
   const user = useAuthStore((state) => state.user);
-  const [relatedComments, setRelatedComments] = useState<
-    CommentFormType[] | []
-  >();
 
+  console.log(user, 'curer');
+
+  const [isElligibleToReview, setIsElligibleToComment] = useState(
+    user.username
+  );
   const [reviewDetails, setReviewDetails] = useState<
     ReviewFormType | undefined
   >();
 
-  const { isLoading: isReviewsLoading } = useSWRImmutable(
-    `${BASE_URL}/review/get-review/${params.review_id}`,
-    getData,
+  const { isLoading } = useSWRImmutable(
+    reviewDetails?.book
+      ? `${BASE_URL}/review/is-ellegible-to-review/${reviewDetails?.book}`
+      : null,
+    getDataAuth,
     {
       onSuccess: (data) => {
-        console.log(data, 'related review details');
-        setReviewDetails(data);
+        console.log(data, 'is elligible to review');
+        if (data.status === 200) {
+          setIsElligibleToComment(true);
+        }
+      },
+      onError: (err) => {
+        console.log(err, 'is elligible errrooooorrr');
+        if (err.status === 400) {
+          setIsElligibleToComment(false);
+        }
       },
     }
   );
@@ -55,16 +66,10 @@ export default function Review({ params }: { params: { review_id: number } }) {
           </div>
           <div className='col-span-3'>
             <BookDetails info={reviewDetails as ReviewFormType} />
-            {user.username && (
-              <PostComment
-                review_id={reviewDetails.id as number}
-                relatedCommentsState={[relatedComments, setRelatedComments]}
-              />
+            {isElligibleToReview && (
+              <PostComment review_id={reviewDetails.id as number} />
             )}
-            <BookRatingStatus
-              info={reviewDetails as ReviewFormType}
-              relatedCommentsState={[relatedComments, setRelatedComments]}
-            />
+            <BookRatingStatus info={reviewDetails as ReviewFormType} />
           </div>
         </div>
       )}

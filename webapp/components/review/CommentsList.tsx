@@ -1,13 +1,12 @@
 import StaticRatingStars from '@/components/book/StaticRatingStars';
-import RatingStars from '@/components/book/StaticRatingStars';
 import Image from 'next/image';
-import { ReviewFormType } from '@/utils/types/ReviewTypes';
+import { CommentFormType } from '@/utils/types/CommentType';
 
-export default function ReviewsList({
-  relatedReviews,
+export default function CommentsList({
+  relatedComments,
   count,
 }: {
-  relatedReviews: ReviewFormType[] | [];
+  relatedComments: CommentFormType[] | [];
   count: number;
 }) {
   return (
@@ -15,7 +14,7 @@ export default function ReviewsList({
       <span className='text-xs font-normal'>{count} reviews</span>
 
       <div>
-        {relatedReviews.map((elem, index) => {
+        {relatedComments.map((elem: CommentFormType, index) => {
           return (
             <div
               key={index}
@@ -26,7 +25,7 @@ export default function ReviewsList({
                   className='h-14 w-14 rounded-full object-cover'
                   width={50}
                   height={50}
-                  src={elem.owner_profile_pic}
+                  src={elem.owner_profile_pic as string}
                   alt='profile pic'
                 />
                 <h3 className='py-2 text-xs font-bold tracking-wider'>
@@ -34,16 +33,12 @@ export default function ReviewsList({
                 </h3>
               </div>
               <div className='col-span-6 col-start-2'>
-                <div className='flex justify-between'>
-                  <StaticRatingStars
-                    bookRating={elem.rating}
-                    className='w-28 max-w-[90px]'
-                  />
-                  <h3 className='hover:cursor-pointer hover:underline'>
+                <div className='flex justify-end'>
+                  <h3 className='text-xs font-light hover:cursor-pointer hover:underline'>
                     {elem.created_at}
                   </h3>
                 </div>
-                <p className=''>{elem.content}</p>
+                <p className='text-pretty break-words'>{elem.content}</p>
               </div>
             </div>
           );

@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { updateProfileSchema } from '../schemes/profile_schema';
 
 export type ProfileFormType = {
+  username: string | null;
   first_name: string | null;
   last_name: string | null;
   city: string | null;

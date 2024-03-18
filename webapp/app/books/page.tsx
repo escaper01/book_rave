@@ -17,7 +17,6 @@ export default function Trending() {
   const { data: reviewPostsRes, isLoading } = useSWR(currentUrl, getData, {
     onSuccess: (data: ReviewsResponseType) => {
       setPostedBooks(data.results);
-      console.log(data, 'got posted books');
     },
   });
 

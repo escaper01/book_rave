@@ -1,11 +1,9 @@
-import { ZodType, z } from 'zod';
-import { SubmitErrorHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReviewFormType } from '@/utils/types/ReviewTypes';
+import { z } from 'zod';
+
 
 export const commentScheme = z.object({
-  comment: z
+  content: z
     .string()
-    .min(100, 'comment should be more than 100 charaacters')
+    .min(50, 'comment should be more than 50 charaacters')
     .max(500, 'comment should be less than 500 characters'),
 });

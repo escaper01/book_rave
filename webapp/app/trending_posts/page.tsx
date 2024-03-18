@@ -8,7 +8,6 @@ import { ReviewFormType, ReviewsResponseType } from '@/utils/types/ReviewTypes';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
   const [currentUrl, setCurrentUrl] = useState(
     `${BASE_URL}/review/all-reviews`
   );

@@ -5,11 +5,16 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import useSWR from 'swr';
-import { BASE_URL } from '@/utils/constants/config';
-import { getDataAuth } from '@/utils/constants/api';
+import { BASE_URL, initial_user_state } from '@/utils/constants/config';
+import { getDataAuth, postData, postDataAuth } from '@/utils/constants/api';
 import { useAuthStore } from '@/utils/store/store_auth';
+import { LogoutSvg } from '@/utils/constants/svg_library';
+import useSWRMutation from 'swr/mutation';
+import { useRouter, useParams, usePathname } from 'next/navigation';
 
 export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [refreshToken, setRefreshToken] = useState<string | undefined>();
 
@@ -30,9 +35,24 @@ export default function Navbar() {
       revalidateOnReconnect: false,
       refreshInterval: 0,
       onSuccess: (data) => {
-        // console.log('got new user data and set to global state', data);
         setUser(data);
-        // console.log(user, 'new user');
+      },
+      // onError: (err) => {
+      //   console.log(err, 'getting user info from db error');
+      // },
+    }
+  );
+
+  const { trigger: startLoggingOut } = useSWRMutation(
+    `${BASE_URL}/auth/blacklist`,
+    postData,
+    {
+      revalidate: false,
+      onSuccess: (data) => {
+        Cookies.remove('jwtToken');
+        Cookies.remove('refreshToken');
+        setUser(initial_user_state);
+        router.push('/');
       },
     }
   );
@@ -82,15 +102,26 @@ export default function Navbar() {
               </div>
             )}
             {user.avatar && (
-              <Link href={'/profile'}>
-                <Image
-                  className='mx-3 h-11 w-11 rounded-full object-fill'
-                  alt={user.first_name as string}
-                  src={user.avatar as string}
-                  width={100}
-                  height={100}
-                />
-              </Link>
+              <>
+                <Link href={'/profile'}>
+                  <Image
+                    className='mx-6 h-11 w-11 rounded-full object-fill'
+                    alt={user.first_name as string}
+                    src={user.avatar as string}
+                    width={100}
+                    height={100}
+                  />
+                </Link>
+                <div>
+                  <LogoutSvg
+                    className='ml-5 w-6 hover:cursor-pointer'
+                    onClick={() => {
+                      console.log('logout');
+                      startLoggingOut({ refresh: refreshToken as string });
+                    }}
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>
