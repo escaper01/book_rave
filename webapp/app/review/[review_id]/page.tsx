@@ -55,16 +55,16 @@ export default function Review({ params }: { params: { review_id: number } }) {
           </div>
           <div className='col-span-3'>
             <BookDetails info={reviewDetails as ReviewFormType} />
-            {user.username && (
-              <PostComment
-                review_id={reviewDetails.id as number}
-                relatedCommentsState={[relatedComments, setRelatedComments]}
-              />
-            )}
-            <BookRatingStatus
-              info={reviewDetails as ReviewFormType}
-              relatedCommentsState={[relatedComments, setRelatedComments]}
-            />
+            {/*{user.username && (*/}
+            {/*  <PostComment*/}
+            {/*    review_id={reviewDetails.id as number}*/}
+            {/*    relatedCommentsState={[relatedComments, setRelatedComments]}*/}
+            {/*  />*/}
+            {/*)}*/}
+            {/*<BookRatingStatus*/}
+            {/*  info={reviewDetails as ReviewFormType}*/}
+            {/*  relatedCommentsState={[relatedComments, setRelatedComments]}*/}
+            {/*/>*/}
           </div>
         </div>
       )}

@@ -5,10 +5,7 @@ import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BASE_URL } from '@/utils/constants/config';
 import useSWRMutation from 'swr/mutation';
-import {
-  getDataAuth,
-  patchFormAuth,
-} from '@/utils/constants/api';
+import { getDataAuth, patchFormAuth } from '@/utils/constants/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { ProfileFormType, ProfileSchemaType } from '@/utils/types/ProfileType';
 import { updateProfileSchema } from '@/utils/schemes/profile_schema';
@@ -23,7 +20,7 @@ export default function Home() {
   const router = useRouter();
 
   const { trigger: startCheckingIsAuth } = useSWRMutation(
-    `${BASE_URL}/user/is-authenticated`,
+    `${BASE_URL}/user/is_authenticated`,
     getDataAuth,
     {
       onError: (err) => {
@@ -70,7 +67,15 @@ export default function Home() {
     if (user.first_name) {
       let key: keyof ProfileFormType;
       for (key in user) {
-        setValue(key, user[key] as string);
+        setValue(
+          key as
+            | 'first_name'
+            | 'last_name'
+            | 'city'
+            | 'avatar'
+            | `avatar.${string}`,
+          user[key] as string
+        );
       }
     }
   }, [user]);
