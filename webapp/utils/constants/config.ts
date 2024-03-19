@@ -36,7 +36,7 @@ export const MOVIES_CATEGORIES = [
   'Tragedy',
   'Political',
   'Experimental Literature',
-  'Technical/Instructional',
+  'Technical Instructional',
 ];
 
 export const initial_user_state: ProfileFormType = {

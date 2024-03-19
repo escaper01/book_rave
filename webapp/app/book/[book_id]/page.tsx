@@ -19,7 +19,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
   console.log(user, 'curer');
 
   const [isElligibleToReview, setIsElligibleToComment] = useState(
-    user.username
+    user.username ? true : false
   );
   const [reviewDetails, setReviewDetails] = useState<
     ReviewFormType | undefined
@@ -46,9 +46,6 @@ export default function Book({ params }: { params: { book_id: number } }) {
     }
   );
 
-  if (isReviewsLoading) {
-    return <div>loading book details</div>;
-  }
   return (
     <div className='mx-5 grow py-5 sm:py-10'>
       {reviewDetails?.title && (
@@ -66,10 +63,10 @@ export default function Book({ params }: { params: { book_id: number } }) {
           </div>
           <div className='col-span-3'>
             <BookDetails info={reviewDetails as ReviewFormType} />
-            {isElligibleToReview && (
+            {/* {isElligibleToReview && (
               <PostComment review_id={reviewDetails.id as number} />
-            )}
-            <BookRatingStatus info={reviewDetails as ReviewFormType} />
+            )} */}
+            {/* <BookRatingStatus info={reviewDetails as ReviewFormType} /> */}
           </div>
         </div>
       )}

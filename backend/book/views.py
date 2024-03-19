@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Book
-from .serializers import BookSerializer, BookSerializerMin
+from .serializers import BookSerializer, BookSerializerMin, MinimalisticBookSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
@@ -33,11 +33,13 @@ def get_book(request, book_id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_book(request):
+    print(request.data)
     serializer = BookSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         current_person = Person.objects.get(user=request.user)
         serializer.save(added_by=current_person)
     else:
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -83,4 +85,12 @@ def search(request):
     return Response(serialize.data, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def get_books_bundle(request, category):
+    print(category)
+    if category:
+        books_by_category =  Book.objects.filter(category=category)[:10]
+        serializer = MinimalisticBookSerializer(books_by_category, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response([], status=status.HTTP_200_OK)
 

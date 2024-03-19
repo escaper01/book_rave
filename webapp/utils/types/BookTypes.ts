@@ -18,3 +18,19 @@ export type ReviewsResponseType = {
   previous: string | null;
   results: BookFormType[] | [];
 };
+
+export type BookCategory = {
+  category:
+    | 'Mystery'
+    | 'Romance'
+    | 'Science Fiction'
+    | 'Fantasy'
+    | 'Self-help'
+    | 'Biography'
+    | 'Horror'
+    | 'Thriller'
+    | 'Tragedy'
+    | 'Political'
+    | 'Experimental Literature'
+    | 'Technical/Instructional';
+};

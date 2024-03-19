@@ -8,6 +8,7 @@ from django.db.models import Avg
 
 class BookSerializer(serializers.ModelSerializer):
     global_rating = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Book
         fields = ['id', 'name', 'description', 'global_rating', 'author', 'publication_date', 'created_at', 'updated_at', 'added_by', 'cover', 'category']
@@ -18,13 +19,10 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_global_rating(self, obj):
         all_related_reviews = Review.objects.filter(book=obj)
-
         if all_related_reviews.exists():
             all_ratings_avg = all_related_reviews.aggregate(Avg('rating'))['rating__avg']
             return all_ratings_avg
-
         return 0
-
 
 
 class BookSerializerMin(serializers.ModelSerializer):
@@ -36,9 +34,13 @@ class BookSerializerMin(serializers.ModelSerializer):
 
     def get_global_rating(self, obj):
         all_related_reviews = Review.objects.filter(book=obj)
-
         if all_related_reviews.exists():
             all_ratings_avg = all_related_reviews.aggregate(Avg('rating'))['rating__avg']
             return all_ratings_avg
-
         return 0
+
+
+class MinimalisticBookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ['id', 'name','cover']

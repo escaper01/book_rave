@@ -17,7 +17,7 @@ class Book(models.Model):
         ('Tragedy', 'Tragedy'),
         ('Political', 'Political'),
         ('Experimental Literature', 'Experimental Literature'),
-        ('Technical/Instructional', 'Technical/Instructional'),
+        ('Technical Instructional', 'Technical/Instructional'),
     )
     name = models.CharField(max_length=300, null=False, unique=True, blank=False)
     description = models.TextField(blank=False, null=False)
