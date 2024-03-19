@@ -8,8 +8,6 @@ import useSWRMutation from 'swr/mutation';
 import {
   getDataAuth,
   patchFormAuth,
-  postAuth,
-  postDataAuth,
 } from '@/utils/constants/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { ProfileFormType, ProfileSchemaType } from '@/utils/types/ProfileType';
