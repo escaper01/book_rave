@@ -35,7 +35,6 @@ export default function Register() {
   });
 
   const onSubmit: SubmitHandler<RegistrationSchemaType> = (data) => {
-    console.log(data, 'was submitted');
     startRegistering(data);
   };
 

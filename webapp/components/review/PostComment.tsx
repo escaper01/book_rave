@@ -31,7 +31,6 @@ export default function PostComment({
         }
       },
       onSuccess(data) {
-        console.log(data, 'commment posted successfully');
         resetField('content');
         setRelatedComments([data, ...relatedComments]);
         toast.success('your comment was posted successfully');
@@ -49,7 +48,6 @@ export default function PostComment({
   });
 
   const onSubmit: SubmitHandler<CommentSchemaType> = (data) => {
-    console.log(data, 'comment will be posted aka submitted');
     startingPostingComment(data);
   };
 

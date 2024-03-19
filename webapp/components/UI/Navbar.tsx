@@ -37,9 +37,6 @@ export default function Navbar() {
       onSuccess: (data) => {
         setUser(data);
       },
-      // onError: (err) => {
-      //   console.log(err, 'getting user info from db error');
-      // },
     }
   );
 
@@ -116,7 +113,6 @@ export default function Navbar() {
                   <LogoutSvg
                     className='ml-5 w-6 hover:cursor-pointer'
                     onClick={() => {
-                      console.log('logout');
                       startLoggingOut({ refresh: refreshToken as string });
                     }}
                   />

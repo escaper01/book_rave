@@ -29,7 +29,6 @@ export default function BookRatingStatus({
   const { data: relatedReviewsRes, isLoading: isRelatedReviewsLoading } =
     useSWRImmutable(currentUrl, getData, {
       onSuccess: (data) => {
-        console.log(data, 'related reviews  ');
         setRelatedComments(data.results);
         setCommentsNum(data.count);
       },

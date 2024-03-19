@@ -59,7 +59,6 @@ export default function Login() {
   });
 
   const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
-    console.log(data, 'was submitted');
     startLogging(data);
   };
 

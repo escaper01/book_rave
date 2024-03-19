@@ -16,8 +16,6 @@ import { useAuthStore } from '@/utils/store/store_auth';
 export default function Book({ params }: { params: { book_id: number } }) {
   const user = useAuthStore((state) => state.user);
 
-  console.log(user, 'curer');
-
   const [isElligibleToReview, setIsElligibleToComment] = useState(
     user.username ? true : false
   );

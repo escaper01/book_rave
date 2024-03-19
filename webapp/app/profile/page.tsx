@@ -29,14 +29,10 @@ export default function Home() {
     getDataAuth,
     {
       onError: (err) => {
-        console.log(err, 'not auth err');
         if (err.status == 401) {
           localStorage.setItem('msg', 'you need to login first');
           router.push('/login');
         }
-      },
-      onSuccess: (data) => {
-        console.log(data, ' auth state success');
       },
     }
   );
@@ -51,7 +47,6 @@ export default function Home() {
         }
       },
       onSuccess: (data: ProfileFormType) => {
-        console.log(data, 'lalalal');
         toast.success('user profile updated successfully');
         setUser(data);
       },
@@ -70,13 +65,10 @@ export default function Home() {
   const onSubmit: SubmitHandler<ProfileSchemaType> = (
     data: ProfileSchemaType
   ) => {
-    console.log(data, 'was submitted');
     updateProfile({ ...data, avatar: data.avatar.item(0) });
-    // updateProfile(data);
   };
 
   useEffect(() => {
-    console.log(user, 'user changed from profile');
     if (user.first_name) {
       let key: keyof ProfileFormType;
       for (key in user) {

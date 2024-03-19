@@ -16,7 +16,6 @@ export default function Home() {
   const { data: reviewPostsRes } = useSWR(currentUrl, getData, {
     onSuccess: (data: ReviewsResponseType) => {
       setReviewPosts(data.results);
-      console.log(data, 'got post reviews');
     },
   });
 
