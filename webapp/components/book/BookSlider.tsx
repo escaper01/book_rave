@@ -2,36 +2,51 @@
 
 import Flicking from '@egjs/react-flicking';
 import '@egjs/react-flicking/dist/flicking.css';
-import { listOfImgUrl } from '@/utils/constants/config';
+import { BASE_URL } from '@/utils/constants/config';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getData, postData } from '@/utils/constants/api';
+import { useState } from 'react';
+import { BookFormType } from '@/utils/types/BookTypes';
+import useSWRImmutable from 'swr/immutable';
 
 export default function BookSlider({ query }: { query: string }) {
+  const [books, setBooks] = useState<BookFormType[] | undefined>();
+
+  const { isLoading } = useSWRImmutable(
+    `${BASE_URL}/book/bundled_books/${query}`,
+    getData,
+    {
+      onSuccess: (data) => {
+        setBooks(data);
+      },
+    }
+  );
   return (
     <div className='drop-shadow-2xl'>
-      <Flicking
-        deceleration={0.0055}
-        align='center'
-        circular={true}
-        onMoveEnd={(e) => {
-          // console.log(e);
-        }}
-      >
-        {listOfImgUrl.map((url, _i) => {
-          return (
-            <Link href={`book/${_i}`} key={_i}>
-              <Image
-                style={{ width: 'auto' }}
-                className='h-full px-2'
-                src={url}
-                width={100}
-                height={100}
-                alt={`image${_i}`}
-              />
-            </Link>
-          );
-        })}
-      </Flicking>
+      {books && (
+        <Flicking
+          deceleration={0.0055}
+          align='prev'
+          circular={true}
+          hideBeforeInit={true}
+        >
+          {books.map((book, _i) => {
+            return (
+              <Link href={`book/${book.id}`} key={_i}>
+                <Image
+                  style={{ width: 'auto' }}
+                  className='h-full px-2'
+                  src={book.cover}
+                  width={100}
+                  height={100}
+                  alt={book.name}
+                />
+              </Link>
+            );
+          })}
+        </Flicking>
+      )}
     </div>
   );
 }

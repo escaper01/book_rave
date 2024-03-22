@@ -4,12 +4,17 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
-import useSWRImmutable from 'swr/immutable';
-import { BASE_URL } from '@/utils/constants/config';
-import { getDataAuth } from '@/utils/constants/api';
+import useSWR from 'swr';
+import { BASE_URL, initial_user_state } from '@/utils/constants/config';
+import { getDataAuth, postData, postDataAuth } from '@/utils/constants/api';
 import { useAuthStore } from '@/utils/store/store_auth';
+import { LogoutSvg } from '@/utils/constants/svg_library';
+import useSWRMutation from 'swr/mutation';
+import { useRouter } from 'next/navigation';
+import Search from '@/components/UI/Search';
 
 export default function Navbar() {
+  const router = useRouter();
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [refreshToken, setRefreshToken] = useState<string | undefined>();
 
@@ -17,23 +22,34 @@ export default function Navbar() {
   const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
-    console.log(user, 'changeed from navbar');
-  }, [user]);
-
-  useEffect(() => {
     setAccessToken(Cookies.get('jwtToken'));
     setRefreshToken(Cookies.get('refreshToken'));
   }, []);
 
-  const { isLoading } = useSWRImmutable(
-    `${BASE_URL}/user/get_profile_info`,
+  const { isLoading } = useSWR(
+    accessToken ? `${BASE_URL}/user/get_profile_info` : null,
     getDataAuth,
     {
-      errorRetryCount: 2,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshInterval: 0,
       onSuccess: (data) => {
-        console.log('got new user data and set to global state', data);
         setUser(data);
-        console.log(user, 'new user');
+      },
+    }
+  );
+
+  const { trigger: startLoggingOut } = useSWRMutation(
+    `${BASE_URL}/auth/blacklist`,
+    postData,
+    {
+      revalidate: false,
+      onSuccess: (data) => {
+        Cookies.remove('jwtToken');
+        Cookies.remove('refreshToken');
+        setUser(initial_user_state);
+        router.push('/');
       },
     }
   );
@@ -47,10 +63,14 @@ export default function Navbar() {
             <span className='text-2xl font-semibold'>Rave</span>
           </Link>
           <div className=' mx-2 hidden w-full flex-row items-center justify-evenly font-medium lg:flex'>
-            <Link href={'/trending_posts'} className='mx-2 text-nowrap'>
+            <Link
+              href={'/trending_posts'}
+              className='mx-2 text-nowrap'
+              prefetch={true}
+            >
               trending posts
             </Link>
-            <Link href={'/books'} className='mx-2 text-nowrap'>
+            <Link href={'/books'} className='mx-2 text-nowrap' prefetch={true}>
               books
             </Link>
             <Link href={'/newly-added'} className='mx-2 text-nowrap'>
@@ -61,12 +81,13 @@ export default function Navbar() {
         <div className='flex w-full flex-row items-center justify-end lg:justify-normal'>
           <div className='hidden w-full sm:inline-flex'>
             <input
-              className=' ml-0 w-full p-2 md:ml-40'
+              className='ml-0 w-full p-2 md:ml-40'
               placeholder='Search books'
               type='search'
               name='query-books'
             />
           </div>
+          {/* <Search /> */}
           <div className='flex flex-row items-center font-medium'>
             {!accessToken && (
               <div>
@@ -79,15 +100,25 @@ export default function Navbar() {
               </div>
             )}
             {user.avatar && (
-              <Link href={'/profile'}>
-                <Image
-                  className='mx-3 h-11 w-11 rounded-full object-fill'
-                  alt={user.first_name as string}
-                  src={user.avatar as string}
-                  width={100}
-                  height={100}
-                />
-              </Link>
+              <>
+                <Link href={'/profile'}>
+                  <Image
+                    className='mx-6 h-11 w-11 rounded-full object-fill'
+                    alt={user.first_name as string}
+                    src={user.avatar as string}
+                    width={100}
+                    height={100}
+                  />
+                </Link>
+                <div>
+                  <LogoutSvg
+                    className='ml-5 w-6 hover:cursor-pointer'
+                    onClick={() => {
+                      startLoggingOut({ refresh: refreshToken as string });
+                    }}
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>

@@ -20,7 +20,7 @@ export default function Features() {
               height={100}
               src='https://www.svgrepo.com/show/234736/passport.svg'
               alt=''
-              className='inline-block h-16'
+              className='inline-block h-16 w-auto'
             />
             <p className='text-xl font-semibold'>
               Personalized Recommendations
@@ -36,7 +36,7 @@ export default function Features() {
               height={100}
               src='https://www.svgrepo.com/show/213928/rate.svg'
               alt=''
-              className='inline-block h-16'
+              className='inline-block h-16 w-auto'
             />
             <p className='text-xl font-semibold'>User Reviews</p>
             <p className='text-sm text-[#636262]'>
@@ -51,7 +51,7 @@ export default function Features() {
               height={100}
               src='https://www.svgrepo.com/show/230777/rating-rate.svg'
               alt=''
-              className='inline-block h-16'
+              className='inline-block h-16 w-auto'
             />
             <p className='text-xl font-semibold'>Community Discussions</p>
             <p className='text-sm text-[#636262]'>
@@ -66,7 +66,7 @@ export default function Features() {
               height={100}
               src='https://www.svgrepo.com/show/429818/discussion-conversation-message.svg'
               alt=''
-              className='inline-block h-16'
+              className='inline-block h-16 w-auto'
             />
             <p className='text-xl font-semibold'>Book Ratings</p>
             <p className='text-sm text-[#636262]'>
@@ -80,7 +80,7 @@ export default function Features() {
               height={100}
               src='https://www.svgrepo.com/show/260235/rating-rate.svg'
               alt=''
-              className='inline-block h-16'
+              className='inline-block h-16 w-auto'
             />
             <p className='text-xl font-semibold'>Writing Reviews</p>
             <p className='text-sm text-[#636262]'>
@@ -95,7 +95,7 @@ export default function Features() {
               height={100}
               src='https://www.svgrepo.com/show/532551/search-alt-1.svg'
               alt=''
-              className='inline-block h-16'
+              className='inline-block h-16 w-auto'
             />
             <p className='text-xl font-semibold'>Book Search and Discovery</p>
             <p className='text-sm text-[#636262]'>

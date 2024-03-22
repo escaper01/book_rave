@@ -23,6 +23,9 @@ class Person(models.Model):
     def __str__(self):
         return self.user.username
 
+    def get_username(self):
+        return self.user.username
+
     def avatar_url(self):
         if self.avatar:
             return mark_safe(f"<img src='{self.avatar.url}' width='100' height='100' />")

@@ -6,79 +6,146 @@ import {
   SaveSvg,
   ShareSvg,
 } from '@/utils/constants/svg_library';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ReviewFormType } from '@/utils/types/ReviewTypes';
+import useSWRMutation from 'swr/mutation';
+import { BASE_URL } from '@/utils/constants/config';
+import { putAuth } from '@/utils/constants/api';
+import { useAuthStore } from '@/utils/store/store_auth';
+import toast, { Toaster } from 'react-hot-toast';
 
-export default function ReviewPost() {
-  const [isButtonClicked, setButtonClicked] = useState(false);
+export default function ReviewPost({ data }: { data: ReviewFormType }) {
+  const user = useAuthStore((state) => state.user);
+  const router = useRouter();
+  const [likesCount, setLikesCount] = useState(data.likes_count);
+  const [disLikesCount, setDisLikesCount] = useState(data.dislikes_count);
+
+  let shouldBeRedirected = true;
+
+  const { trigger: startLikingReview } = useSWRMutation(
+    `${BASE_URL}/vote/review/${data.id}/like`,
+    putAuth,
+    {
+      onSuccess: (data) => {
+        console.log(
+          'likes ',
+          data.post_likes_count,
+          'dislikes ',
+          data.post_dislikes_count
+        );
+        setLikesCount(data.post_likes_count);
+        setDisLikesCount(data.post_dislikes_count);
+      },
+    }
+  );
+  const { trigger: startDisLikingReview } = useSWRMutation(
+    `${BASE_URL}/vote/review/${data.id}/dislike`,
+    putAuth,
+    {
+      onSuccess: (data) => {
+        console.log(
+          'likes ',
+          data.post_likes_count,
+          'dislikes ',
+          data.post_dislikes_count
+        );
+        setLikesCount(data.post_likes_count);
+        setDisLikesCount(data.post_dislikes_count);
+      },
+    }
+  );
 
   const GoToReview = () => {
-    if (!isButtonClicked) {
+    if (shouldBeRedirected) {
       console.log('going to the review');
+      router.push(`/review/${data.id}`);
     }
-    setButtonClicked(false);
+    shouldBeRedirected = false;
   };
 
   const UpVote = () => {
+    if (user.username) {
+      startLikingReview();
+    } else {
+      toast.error('you need to login first', { id: 'toaster2' });
+    }
+
+    shouldBeRedirected = false;
     console.log('up vote');
-    setButtonClicked(true);
   };
 
   const DownVote = () => {
+    if (user.username) {
+      startDisLikingReview();
+    } else {
+      toast.error('you need to login first', { id: 'toaster1' });
+    }
+
+    shouldBeRedirected = false;
     console.log('down vote');
-    setButtonClicked(true);
   };
-  const Comment = () => {
-    console.log('comment');
-    setButtonClicked(true);
-  };
+
   const SharePost = () => {
+    shouldBeRedirected = false;
+
+    const message = `checkout this post review ${window.location.host}/review/${data.id}`;
+    router.push(
+      `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`
+    );
     console.log('share post');
-    setButtonClicked(true);
   };
-  const SavePost = () => {
-    console.log('save post');
-    setButtonClicked(true);
-  };
+  // const SavePost = () => {
+  //   console.log('save post');
+  //   shouldBeRedirected = false;
+  //   console.log(shouldBeRedirected);
+  // };
 
   return (
     <div
       onClick={() => GoToReview()}
       className='my-5 flex flex-col border-1 border-gray-300 bg-white p-5 text-sm hover:cursor-pointer hover:bg-gray-100'
     >
+      <Toaster />
       <div className='flex flex-row items-start pb-4'>
         <div>
-          <Image
-            alt='bk image'
-            src={
-              'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/romance-love-book-cover-design-template-1a3c7d9d576e8d5e0c79918ac44b2874.webp?ts=1698540908'
-            }
-            height={300}
-            width={600}
-          />
+          {data.media && (
+            <Image
+              className='max-w-[200px]'
+              alt='bk image'
+              src={data.media as string}
+              height={800}
+              width={800}
+            />
+          )}
         </div>
         <div className='pl-5 align-text-top'>
-          <div className=' text-lg font-bold '>
-            Tips for being able to read for longer?
+          <div className='mb-2 text-3xl font-light leading-10'>
+            {data.title}
           </div>
-          <div className='text-sm font-medium'>
-            All sorcerers are evil. Elisabeth has known that as long as she has
-            known anything. Raised as a foundling in one of Austermeer’s Great
-            Libraries, Elisabeth has grown up among the tools of sorcery—magical
-            grimoires that whisper on shelves and rattle beneath iron chains. If
-            provoked, they transform into grotesque monsters of ink and leather.
-            She hopes to become a warden, charged with protecting ....
+          <div className='text-base font-medium'>
+            {`${data.content.slice(0, 500)}...`}
           </div>
         </div>
       </div>
       <div className='flex flex-row justify-evenly'>
-        <div className='flex w-20 items-center justify-evenly rounded-full bg-blue-500 px-2.5 py-1'>
+        <div className='flex min-w-20 items-center justify-evenly rounded-full bg-blue-500 px-2.5 py-1'>
           <ArrowSvg
             fill='white'
             className='rotate-0 cursor-pointer hover:scale-120'
             isClicked={true}
             onClick={() => UpVote()}
           />
-          <span className='mx-0.5 font-medium'>23</span>
+
+          {likesCount && (
+            <span className='mx-0.5 text-nowrap font-normal'>{likesCount}</span>
+          )}
+          {' - '}
+          {disLikesCount && (
+            <span className='mx-0.5 text-nowrap font-medium'>
+              {disLikesCount}
+            </span>
+          )}
+
           <ArrowSvg
             fill='none'
             className='rotate-180 cursor-pointer hover:scale-120'
@@ -88,25 +155,25 @@ export default function ReviewPost() {
         </div>
 
         <div
-          onClick={() => console.log('comment')}
-          className='flex w-20 cursor-pointer items-center justify-evenly rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103'
+          // onClick={() => console.log('comment')}
+          className='flex min-w-20 cursor-pointer items-center justify-evenly rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103'
         >
           <CommentSvg className=' ' />
-          <span className='font-medium'>14</span>
+          <span className='font-medium'>{data.comments_count}</span>
         </div>
 
         <div
           onClick={() => SharePost()}
-          className='flex w-20 items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103 '
+          className='flex min-w-20 items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103 '
         >
           <ShareSvg className='cursor-pointer ' />
         </div>
-        <div
+        {/* <div
           onClick={() => SavePost()}
-          className='z-50 flex w-20 cursor-pointer items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103 '
+          className='z-50 flex min-w-20 cursor-pointer items-center justify-center rounded-2xl bg-blue-500 px-2.5 py-1 hover:scale-103 '
         >
           <SaveSvg className='' />
-        </div>
+        </div> */}
       </div>
     </div>
   );

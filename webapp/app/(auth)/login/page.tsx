@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import LOGO from '../../../public/assets/logo.png'
+import LOGO from '../../../public/assets/logo.png';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,8 +14,7 @@ import { loginSchema } from '@/utils/schemes/auth_schema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Cookies from 'js-cookie';
-import { redirect, useRouter } from 'next/navigation';
-import { create } from 'zustand';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const router = useRouter();
@@ -30,6 +29,7 @@ export default function Login() {
         }
       },
       onSuccess(data) {
+        localStorage.removeItem('msg');
         Cookies.set('jwtToken', data.access, {
           secure: true,
           sameSite: 'strict',
@@ -42,9 +42,10 @@ export default function Login() {
       },
     }
   );
+
   useEffect(() => {
     if (localStorage.getItem('msg')) {
-      toast.success(localStorage.getItem('msg'), { duration: 6000 });
+      toast.error(localStorage.getItem('msg'), { duration: 6000 });
       localStorage.removeItem('msg');
     }
   }, []);
@@ -58,7 +59,6 @@ export default function Login() {
   });
 
   const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
-    console.log(data, 'was submitted');
     startLogging(data);
   };
 
@@ -67,7 +67,9 @@ export default function Login() {
       <Toaster />
       <div className='flex w-full max-w-sm flex-col '>
         <Image
-          src={'https://i.pinimg.com/736x/62/16/3e/62163e30a94bbda09438da284830f1da.jpg'}
+          src={
+            'https://i.pinimg.com/736x/62/16/3e/62163e30a94bbda09438da284830f1da.jpg'
+          }
           alt='book rave logo'
           width={300}
           height={100}
