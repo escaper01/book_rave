@@ -166,7 +166,7 @@ export default function PostReview({
                   {errors.media && (
                     <p className='mt-1 text-xs italic text-red-500'>
                       {' '}
-                      {errors.media?.message}
+                      {errors.media?.message as string}
                     </p>
                   )}
                 </div>
