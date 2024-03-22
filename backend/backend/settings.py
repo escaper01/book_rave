@@ -174,10 +174,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://book-rave-git-reviews-escapers-projects.vercel.app'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+#     'https://book-rave-git-reviews-escapers-projects.vercel.app'
+# ]
 
 # CORS_ORIGIN_WHITELIST = [
 #     'http://127.0.0.1:3000',
