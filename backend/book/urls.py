@@ -9,5 +9,6 @@ urlpatterns = [
     path('update-book/<int:book_id>', views.update_book),
     path('delete-book/<int:book_id>', views.delete_book),
     path('search', views.search),
-    path('bundled_books/<str:category>', views.get_books_bundle)
+    path('bundled_books/<str:category>', views.get_books_bundle),
+    path('get-book-statistics/<int:book_id>', views.get_book_statistics)
 ]

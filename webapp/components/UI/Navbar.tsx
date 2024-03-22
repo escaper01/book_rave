@@ -10,11 +10,11 @@ import { getDataAuth, postData, postDataAuth } from '@/utils/constants/api';
 import { useAuthStore } from '@/utils/store/store_auth';
 import { LogoutSvg } from '@/utils/constants/svg_library';
 import useSWRMutation from 'swr/mutation';
-import { useRouter, useParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Search from '@/components/UI/Search';
 
 export default function Navbar() {
   const router = useRouter();
-  const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [refreshToken, setRefreshToken] = useState<string | undefined>();
 
@@ -81,12 +81,13 @@ export default function Navbar() {
         <div className='flex w-full flex-row items-center justify-end lg:justify-normal'>
           <div className='hidden w-full sm:inline-flex'>
             <input
-              className=' ml-0 w-full p-2 md:ml-40'
+              className='ml-0 w-full p-2 md:ml-40'
               placeholder='Search books'
               type='search'
               name='query-books'
             />
           </div>
+          {/* <Search /> */}
           <div className='flex flex-row items-center font-medium'>
             {!accessToken && (
               <div>

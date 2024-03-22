@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { newReviewSchema } from '@/utils/schemes/review_schema';
+import { ReviewSchema } from '@/utils/schemes/review_schema';
 
 export type ReviewFormType = {
   id?: number;
@@ -9,17 +9,15 @@ export type ReviewFormType = {
   content: string;
   rating: number;
   book_cover: string;
-  posted_by: string;
-  global_rating: number;
-  one_star_ratings: number;
-  two_star_ratings: number;
-  three_star_ratings: number;
-  four_star_ratings: number;
-  five_star_ratings: number;
+  added_by: string;
   created_at: string;
   owner_profile_pic: string;
+
+  comments_count: number;
+  likes_count: number;
+  dislikes_count: number;
 };
-export type ReviewSchemaType = z.infer<typeof newReviewSchema>;
+export type ReviewSchemaType = z.infer<typeof ReviewSchema>;
 
 export type ReviewsResponseType = {
   count: number;

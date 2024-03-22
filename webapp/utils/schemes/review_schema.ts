@@ -8,12 +8,12 @@ const ACCEPTED_IMAGE_TYPES = [
   'image/webp',
 ];
 
-export const newReviewSchema = z.object({
+export const ReviewSchema = z.object({
   title: z
     .string()
     .min(15, 'title should be more than 15 charaacters')
     .max(150, 'the title should be less than 150 characters'),
-  book: z.number().positive(),
+  book: z.number().positive().optional(),
   media: z
     .custom<FileList>()
     .refine((files) => files?.length == 1, 'Image is required.')
@@ -32,5 +32,6 @@ export const newReviewSchema = z.object({
   rating: z
     .number()
     .gte(0, 'rating should be bigger than 0')
-    .lte(5, 'rating should be less than 5'),
+    .lte(5, 'rating should be less than 5')
+    .optional(),
 });

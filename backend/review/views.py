@@ -1,7 +1,7 @@
 from .models import Review
 from user.models import Person
 from book.models import Book
-from .serializers import ReviewSerializer
+from .serializers import ReviewSerializer, MinimalisticReviewSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
@@ -40,7 +40,7 @@ def all_reviews(request):
     try:
         reviews = Review.objects.all().order_by('-created_at')
         context = paginator.paginate_queryset(reviews, request)
-        serializer = ReviewSerializer(context, many=True, context={"request": request})
+        serializer = MinimalisticReviewSerializer(context, many=True, context={"request": request})
         return paginator.get_paginated_response(serializer.data)
     except Book.DoesNotExist:
         return Response({'error': 'no such Book'}, status=status.HTTP_404_NOT_FOUND)

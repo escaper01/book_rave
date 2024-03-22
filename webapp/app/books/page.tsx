@@ -4,21 +4,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import StaticRatingStars from '@/components/book/StaticRatingStars';
 import useSWR from 'swr';
-// import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { BASE_URL } from '@/utils/constants/config';
-import { BookFormType, ReviewsResponseType } from '@/utils/types/BookTypes';
+import { BookFormType } from '@/utils/types/BookTypes';
 import { getData } from '@/utils/constants/api';
+import { BookResponseType } from '@/utils/types/BookTypes';
+import Paginator from '@/components/UI/Paginator';
 
 export default function Trending() {
   const [currentUrl, setCurrentUrl] = useState(`${BASE_URL}/book/all-books`);
+  const [bookCount, setBookCount] = useState(0);
 
   const [postedBooks, setPostedBooks] = useState<BookFormType[] | []>([]);
   const { data: reviewPostsRes, isLoading } = useSWR(currentUrl, getData, {
-    onSuccess: (data: ReviewsResponseType) => {
+    onSuccess: (data: BookResponseType) => {
       setPostedBooks(data.results);
+      setBookCount(data.count);
     },
   });
+
 
   if (isLoading) {
     return <div>loading books</div>;
@@ -26,9 +30,9 @@ export default function Trending() {
 
   return (
     <div className='grow'>
+     
       <div className='container mx-auto grid max-w-screen-lg justify-center gap-y-4  p-5 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6'>
         {!isLoading && postedBooks.length === 0 && <div>no books</div>}
-
         {postedBooks.map((elem, index) => {
           return (
             <div
@@ -58,31 +62,7 @@ export default function Trending() {
       </div>
       <div>
         {reviewPostsRes && (
-          <nav className=''>
-            <ul className='flex justify-center'>
-              {reviewPostsRes.previous && (
-                <li>
-                  <button
-                    onClick={() => setCurrentUrl(reviewPostsRes.previous)}
-                    className='ml-0 rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
-                  >
-                    Previous
-                  </button>
-                </li>
-              )}
-
-              {reviewPostsRes.next && (
-                <li>
-                  <button
-                    onClick={() => setCurrentUrl(reviewPostsRes.next)}
-                    className='rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
-                  >
-                    Next
-                  </button>
-                </li>
-              )}
-            </ul>
-          </nav>
+          <Paginator objectRes={reviewPostsRes} setCurrentUrl={setCurrentUrl} totalNumber={bookCount} />
         )}
       </div>
     </div>

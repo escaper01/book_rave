@@ -2,13 +2,12 @@
 
 import Flicking from '@egjs/react-flicking';
 import '@egjs/react-flicking/dist/flicking.css';
-import { BASE_URL, listOfImgUrl } from '@/utils/constants/config';
+import { BASE_URL } from '@/utils/constants/config';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getData, postData } from '@/utils/constants/api';
-import { useEffect, useState } from 'react';
-import useSWRMutation from 'swr/mutation';
-import { BookCategory, BookFormType } from '@/utils/types/BookTypes';
+import { useState } from 'react';
+import { BookFormType } from '@/utils/types/BookTypes';
 import useSWRImmutable from 'swr/immutable';
 
 export default function BookSlider({ query }: { query: string }) {

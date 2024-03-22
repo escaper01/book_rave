@@ -19,7 +19,7 @@ def all_comments(request, review_id):
         comments = Comment.objects.filter(review_id=review_id).order_by('-created_at')
 
         paginator = PageNumberPagination()
-        paginator.page_size = 5
+        paginator.page_size = 1
         context = paginator.paginate_queryset(comments, request)
 
         serializer = CommentSerializer(context, many=True, context={'request': request})

@@ -12,7 +12,7 @@ export type BookFormType = {
   global_rating: number;
 };
 
-export type ReviewsResponseType = {
+export type BookResponseType = {
   count: number;
   next: string | null;
   previous: string | null;
@@ -33,4 +33,14 @@ export type BookCategory = {
     | 'Political'
     | 'Experimental Literature'
     | 'Technical/Instructional';
+};
+
+export type BookStatsType = {
+  global_rating: number;
+  review_total: number;
+  five_star_ratings: number;
+  four_star_ratings: number;
+  three_star_ratings: number;
+  two_star_ratings: number;
+  one_star_ratings: number;
 };

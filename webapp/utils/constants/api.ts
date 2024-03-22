@@ -105,3 +105,59 @@ export const patchFormAuth = async (
       throw err.response.data;
     });
 };
+
+export const postFormAuth = async (
+  url: string,
+  {
+    arg,
+  }: {
+    arg: ReviewSchemaType | ProfileSchemaType;
+  }
+) => {
+  return await axios
+    .post(url, arg, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${Cookies.get('jwtToken')}`,
+      },
+    })
+    .then((res: AxiosResponse) => {
+      return { ...res.data, status: res.status };
+    })
+    .catch((err) => {
+      console.log(err, 'errrrrrrrrr post form');
+      throw err.response.data;
+    });
+};
+
+export const patchDataAuth = async (url: string) => {
+  return await axios
+    .patch(url, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('jwtToken')}`,
+      },
+    })
+    .then((res: AxiosResponse) => {
+      return { ...res.data, status: res.status };
+    })
+    .catch((err) => {
+      console.log(err, 'err post auth data');
+      throw err.response.data;
+    });
+};
+
+export const putAuth = async (url: string) => {
+  return await axios
+    .put(url, null, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('jwtToken')}`,
+      },
+    })
+    .then((res: AxiosResponse) => {
+      return { ...res.data, status: res.status };
+    })
+    .catch((err) => {
+      console.log(err, 'err post auth data');
+      throw err.response.data;
+    });
+};

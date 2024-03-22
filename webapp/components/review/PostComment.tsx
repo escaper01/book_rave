@@ -15,8 +15,8 @@ export default function PostComment({
 }: {
   review_id: number;
   relatedCommentsState: [
-    CommentFormType[],
-    Dispatch<SetStateAction<[] | CommentFormType[]>>,
+    [] | CommentFormType[] | undefined,
+    Dispatch<SetStateAction<[] | CommentFormType[] | undefined>>,
   ];
 }) {
   const [relatedComments, setRelatedComments] = relatedCommentsState;
@@ -32,7 +32,7 @@ export default function PostComment({
       },
       onSuccess(data) {
         resetField('content');
-        setRelatedComments([data, ...relatedComments]);
+        setRelatedComments([data, ...(relatedComments as CommentFormType[])]);
         toast.success('your comment was posted successfully');
       },
     }
@@ -55,7 +55,7 @@ export default function PostComment({
     <div className='h-fit border-t-1 border-my-gray-dark py-5'>
       <div className=''>
         <Toaster />
-        <div className='text-xl font-medium'>Post ReviewToaster</div>
+        <div className='text-xl font-medium'>Comment Section</div>
         <form onSubmit={handleSubmit(onSubmit)} className='mx-auto max-w-sm'>
           <div className='flex flex-col'>
             <h2>Description: </h2>
@@ -76,7 +76,7 @@ export default function PostComment({
             type='submit'
             className='rounded-full bg-black px-6 py-2 text-white'
           >
-            post my review
+            post my Comment
           </button>
         </form>
       </div>

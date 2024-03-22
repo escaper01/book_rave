@@ -6,6 +6,6 @@ export type CommentFormType = {
   content: string;
   created_at?: string;
   owner_profile_pic?: string;
-  posted_by?: string;
+  added_by?: string;
 };
 export type CommentSchemaType = z.infer<typeof commentScheme>;

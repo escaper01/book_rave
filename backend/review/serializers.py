@@ -4,53 +4,52 @@ from book.models import Book
 from django.db.models import Avg
 from user.models import Person
 from django.utils import timezone
+from comment.models import Comment
+from vote.models import Vote
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     book_cover = serializers.ImageField(source='book.cover', read_only=True)
-    posted_by = serializers.CharField(source='owner.username', read_only=True)
-    one_star_ratings = serializers.SerializerMethodField(read_only=True)
-    two_star_ratings = serializers.SerializerMethodField(read_only=True)
-    three_star_ratings = serializers.SerializerMethodField(read_only=True)
-    four_star_ratings = serializers.SerializerMethodField(read_only=True)
-    five_star_ratings = serializers.SerializerMethodField(read_only=True)
-
-    global_rating = serializers.SerializerMethodField(read_only=True)
+    added_by = serializers.CharField(source='owner.username', read_only=True)
+    owner_profile_pic = serializers.SerializerMethodField(read_only=True)
 
     created_at = serializers.DateTimeField(default=timezone.now, format="%A, %B %d, %Y %I:%M %p")
 
     class Meta:
         model = Review
         fields = [
-            'id', 'posted_by','title', 'created_at',
-            'content','rating', 'book', 'global_rating',
-            'media', 'book_cover', 'one_star_ratings',
-            'two_star_ratings', 'three_star_ratings',
-            'four_star_ratings', 'five_star_ratings',
+            'id', 'added_by', 'title', 'created_at','media',
+            'content', 'rating', 'book', 'book_cover', 'owner_profile_pic'
         ]
 
-
-    def get_global_rating(self, obj):
-        all_related_reviews = Review.objects.filter(book=obj.book)
-
-        if all_related_reviews.exists():
-            all_ratings_avg = all_related_reviews.aggregate(Avg('rating'))['rating__avg']
-            return all_ratings_avg
-        return 0
-
-    def get_one_star_ratings(self, obj):
-        return obj.book.review_set.filter(rating=1).count()
-
-    def get_two_star_ratings(self, obj):
-        return obj.book.review_set.filter(rating=2).count()
-
-    def get_three_star_ratings(self, obj):
-        return obj.book.review_set.filter(rating=3).count()
-
-    def get_four_star_ratings(self, obj):
-        return obj.book.review_set.filter(rating=4).count()
-
-    def get_five_star_ratings(self, obj):
-        return obj.book.review_set.filter(rating=5).count()
+    def get_owner_profile_pic(self, obj):
+        person_review = Person.objects.get(user=obj.owner)
+        if person_review.avatar:
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(person_review.avatar.url)
+        return None
 
 
+class MinimalisticReviewSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(default=timezone.now, format="%A, %B %d, %Y %I:%M %p")
+    comments_count = serializers.SerializerMethodField(read_only=True)
+    likes_count = serializers.SerializerMethodField(read_only=True)
+    dislikes_count = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = [
+            'id', 'title', 'created_at','media',
+            'content', 'comments_count', 'likes_count',
+            'dislikes_count'
+        ]
+
+    def get_comments_count(self, obj):
+        return Comment.objects.filter(review_id=obj.id).count()
+
+    def get_likes_count(self, obj):
+        return Vote.objects.filter(object_id=obj.id, vote_type='UP').count()
+
+    def get_dislikes_count(self, obj):
+        return Vote.objects.filter(object_id=obj.id, vote_type='DOWN').count()

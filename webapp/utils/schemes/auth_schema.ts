@@ -1,16 +1,11 @@
-import { ZodType, z } from 'zod';
-import { SubmitErrorHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
 
 export const registrationSchema = z.object({
   username: z
     .string()
     .min(5, 'username is required')
     .max(50),
-    // .regex(
-    //   /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/,
-    //   "that's not a valid username"
-    // ),
   email: z.string().email('invalid email').min(1, 'email is required'),
   password: z
     .string()

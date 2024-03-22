@@ -1,14 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import RatingStars from '@/components/book/StaticRatingStars';
 import BookRatingStatus from '@/components/book/BookRatingStatus';
-import BookDetails from '@/components/book/BookDetails';
-import ReviewsList from '@/components/review/CommentsList';
+import ReviewDetails from '@/components/book/ReviewDetails';
 import PostComment from '@/components/review/PostComment';
 import useSWRImmutable from 'swr/immutable';
 import { BASE_URL } from '@/utils/constants/config';
-import { getDataAuth, getData } from '@/utils/constants/api';
+import { getData } from '@/utils/constants/api';
 import { useState } from 'react';
 import { ReviewFormType } from '@/utils/types/ReviewTypes';
 import { useAuthStore } from '@/utils/store/store_auth';
@@ -20,16 +18,13 @@ export default function Review({ params }: { params: { review_id: number } }) {
     CommentFormType[] | []
   >();
 
-  const [reviewDetails, setReviewDetails] = useState<
-    ReviewFormType | undefined
-  >();
+  const [reviewDetails, setReviewDetails] = useState<ReviewFormType>();
 
   const { isLoading: isReviewsLoading } = useSWRImmutable(
     `${BASE_URL}/review/get-review/${params.review_id}`,
     getData,
     {
       onSuccess: (data) => {
-        console.log(data, 'related review details');
         setReviewDetails(data);
       },
     }
@@ -54,17 +49,19 @@ export default function Review({ params }: { params: { review_id: number } }) {
             )}
           </div>
           <div className='col-span-3'>
-            <BookDetails info={reviewDetails as ReviewFormType} />
-            {/*{user.username && (*/}
-            {/*  <PostComment*/}
-            {/*    review_id={reviewDetails.id as number}*/}
-            {/*    relatedCommentsState={[relatedComments, setRelatedComments]}*/}
-            {/*  />*/}
-            {/*)}*/}
-            {/*<BookRatingStatus*/}
-            {/*  info={reviewDetails as ReviewFormType}*/}
-            {/*  relatedCommentsState={[relatedComments, setRelatedComments]}*/}
-            {/*/>*/}
+            <ReviewDetails info={reviewDetails as ReviewFormType} />
+            {user.username && (
+              <PostComment
+                review_id={reviewDetails.id as number}
+                relatedCommentsState={[relatedComments, setRelatedComments]}
+              />
+            )}
+            <BookRatingStatus
+              url={`${BASE_URL}/comment/all-comments/${reviewDetails.id}`}
+              page={'review'}
+              info={reviewDetails as ReviewFormType}
+              relatedCommentsState={[relatedComments, setRelatedComments]}
+            />
           </div>
         </div>
       )}

@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Book
-from .serializers import BookSerializer, BookSerializerMin, MinimalisticBookSerializer
+from .serializers import BookSerializer, MinimalisticBookSerializer, StatisticsBookSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
@@ -15,9 +15,9 @@ def all_books(request):
     paginator.page_size = 18
     books = Book.objects.all().order_by('-created_at')
     context = paginator.paginate_queryset(books, request)
-    serializer = BookSerializerMin(context, many=True, context={'request': request})
+    serializer = MinimalisticBookSerializer(context, many=True, context={'request': request})
     return paginator.get_paginated_response(serializer.data)
-    
+
 
 @api_view(['GET'])
 def get_book(request, book_id):
@@ -81,8 +81,12 @@ def search(request):
         books = Book.objects.filter(name__contains=query)
     except Book.DoesNotExist:
         return Response([], status=status.HTTP_200_OK)
-    serialize = BookSerializer(books, many=True, context={'request': request})
-    return Response(serialize.data, status=status.HTTP_200_OK)
+    paginator = PageNumberPagination()
+    paginator.page_size = 18
+    context = paginator.paginate_queryset(books, request)
+    serializer = MinimalisticBookSerializer(context, many=True, context={'request': request})
+    return paginator.get_paginated_response(serializer.data)
+    # return Response(serialize.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -94,3 +98,13 @@ def get_books_bundle(request, category):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response([], status=status.HTTP_200_OK)
 
+
+
+@api_view(['GET'])
+def get_book_statistics(request, book_id):
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return Response({"message": "book does't exists"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = StatisticsBookSerializer(book, many=False, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
