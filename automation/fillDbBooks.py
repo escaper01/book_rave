@@ -60,6 +60,8 @@ with open("books.json", "r") as json_file:
         bundle_len = len(bundle_of_Books)
         for i, book in enumerate(bundle_of_Books):
             print(i, ' ____ ', bundle_len)
+            if i == 10:
+                break
             try:
                 add_book(payload=book, category=category,
                          token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMjA1NzkyLCJpYXQiOjE3MTExNDU4NTIsImp0aSI6IjU4MWE1Njg1MTcwODQzYWJiZTdiYjkwNTIwZDczNzg3IiwidXNlcl9pZCI6MX0.Q5TlihRs2ufbIxyVApRcMR_dXlwgvkCWqkxOGqMzMsI")
