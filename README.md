@@ -9,7 +9,7 @@ Welcome to BookRave! This project aims to allows readers to build a community in
 To install Project Name, follow these steps:
 
 1. git clone https://github.com/escaper01/book_rave.git
-2. inside book_rave folder run python3 manage makemigraitons && python3 manage migraitons
+2. inside book_rave folder run python3 manage.py makemigrations && python3 manage.py migrate
 3. run this sudo chmod +x runner.sh
 4. Open localhost:3000
 
