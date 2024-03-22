@@ -62,7 +62,7 @@ export default function PostReview({
       //       console.log(data, 'submited data');
       startPstingNewReview({
         ...data,
-        media: data.media.item(0) as File,
+        media: data.media.item(0),
         rating: reviewRating,
         book: book_id,
       });
