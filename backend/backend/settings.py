@@ -2,6 +2,8 @@ from pathlib import Path
 from datetime import timedelta
 import environ
 import os
+# Import dj-database-url at the beginning of the file.
+import dj_database_url
 
 # Initialise environment variables
 env = environ.Env()
@@ -85,14 +87,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 if env('PRODUCTION') == 'yes':
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': env('NAME'),
-            'USER': env('DBUSER'),
-            'PASSWORD': env('PASSWORD'),
-            'HOST': env('HOST'),
-            'PORT': env('PORT'),
-        }
+        'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgres://younes_dev:qGgu4b0Po35BfCy9dk6AoVKtGIQx5XAz@dpg-cnv27qf79t8c73d4s630-a.frankfurt-postgres.render.com/my_db_7ns2',
+        conn_max_age=600
+    )
     }
 else:
     DATABASES = {
@@ -169,8 +168,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if not DEBUG:/
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',
