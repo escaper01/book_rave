@@ -66,6 +66,6 @@ with open("books.json", "r") as json_file:
                 break
             try:
                 add_book(payload=book, category=category,
-                         token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMjU3MTMxLCJpYXQiOjE3MTExOTcxOTEsImp0aSI6IjFhN2VlZDEyODIwYTQzZThhMGZmMjFkN2E5MTVkMjFlIiwidXNlcl9pZCI6MX0.maZ_8QVg-xNUDo3TnzhgO4hK14EzTcAZyojOkzUNQRY")
+                         token="")
             except Exception as e:
                 print(e, " went wrong")
