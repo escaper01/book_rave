@@ -17,7 +17,7 @@ class Book(models.Model):
         ('Tragedy', 'Tragedy'),
         ('Political', 'Political'),
         ('Experimental Literature', 'Experimental Literature'),
-        ('Technical/Instructional', 'Technical/Instructional'),
+        ('Technical Instructional', 'Technical/Instructional'),
     )
     name = models.CharField(max_length=300, null=False, unique=True, blank=False)
     description = models.TextField(blank=False, null=False)
@@ -29,8 +29,9 @@ class Book(models.Model):
     added_by = models.ForeignKey(Person, on_delete=models.CASCADE, default=None)
     cover = models.ImageField(upload_to="uploads/books/%Y/%m/%d/", null=False, blank=False)
 
+
     def __str__(self):
         return self.name
-    
+
     def get_book_name(self):
         return self.name

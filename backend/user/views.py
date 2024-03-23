@@ -20,6 +20,7 @@ def get_profile_info(request):
 
     profile_pic = request.build_absolute_uri(serializer.data['avatar']) if serializer.data['avatar'] else None
     response_data = {
+        'username': current_person.user.username,
         'first_name': request.user.first_name,
         'last_name': request.user.last_name,
         'avatar': profile_pic,
@@ -58,3 +59,11 @@ def update_profile_info(request):
             return Response(res_data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def is_authenticated(request):
+    if request.user.is_authenticated:
+        return Response({'message': 'user is authenticated'}, status=status.HTTP_200_OK)
+    return Response({message: 'user is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)

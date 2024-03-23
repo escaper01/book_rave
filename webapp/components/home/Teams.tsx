@@ -19,7 +19,7 @@ export default function Teams() {
             <Image
               height={300}
               width={300}
-              src='https://s3.amazonaws.com/alx-intranet.hbtn.io/users/photos/000/421/876/thumb/profile-pic.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20240314%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240314T225811Z&X-Amz-Expires=600&X-Amz-SignedHeaders=host&X-Amz-Signature=7b82a0a7a273b939c294ee7b280a3209e9fb9416625ad769ee33e89ee2c8ed39'
+              src='https://aup.imgix.net/user_images/58991/private-lessons-python-basics-practice-real-based-project-work-framework-1688262182.jpg?ch=Width,DPR&fit=max&crop=faces&auto=format,compress&w=928&h=772&dpr=1&frame=1'
               alt=''
               className='mb-4 inline-block h-40 w-40 rounded-full'
             />

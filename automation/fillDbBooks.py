@@ -18,7 +18,7 @@ and comment this block
 
 
 def add_book(payload,category, token):
-	url = "http://localhost:8000/api/v1/book/add-book/"
+	url = "http://localhost:8000/api/v1/book/add-book"
 
 	list_of_authors = payload['author']
 
@@ -42,18 +42,18 @@ def add_book(payload,category, token):
 
 
 LIST_OF_CATEGORIES = [
-	'Mystery',
-       'Romance', 
-       'Science Fiction', 
-       'Fantasy', 
-       'Self-help', 
-       'Biography', 
-       'Horror', 
-       'Thriller',
-       'Tragedy',
-       'Political', 
-       'Experimental Literature', 
-       'Technical/Instructional']
+	# 'Mystery',
+    #    'Romance',
+    #    'Science Fiction',
+    #    'Fantasy',
+    #    'Self-help',
+    #    'Biography',
+    #    'Horror',
+    #    'Thriller',
+    #    'Tragedy',
+    #    'Political',
+    #    'Experimental Literature',
+       'Technical Instructional',]
 
 
 with open("books.json", "r") as json_file:
@@ -64,6 +64,6 @@ with open("books.json", "r") as json_file:
 		for i, book in enumerate(bundle_of_Books):
 			print(i,' ____ ', bundle_len)
 			try:
-				add_book(payload=book,category=category, token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNTEwMDUyLCJpYXQiOjE3MTA0NTAxMTIsImp0aSI6IjJlNjA1ZTMzNWQzMjQyMDM5NGNlYjkzZTRjNmY3MzRkIiwidXNlcl9pZCI6Mn0.u-MfwgC7irrqIfvqk9cYn2JeXKKf90KDJEBg922U15E")
+				add_book(payload=book,category=category, token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODU3OTYyLCJpYXQiOjE3MTA3OTgwMjIsImp0aSI6IjI0Nzc4YTNlOTA2YzRkODRhZWQyYjc2NDM4NmVhODg0IiwidXNlcl9pZCI6Mn0.5uzwcD22FEisIfRdxhDmzwzU1txemBZb4fR1rHZTSG0")
 			except Exception as e:
 				print(e, " went wrong")
