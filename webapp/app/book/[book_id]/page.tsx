@@ -98,7 +98,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
         {isElligibleToReview && (
           <button
             onClick={() => setShowReviewBook(true)}
-            className='mb-5 rounded-full bg-black px-6 py-2 capitalize text-white'
+            className='mb-5 rounded-full bg-black px-6 py-2 text-sm capitalize text-white'
           >
             review this book
           </button>
