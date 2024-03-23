@@ -9,14 +9,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'my-yellow': {
+        'my-khaki': {
           light: '#F9F9F5',
           primary: '#F4F2E9',
+        },
+        'my-gray': {
+          light: '#dee2e6',
+          primary: '#ced4da',
+          dark: '#adb5bd',
+        },
+        'my-yellow': {
+          light: '#ffcc00',
+          primary: '#ffbf00',
+          dark: '#ff9900',
         },
       },
       scale: {
         '103': '1.03',
         '120': '1.2',
+      },
+      borderWidth: {
+        '1': '0.7px',
+      },
+      fontFamily: {
+        Roboto: ['Roboto', 'serif'],
       },
     },
   },

@@ -3,8 +3,12 @@
 // }
 
 {
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:prettier/recommended"
-  ]
+  "extends": ["next", "prettier"]
 }
+
+// {
+//   "extends": [
+//     "next/core-web-vitals",
+//     "plugin:prettier/recommended"
+//   ]
+// }

@@ -1,4 +1,4 @@
-import cn from './func';
+import { cn } from './func';
 
 const SVG_WIDTH = 17;
 const SVG_HEIGHT = 17;
@@ -110,14 +110,23 @@ export const ShareSvg = ({ className }: { className: string }) => {
   );
 };
 
-export const SaveSvg = ({ className }: { className: string }) => {
+export const SaveSvg = ({
+  className,
+  fill,
+  onClick,
+}: {
+  className: string;
+  fill?: string;
+  onClick?: () => void;
+}) => {
   return (
     <svg
+      onClick={onClick}
       className={cn(className)}
       width={SVG_WIDTH}
       height={SVG_HEIGHT}
       viewBox='0 0 24 24'
-      fill='none'
+      fill={fill ? fill : 'none'}
       xmlns='http://www.w3.org/2000/svg'
     >
       <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
@@ -155,6 +164,93 @@ export const SaveSvg = ({ className }: { className: string }) => {
           strokeLinecap='round'
           strokeLinejoin='round'
         ></path>
+      </g>
+    </svg>
+  );
+};
+
+export const LogoutSvg = ({
+  className,
+  onClick,
+}: {
+  className: string;
+  onClick?: () => void;
+}) => {
+  return (
+    <svg
+      className={cn(className)}
+      onClick={onClick}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        {' '}
+        <path
+          d='M21 12L13 12'
+          stroke='#323232'
+          strokeWidth='2.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>{' '}
+        <path
+          d='M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9'
+          stroke='#323232'
+          strokeWidth='2.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>{' '}
+        <path
+          d='M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19'
+          stroke='#323232'
+          strokeWidth='2.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>{' '}
+      </g>
+    </svg>
+  );
+};
+
+export const RemoveSvg = ({
+  className,
+  fill,
+  onClick,
+}: {
+  className: string;
+  fill?: string;
+  onClick?: () => void;
+}) => {
+  return (
+    <svg
+      onClick={onClick}
+      className={cn(className)}
+      width={SVG_WIDTH}
+      height={SVG_HEIGHT}
+      viewBox='0 0 24 24'
+      fill={fill ? fill : 'none'}
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        {' '}
+        <path
+          fillRule='evenodd'
+          clipRule='evenodd'
+          d='M2.06935 5.25839C2 5.62595 2 6.06722 2 6.94975V14C2 17.7712 2 19.6569 3.17157 20.8284C4.34315 22 6.22876 22 10 22H14C17.7712 22 19.6569 22 20.8284 20.8284C22 19.6569 22 17.7712 22 14V11.7979C22 9.16554 22 7.84935 21.2305 6.99383C21.1598 6.91514 21.0849 6.84024 21.0062 6.76946C20.1506 6 18.8345 6 16.2021 6H15.8284C14.6747 6 14.0979 6 13.5604 5.84678C13.2651 5.7626 12.9804 5.64471 12.7121 5.49543C12.2237 5.22367 11.8158 4.81578 11 4L10.4497 3.44975C10.1763 3.17633 10.0396 3.03961 9.89594 2.92051C9.27652 2.40704 8.51665 2.09229 7.71557 2.01738C7.52976 2 7.33642 2 6.94975 2C6.06722 2 5.62595 2 5.25839 2.06935C3.64031 2.37464 2.37464 3.64031 2.06935 5.25839ZM9.25 13C9.25 12.5858 9.58579 12.25 10 12.25H14C14.4142 12.25 14.75 12.5858 14.75 13C14.75 13.4142 14.4142 13.75 14 13.75H10C9.58579 13.75 9.25 13.4142 9.25 13Z'
+          fill='#1C274C'
+        ></path>{' '}
       </g>
     </svg>
   );
