@@ -20,8 +20,11 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if env('DEBUG') == 'true' else False
+PRODUCTION = True if env('PRODUCTION') == 'true' else False
+
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_simplejwt.token_blacklist',  # this one is for the logout
     'corsheaders',
+    'storages',
 
     "comment.apps.CommentConfig",
     "favorite.apps.FavoriteConfig",
@@ -52,7 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,13 +89,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if env('PRODUCTION') == 'yes':
+if PRODUCTION:
     DATABASES = {
         'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default=env('DB_URL'),
-        conn_max_age=600
-    )
+            # Replace this value with your local database's connection string.
+            default=env('DB_URL'),
+            conn_max_age=600
+        )
     }
 else:
     DATABASES = {
@@ -164,17 +168,6 @@ DJOSER = {
 
 }
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-STATIC_URL = '/static/'
-if not DEBUG:
-    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',
 #     'https://book-rave-git-reviews-escapers-projects.vercel.app'
@@ -188,3 +181,31 @@ if not DEBUG:
 # set it to true and comment CORS_ALLOWED_ORIGINS to fill your db with fake data
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# if PRODUCTION:
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+LINODE_BUCKET = env('BUCKET_NAME')
+LINODE_BUCKET_REGION = env('BUCKET_REGION')
+LINODE_BUCKET_ACCESS_KEY = env('LINODE_BUCKET_ACCESS_KEY')
+LINODE_BUCKET_SECRET_KEY = env('LINODE_BUCKET_SECRET_KEY')
+
+AWS_S3_ENDPOINT_URL = f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
+AWS_ACCESS_KEY_ID = LINODE_BUCKET_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = LINODE_BUCKET_SECRET_KEY
+AWS_S3_REGION_NAME = LINODE_BUCKET_REGION
+AWS_S3_USE_SSL = True
+AWS_STORAGE_BUCKET_NAME = LINODE_BUCKET
+
+
+# else:
+#     STATIC_URL = '/static/'
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+

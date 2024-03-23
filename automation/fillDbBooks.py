@@ -18,7 +18,9 @@ and comment this block
 
 
 def add_book(payload, category, token):
-    url = "http://localhost:8000/api/v1/book/add-book"
+    # url = "http://localhost:8000/api/v1/book/add-book"
+    url = "https://book-rave.onrender.com/api/v1/book/add-book"
+    
 
     list_of_authors = payload['author']
 
@@ -64,6 +66,6 @@ with open("books.json", "r") as json_file:
                 break
             try:
                 add_book(payload=book, category=category,
-                         token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMjA1NzkyLCJpYXQiOjE3MTExNDU4NTIsImp0aSI6IjU4MWE1Njg1MTcwODQzYWJiZTdiYjkwNTIwZDczNzg3IiwidXNlcl9pZCI6MX0.Q5TlihRs2ufbIxyVApRcMR_dXlwgvkCWqkxOGqMzMsI")
+                         token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMjU3MTMxLCJpYXQiOjE3MTExOTcxOTEsImp0aSI6IjFhN2VlZDEyODIwYTQzZThhMGZmMjFkN2E5MTVkMjFlIiwidXNlcl9pZCI6MX0.maZ_8QVg-xNUDo3TnzhgO4hK14EzTcAZyojOkzUNQRY")
             except Exception as e:
                 print(e, " went wrong")
