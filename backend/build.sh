@@ -12,7 +12,7 @@ echo "heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
 
 # Apply any outstanding database migrations
 python manage.py makemigrations
-python manage.py migrate comment favorite vote user book review admin auth contenttypes sessions messages staticfiles
+python manage.py migrate comment favorite vote user book review
 
 
 python -m gunicorn backend.wsgi:application
