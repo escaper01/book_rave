@@ -8,15 +8,18 @@ import { BASE_URL } from '@/utils/constants/config';
 import { getDataAuth, getData } from '@/utils/constants/api';
 import { useState } from 'react';
 import { useAuthStore } from '@/utils/store/store_auth';
-import { useEffect } from 'react';
 import { BookFormType } from '@/utils/types/BookTypes';
 import { CommentFormType } from '@/utils/types/CommentType';
 import PostReview from '@/components/review/PostReview';
-import PostComment from '@/components/review/PostComment';
+import useSWRMutation from 'swr/mutation';
+import { postDataAuth } from '@/utils/constants/api';
+import toast, { Toaster } from 'react-hot-toast';
+import { SaveSvg } from '@/utils/constants/svg_library';
 
 export default function Book({ params }: { params: { book_id: number } }) {
   const [showReviewBook, setShowReviewBook] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const [isBookMarked, setIsBookMarked] = useState(false);
 
   const [isElligibleToReview, setIsElligibleToComment] = useState(
     user.username ? true : false
@@ -36,7 +39,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
     }
   );
 
-  const { isLoading } = useSWRImmutable(
+  const { isLoading: isBookIllegible } = useSWRImmutable(
     bookDetails?.id
       ? `${BASE_URL}/review/is-ellegible-to-review/${bookDetails?.id}`
       : null,
@@ -56,9 +59,43 @@ export default function Book({ params }: { params: { book_id: number } }) {
       },
     }
   );
-
+  const { isLoading: isBookAlreadyMarked } = useSWRImmutable(
+    (bookDetails as BookFormType).id
+      ? `${BASE_URL}/favorite/bookmark-checker/${(bookDetails as BookFormType).id}`
+      : null,
+    getDataAuth,
+    {
+      onSuccess: (data) => {
+        if (data.status === 200) {
+          setIsBookMarked(true);
+        } else {
+          setIsBookMarked(false);
+        }
+      },
+    }
+  );
+  const { trigger: startAddingFavBooks } = useSWRMutation(
+    (bookDetails as BookFormType).id
+      ? `${BASE_URL}/favorite/add-favorite/${(bookDetails as BookFormType).id}`
+      : null,
+    postDataAuth,
+    {
+      onSuccess: (data) => {
+        // add the returned data to fav data
+        console.log(data);
+        if (data.message) {
+          toast.error(`book removed from my FavList`);
+          setIsBookMarked(false);
+        } else {
+          toast.success(`book saved to my FavList`);
+          setIsBookMarked(true);
+        }
+      },
+    }
+  );
   return (
     <div className='mx-5 grow py-3 sm:py-6'>
+      <Toaster />
       <div className='flex justify-end'>
         {isElligibleToReview && (
           <button
@@ -68,6 +105,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
             review book
           </button>
         )}
+        Toaster
       </div>
       {bookDetails?.id && showReviewBook && (
         <PostReview
@@ -93,6 +131,22 @@ export default function Book({ params }: { params: { book_id: number } }) {
             )}
           </div>
           <div className='col-span-3'>
+            {user.username && (
+              <span>
+                {!isBookMarked && (
+                  <SaveSvg
+                    onClick={() => startAddingFavBooks()}
+                    className='h-7 w-7 hover:cursor-pointer'
+                  />
+                )}
+                {isBookMarked && (
+                  <RemoveSvg
+                    onClick={() => startAddingFavBooks()}
+                    className='h-7 w-7 hover:cursor-pointer'
+                  />
+                )}
+              </span>
+            )}
             <BookDetails info={bookDetails as BookFormType} />
             {/* {isElligibleToReview && (
               <PostComment review_id={bookDetails.id as number} />
