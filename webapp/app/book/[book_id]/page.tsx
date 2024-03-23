@@ -14,7 +14,7 @@ import PostReview from '@/components/review/PostReview';
 import useSWRMutation from 'swr/mutation';
 import { postDataAuth } from '@/utils/constants/api';
 import toast, { Toaster } from 'react-hot-toast';
-import { SaveSvg } from '@/utils/constants/svg_library';
+import { SaveSvg, RemoveSvg } from '@/utils/constants/svg_library';
 
 export default function Book({ params }: { params: { book_id: number } }) {
   const [showReviewBook, setShowReviewBook] = useState(false);
