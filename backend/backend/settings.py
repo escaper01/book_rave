@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 if not DEBUG:
     DATABASES = {
         'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default=env('DB_URL'),
-        conn_max_age=600
-    )
+            # Replace this value with your local database's connection string.
+            default=env('DB_URL'),
+            conn_max_age=600
+        )
     }
 else:
     DATABASES = {
@@ -164,12 +164,6 @@ DJOSER = {
 
 }
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-STATIC_URL = '/static/'#
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',
 #     'https://book-rave-git-reviews-escapers-projects.vercel.app'
@@ -184,7 +178,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-
 PRODUCTION = True if env('PRODUCTION') == 'true' else False
 
 if PRODUCTION:
@@ -193,9 +186,8 @@ if PRODUCTION:
 
     LINODE_BUCKET = env('BUCKET_NAME')
     LINODE_BUCKET_REGION = env('BUCKET_REGION')
-    LINODE_BUCKET_ACCESS_KEY = env('LINODE_BUCKET_ACCESS_KEY') 
-    LINODE_BUCKET_SECRET_KEY = env('LINODE_BUCKET_SECRET_KEY') 
-
+    LINODE_BUCKET_ACCESS_KEY = env('LINODE_BUCKET_ACCESS_KEY')
+    LINODE_BUCKET_SECRET_KEY = env('LINODE_BUCKET_SECRET_KEY')
 
     AWS_S3_ENDPOINT_URL = f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
     AWS_ACCESS_KEY_ID = LINODE_BUCKET_ACCESS_KEY
@@ -203,3 +195,12 @@ if PRODUCTION:
     AWS_S3_REGION_NAME = LINODE_BUCKET_REGION
     AWS_S3_USE_SSL = True
     AWS_STORAGE_BUCKET_NAME = LINODE_BUCKET
+
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
