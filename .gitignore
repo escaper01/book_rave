@@ -121,7 +121,7 @@ __pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media/
+
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -154,7 +154,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
 migrations
 
 # PyInstaller
@@ -162,9 +161,6 @@ migrations
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-*.png
-*.jpg
-*.jpeg
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

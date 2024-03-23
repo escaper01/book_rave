@@ -3,18 +3,6 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'd1csarkz8obe9u.cloudfront.net',
-      },
-      {
-        protocol: 'https',
-        hostname: 'pics.craiyon.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'img.freepik.com',
-      },
-      {
         protocol: 'http',
         hostname: 'localhost',
       },
@@ -34,10 +22,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'plus.unsplash.com',
       },
-      {
-        protocol: 'https',
-        hostname: 's3.amazonaws.com',
-      },
+
       {
         protocol: 'https',
         hostname: 'media.licdn.com',
@@ -49,6 +34,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'aup.imgix.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'book-rave.onrender.com',
       },
     ],
   },
