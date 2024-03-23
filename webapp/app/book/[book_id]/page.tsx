@@ -60,8 +60,8 @@ export default function Book({ params }: { params: { book_id: number } }) {
     }
   );
   const { isLoading: isBookAlreadyMarked } = useSWRImmutable(
-    (bookDetails as BookFormType).id
-      ? `${BASE_URL}/favorite/bookmark-checker/${(bookDetails as BookFormType).id}`
+    bookDetails
+      ? `${BASE_URL}/favorite/bookmark-checker/${bookDetails?.id}`
       : null,
     getDataAuth,
     {
@@ -75,9 +75,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
     }
   );
   const { trigger: startAddingFavBooks } = useSWRMutation(
-    (bookDetails as BookFormType).id
-      ? `${BASE_URL}/favorite/add-favorite/${(bookDetails as BookFormType).id}`
-      : null,
+    bookDetails ? `${BASE_URL}/favorite/add-favorite/${bookDetails?.id}` : null,
     postDataAuth,
     {
       onSuccess: (data) => {
@@ -102,10 +100,9 @@ export default function Book({ params }: { params: { book_id: number } }) {
             onClick={() => setShowReviewBook(true)}
             className='mb-5 rounded-full bg-black px-6 py-2 capitalize text-white'
           >
-            review book
+            review this book
           </button>
         )}
-        Toaster
       </div>
       {bookDetails?.id && showReviewBook && (
         <PostReview
@@ -132,7 +129,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
           </div>
           <div className='col-span-3'>
             {user.username && (
-              <span>
+              <div className='flex justify-end'>
                 {!isBookMarked && (
                   <SaveSvg
                     onClick={() => startAddingFavBooks()}
@@ -145,7 +142,7 @@ export default function Book({ params }: { params: { book_id: number } }) {
                     className='h-7 w-7 hover:cursor-pointer'
                   />
                 )}
-              </span>
+              </div>
             )}
             <BookDetails info={bookDetails as BookFormType} />
             {/* {isElligibleToReview && (
