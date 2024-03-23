@@ -2,15 +2,50 @@
 
 ## Introduction
 
-Welcome to BookRave! This project aims to allows readers to build a community interactively. For more details, visit our deployed site [here](<[link](https://book-rave.vercel.app/)>), check out the final project blog article [here](link), or connect with the author(s) on LinkedIn: [escaper](link), [Younes Bousfiha](<[link](https://www.linkedin.com/in/younes-bousfiha-9838361a6/)>).
+Welcome to BookRave! This project aims to allows readers to build a community interactively. For more details, visit our deployed site [here](https://book-rave.vercel.app/), check out the final project blog article [here](link), or connect with the author(s) on LinkedIn|Twitter: [escaper](https://twitter.com/escaper007), [Younes Bousfiha](https://www.linkedin.com/in/younes-bousfiha-9838361a6/).
 
 ## Installation
 
 To install Project Name, follow these steps:
 
-1. git clone https://github.com/escaper01/book_rave.git
-2. inside book_rave folder run python3 manage.py makemigrations && python3 manage.py migrate
-3. run this sudo chmod +x runner.sh
+1. clone the repo
+```bash
+git clone https://github.com/escaper01/book_rave.git
+cd book_rave
+```
+2. setup .env
+```bash
+cd backend
+touch .env
+# you'll have to generate your own virtual env
+SECRET_KEY=
+PRODUCTION=[true|false]
+ALLOWED_HOSTS=localhost,127.0.0.1
+DEBUG=[true|false]
+DB_PORT=5432
+DB_URL=postgres://[DB_USER]:[DB_PASSWORD]@[DB_HOST].[DB_HOST]/[DB_NAME] #if DEBUG is false you don't have to setup DB_URL
+#if [PRODUCTION] is false you don't have to setup S3 bucket settings
+BUCKET_NAME=
+BUCKET_URL=
+BUCKET_REGION=
+LINODE_BUCKET_ACCESS_KEY=
+LINODE_BUCKET_SECRET_KEY=
+
+```
+3. setup the backend
+```bash
+cd backend
+pip install requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+```
+
+3. setup frontend
+```bash
+mv webapp
+npm install
+npm run dev
+```
 4. Open localhost:3000
 
 ## Usage
