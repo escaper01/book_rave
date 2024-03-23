@@ -89,7 +89,7 @@ if env('PRODUCTION') == 'yes':
     DATABASES = {
         'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgres://younes_dev:qGgu4b0Po35BfCy9dk6AoVKtGIQx5XAz@dpg-cnv27qf79t8c73d4s630-a.frankfurt-postgres.render.com/my_db_7ns2',
+        default=env('DB_URL'),
         conn_max_age=600
     )
     }
