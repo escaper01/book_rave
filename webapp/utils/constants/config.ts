@@ -2,7 +2,7 @@ import { LogoutPayloadType } from '../types/AuthTypes';
 import { ProfileFormType } from '../types/ProfileType';
 
 // export const BASE_URL = 'http://localhost:8000/api/v1';
-// export const BASE_URL = 'https://localhost:8000/api/v1';
+// export const BASE_URL = 'http://localhost:8000/api/v1';
 export const BASE_URL = 'https://book-rave.onrender.com/api/v1';
 
 export const MAX_FILE_SIZE = 500000;
