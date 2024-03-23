@@ -6,13 +6,13 @@ set -o errexit
 pip install -r requirements.txt
 
 # Convert static asset files
-python manage.py collectstatic --no-input
+python3 manage.py collectstatic --no-input
 
 echo "heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
 
 # Apply any outstanding database migrations
-python manage.py makemigrations
-python manage.py migrate comment favorite vote user book review
+python3 manage.py makemigrations
+python3 manage.py migrate comment favorite vote user book review
 
 
-python -m gunicorn backend.wsgi:application
+python3 -m gunicorn backend.wsgi:application
