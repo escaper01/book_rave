@@ -33,7 +33,6 @@ def get_book(request, book_id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_book(request):
-    print(request.data)
     serializer = BookSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         current_person = Person.objects.get(user=request.user)
