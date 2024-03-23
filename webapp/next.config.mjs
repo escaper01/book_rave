@@ -39,6 +39,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'book-rave.onrender.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'eu-central-1.linodeobjects.com',
+      },
     ],
   },
 };
