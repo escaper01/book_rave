@@ -68,10 +68,10 @@ export default function Login() {
       <div className='flex w-full max-w-sm flex-col '>
         <Image
           src={
-            'https://i.pinimg.com/736x/62/16/3e/62163e30a94bbda09438da284830f1da.jpg'
+            'https://bookrave.eu-central-1.linodeobjects.com/main/image1.png'
           }
           alt='book rave logo'
-          width={300}
+          width={200}
           height={100}
           className='mx-auto'
         />

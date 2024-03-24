@@ -51,12 +51,13 @@ export default function Register() {
       <Toaster />
       <div className='flex w-full max-w-sm flex-col '>
         <Image
-          priority={true}
-          src={'https://i.pinimg.com/736x/62/16/3e/62163e30a94bbda09438da284830f1da.jpg'}
+          src={
+            'https://bookrave.eu-central-1.linodeobjects.com/main/image1.png'
+          }
           alt='book rave logo'
           width={200}
           height={100}
-          className='mx-auto w-auto'
+          className='mx-auto'
         />
         <h1 className='text-center text-4xl'>Create Account</h1>
         <form
