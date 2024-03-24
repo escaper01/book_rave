@@ -10,6 +10,7 @@ import { BookFormType } from '@/utils/types/BookTypes';
 import { getData } from '@/utils/constants/api';
 import { BookResponseType } from '@/utils/types/BookTypes';
 import Paginator from '@/components/UI/Paginator';
+import LoadingPage from '@/components/UI/LoadingPage';
 
 export default function Trending() {
   const [currentUrl, setCurrentUrl] = useState(`${BASE_URL}/book/all-books`);
@@ -23,14 +24,12 @@ export default function Trending() {
     },
   });
 
-
   if (isLoading) {
-    return <div>loading books</div>;
+    return <LoadingPage />;
   }
 
   return (
     <div className='grow'>
-     
       <div className='container mx-auto grid max-w-screen-lg justify-center gap-y-4  p-5 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6'>
         {!isLoading && postedBooks.length === 0 && <div>no books</div>}
         {postedBooks.map((elem, index) => {
@@ -62,7 +61,11 @@ export default function Trending() {
       </div>
       <div>
         {reviewPostsRes && (
-          <Paginator objectRes={reviewPostsRes} setCurrentUrl={setCurrentUrl} totalNumber={bookCount} />
+          <Paginator
+            objectRes={reviewPostsRes}
+            setCurrentUrl={setCurrentUrl}
+            totalNumber={bookCount}
+          />
         )}
       </div>
     </div>
