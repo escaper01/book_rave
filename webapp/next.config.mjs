@@ -43,6 +43,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'eu-central-1.linodeobjects.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'bookrave.eu-central-1.linodeobjects.com',
+      },
     ],
   },
 };
