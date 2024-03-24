@@ -62,7 +62,7 @@ export default function Search() {
         )}
       </div>
       {showResults && (
-        <div className='absolute top-10 mt-1  w-full flex-col overflow-hidden rounded border border-gray-200 bg-white shadow peer-checked:flex'>
+        <div className='absolute top-10 z-50  mt-1 w-full flex-col overflow-hidden rounded border border-gray-200 bg-white shadow peer-checked:flex'>
           {bookResults &&
             Object.values(bookResults).length > 0 &&
             bookResults.map((book) => {
