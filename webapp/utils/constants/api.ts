@@ -40,7 +40,11 @@ export const postData = async (
   {
     arg,
   }: {
-    arg: RegistrationSchemaType | LoginSchemaType | LogoutPayloadType;
+    arg:
+      | RegistrationSchemaType
+      | LoginSchemaType
+      | LogoutPayloadType
+      | { query: string };
   }
 ) => {
   return await axios

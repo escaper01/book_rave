@@ -8,15 +8,19 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '@/utils/store/store_auth';
 import useSWRImmutable from 'swr/immutable';
 import { useState } from 'react';
+import useSWR from 'swr';
 
 export default function ReviewDetails({ info }: { info: ReviewFormType }) {
   const user = useAuthStore((state) => state.user);
   const [isBookMarked, setIsBookMarked] = useState(false);
 
-  const { isLoading } = useSWRImmutable(
-    `${BASE_URL}/favorite/bookmark-checker/${info.book}`,
+  const { isLoading } = useSWR(
+    info ? `${BASE_URL}/favorite/bookmark-checker/${info.book}` : null,
     getDataAuth,
     {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
       onSuccess: (data) => {
         if (data.status === 200) {
           setIsBookMarked(true);
