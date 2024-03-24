@@ -9,6 +9,7 @@ import { getData, postData } from '@/utils/constants/api';
 import { useState } from 'react';
 import { BookFormType } from '@/utils/types/BookTypes';
 import useSWRImmutable from 'swr/immutable';
+import LoadingPage from '../UI/LoadingPage';
 
 export default function BookSlider({ query }: { query: string }) {
   const [books, setBooks] = useState<BookFormType[] | undefined>();
@@ -22,6 +23,8 @@ export default function BookSlider({ query }: { query: string }) {
       },
     }
   );
+
+  if (isLoading) return <LoadingPage />;
   return (
     <div className='drop-shadow-2xl'>
       {books && (

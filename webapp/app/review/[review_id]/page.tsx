@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { ReviewFormType } from '@/utils/types/ReviewTypes';
 import { useAuthStore } from '@/utils/store/store_auth';
 import { CommentFormType } from '@/utils/types/CommentType';
+import LoadingPage from '@/components/UI/LoadingPage';
 
 export default function Review({ params }: { params: { review_id: number } }) {
   const user = useAuthStore((state) => state.user);
@@ -31,7 +32,7 @@ export default function Review({ params }: { params: { review_id: number } }) {
   );
 
   if (isReviewsLoading) {
-    return <div>loading book details</div>;
+    return <LoadingPage />;
   }
   return (
     <div className='mx-5 grow py-5 sm:py-10'>

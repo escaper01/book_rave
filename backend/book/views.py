@@ -75,17 +75,13 @@ def delete_book(request, book_id):
 
 @api_view(['POST'])
 def search(request):
-    query = request.data['query']
+    query = request.data.get('query')
     try:
-        books = Book.objects.filter(name__contains=query)
+        books = Book.objects.filter(name__contains=query)[:6]
     except Book.DoesNotExist:
         return Response([], status=status.HTTP_200_OK)
-    paginator = PageNumberPagination()
-    paginator.page_size = 18
-    context = paginator.paginate_queryset(books, request)
-    serializer = MinimalisticBookSerializer(context, many=True, context={'request': request})
-    return paginator.get_paginated_response(serializer.data)
-    # return Response(serialize.data, status=status.HTTP_200_OK)
+    serializer = MinimalisticBookSerializer(books, many=True, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

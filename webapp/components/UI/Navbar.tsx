@@ -78,16 +78,8 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-        <div className='flex w-full flex-row items-center justify-end lg:justify-normal'>
-          <div className='hidden w-full sm:inline-flex'>
-            <input
-              className='ml-0 w-full p-2 md:ml-40'
-              placeholder='Search books'
-              type='search'
-              name='query-books'
-            />
-          </div>
-          {/* <Search /> */}
+        <div className='flex w-full flex-row items-center justify-end'>
+          <Search />
           <div className='flex flex-row items-center font-medium'>
             {!accessToken && (
               <div>

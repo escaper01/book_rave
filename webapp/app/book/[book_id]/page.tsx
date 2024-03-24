@@ -6,7 +6,7 @@ import BookDetails from '@/components/book/BookDetails';
 import useSWRImmutable from 'swr/immutable';
 import { BASE_URL } from '@/utils/constants/config';
 import { getDataAuth, getData } from '@/utils/constants/api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/utils/store/store_auth';
 import { BookFormType } from '@/utils/types/BookTypes';
 import { CommentFormType } from '@/utils/types/CommentType';
@@ -15,6 +15,8 @@ import useSWRMutation from 'swr/mutation';
 import { postDataAuth } from '@/utils/constants/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { SaveSvg, RemoveSvg } from '@/utils/constants/svg_library';
+import useSWR from 'swr';
+import Cookies from 'js-cookie';
 
 export default function Book({ params }: { params: { book_id: number } }) {
   const [showReviewBook, setShowReviewBook] = useState(false);
@@ -39,12 +41,15 @@ export default function Book({ params }: { params: { book_id: number } }) {
     }
   );
 
-  const { isLoading: isBookIllegible } = useSWRImmutable(
-    bookDetails?.id
+  const { isLoading: isBookIllegible } = useSWR(
+    bookDetails
       ? `${BASE_URL}/review/is-ellegible-to-review/${bookDetails?.id}`
       : null,
     getDataAuth,
     {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
       onSuccess: (data) => {
         console.log(data, 'is elligible to review');
         if (data.status === 200) {
@@ -59,12 +64,15 @@ export default function Book({ params }: { params: { book_id: number } }) {
       },
     }
   );
-  const { isLoading: isBookAlreadyMarked } = useSWRImmutable(
+  const { isLoading: isBookAlreadyMarked } = useSWR(
     bookDetails
       ? `${BASE_URL}/favorite/bookmark-checker/${bookDetails?.id}`
       : null,
     getDataAuth,
     {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
       onSuccess: (data) => {
         if (data.status === 200) {
           setIsBookMarked(true);
