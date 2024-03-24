@@ -8,6 +8,7 @@ import { ReviewFormType, ReviewsResponseType } from '@/utils/types/ReviewTypes';
 import { useRouter } from 'next/navigation';
 import Paginator from '@/components/UI/Paginator';
 import PostReview from '@/components/review/PostReview';
+import LoadingPage from '@/components/UI/LoadingPage';
 
 export default function Home() {
   const [currentUrl, setCurrentUrl] = useState(
@@ -15,8 +16,8 @@ export default function Home() {
   );
   const [reviewsCount, setReviewsCount] = useState(0);
 
-  const [reviewPosts, setReviewPosts] = useState<ReviewFormType[] | []>([]);
-  const { data: reviewPostsRes } = useSWR(currentUrl, getData, {
+  const [reviewPosts, setReviewPosts] = useState<ReviewFormType[]>();
+  const { data: reviewPostsRes, isLoading } = useSWR(currentUrl, getData, {
     onSuccess: (data: ReviewsResponseType) => {
       // console.log(data, 'trending posts');
       setReviewPosts(data.results);
@@ -24,14 +25,19 @@ export default function Home() {
     },
   });
 
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
   return (
     <div className=' grow bg-my-khaki-light '>
       <div className='mx-auto max-w-screen-md py-5'>
         <div className='mt-8'>
-          {reviewPosts.map((elem, index) => {
-            return <ReviewPost key={index} data={elem} />;
-          })}
-          {reviewPosts.length === 0 && <div>no results</div>}
+          {reviewPosts &&
+            reviewPosts.map((elem, index) => {
+              return <ReviewPost key={index} data={elem} />;
+            })}
+          {reviewPosts && reviewPosts.length === 0 && <div>no results</div>}
         </div>
 
         {reviewPostsRes && (
