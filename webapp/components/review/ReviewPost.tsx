@@ -106,24 +106,24 @@ export default function ReviewPost({ data }: { data: ReviewFormType }) {
       className='my-5 flex flex-col border-1 border-gray-300 bg-white p-5 text-sm hover:cursor-pointer hover:bg-gray-100'
     >
       <Toaster />
-      <div className='flex flex-row items-start pb-4'>
-        <div>
+      <div className='gri grid-cols-1 items-start pb-4'>
+        <div className='mx-auto'>
           {data.media && (
             <Image
-              className='max-w-[200px]'
+              className='mx-auto max-w-md'
               alt='bk image'
               src={data.media as string}
-              height={800}
+              height={900}
               width={800}
             />
           )}
         </div>
-        <div className='pl-5 align-text-top'>
-          <div className='mb-2 text-3xl font-light leading-10'>
+        <div className=' pl-5 align-text-top'>
+          <div className='mb-2 text-2xl font-light leading-10'>
             {data.title}
           </div>
           <div className='text-base font-medium'>
-            {`${data.content.slice(0, 500)}...`}
+            {`${data.content.slice(0, 260)}...`}
           </div>
         </div>
       </div>

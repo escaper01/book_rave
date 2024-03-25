@@ -10,6 +10,8 @@ import { useState, Dispatch, SetStateAction } from 'react';
 import { CommentFormType } from '@/utils/types/CommentType';
 import Image from 'next/image';
 import { CloseSvg } from '@/utils/constants/svg_library';
+import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function PostReview({
   book_cover,
@@ -26,6 +28,7 @@ export default function PostReview({
   >;
   relatedComments: CommentFormType[] | undefined;
 }) {
+  const router = useRouter();
   const [reviewRating, setReviewRating] = useState(0);
   const {
     setError,
@@ -41,7 +44,9 @@ export default function PostReview({
     postFormAuth,
     {
       onSuccess: (data) => {
-        // console.log(data, 'success post');
+        console.log(data, 'success post');
+
+        toast.success('your review have been posted');
 
         if (relatedComments) {
           setRelatedComments([data, ...relatedComments]);
@@ -75,6 +80,7 @@ export default function PostReview({
 
   return (
     <div>
+      <Toaster />
       <div className='flex  items-center justify-center'>
         <div>
           <div className='fixed inset-0 z-10 flex items-center justify-center overflow-hidden px-2'>

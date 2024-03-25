@@ -5,9 +5,7 @@ import useSWR from 'swr';
 import { BASE_URL } from '@/utils/constants/config';
 import { getData } from '@/utils/constants/api';
 import { ReviewFormType, ReviewsResponseType } from '@/utils/types/ReviewTypes';
-import { useRouter } from 'next/navigation';
 import Paginator from '@/components/UI/Paginator';
-import PostReview from '@/components/review/PostReview';
 import LoadingPage from '@/components/UI/LoadingPage';
 
 export default function Home() {

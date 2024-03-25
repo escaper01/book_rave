@@ -27,7 +27,7 @@ export const ReviewSchema = z.object({
     ),
   content: z
     .string()
-    .min(50, 'your review should be more than 50 charaacters')
+    .min(30, 'your review should be more than 30 characters')
     .max(300, 'your review should be less than 300 characters'),
   rating: z
     .number()
