@@ -3,13 +3,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useSWRMutation from 'swr/mutation';
 import { postFormAuth } from '@/utils/constants/api';
 import { BASE_URL } from '@/utils/constants/config';
-import toast, { Toaster } from 'react-hot-toast';
 import { ReviewSchema } from '@/utils/schemes/review_schema';
 import { ReviewSchemaType } from '@/utils/types/ReviewTypes';
 import DynamicRatingStars from '../book/DynamicRatingStars';
 import { useState, Dispatch, SetStateAction } from 'react';
 import { CommentFormType } from '@/utils/types/CommentType';
 import Image from 'next/image';
+import { CloseSvg } from '@/utils/constants/svg_library';
 
 export default function PostReview({
   book_cover,
@@ -69,15 +69,23 @@ export default function PostReview({
     }
   };
 
+  const CloseModel = () => {
+    console.log('left');
+  };
+
   return (
     <div>
       <div className='flex  items-center justify-center'>
         <div>
           <div className='fixed inset-0 z-10 flex items-center justify-center overflow-hidden px-2'>
             <div className='absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity'></div>
-            <div className='z-50 w-full max-w-screen-sm overflow-hidden rounded-md bg-white  shadow-xl sm:w-96 md:w-1/2 lg:w-2/3 xl:w-1/3'>
-              <div className='flex justify-between bg-indigo-500 px-5 py-2 text-white'>
+            <div className='z-50 w-full max-w-screen-sm overflow-hidden rounded-md bg-white shadow-xl sm:w-96 md:w-1/2 lg:w-2/3 xl:w-1/3'>
+              <div className='flex items-center justify-between bg-indigo-500 px-5 py-2 text-white'>
                 <h2 className='text-lg font-semibold'>Post new review</h2>
+                <CloseSvg
+                  onClick={() => setShowReviewBook(false)}
+                  className='h-6 w-6 hover:cursor-pointer'
+                />
               </div>
               <div className='flex justify-center pt-3'>
                 <Image
