@@ -28,6 +28,7 @@ BUCKET_URL=
 BUCKET_REGION=
 LINODE_BUCKET_ACCESS_KEY=
 LINODE_BUCKET_SECRET_KEY=
+JWT_TOKEN= #create a user so and get its jwtToken so that u can use automation scripts to add mock books and reviews
 
 ```
 3. setup the backend

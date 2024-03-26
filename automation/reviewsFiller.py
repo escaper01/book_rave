@@ -4,6 +4,18 @@ import json
 import requests
 from io import BytesIO
 import uuid
+import environ
+import os
+from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
+
+BASE_DIR = Path(__file__).resolve().parent.parent / "backend"
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+PRODUCTION = True if env('PRODUCTION') == 'true' else False
 
 POST_IMAGES = [
     "https://ichef.bbci.co.uk/images/ic/1024xn/p07b4k75.jpg.webp",
@@ -18,8 +30,13 @@ POST_IMAGES = [
 
 
 def add_review(payload, book_id, token):
-    url = f"http://localhost:8000/api/v1/review/add_review/{book_id}"
-    # url = f"https://book-rave.onrender.com/api/v1/review/add_review/{book_id}"
+
+    local_url = "http://localhost:8000/api/v1/"
+    hosted_url = "https://book-rave.onrender.com/api/v1/"
+
+    BASE_URL = hosted_url if PRODUCTION else local_url
+    
+    url = f"{BASE_URL}review/add_review/{book_id}"
 
     payload["rating"] = random.randint(1, 5)
     rand_index = random.randint(0, len(POST_IMAGES) - 1)
@@ -42,6 +59,5 @@ with open('reviews.json', 'r') as file:
 
 # Iterate over each dictionary in the list
 for i, review in enumerate(data):
-    response = add_review(payload=review, book_id=random.randint(1, 92),
-                          token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExNDMxOTkyLCJpYXQiOjE3MTEzNzIwNTIsImp0aSI6ImQzZmI3MzQyNzM4YzQ2YWI5NDQ4ZjhhMTg1ZDZkN2U0IiwidXNlcl9pZCI6MX0.Mja09tv2BEfB8Y1X4o_EpiI66G-eBOi-NOQBsUwi7_k")
+    response = add_review(payload=review, book_id=random.randint(1, 92),token=env('JWT_TOKEN'))
     print(i, " / ", len(data), "  ", response)

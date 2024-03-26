@@ -2,6 +2,10 @@ import json
 import requests
 from io import BytesIO
 import uuid
+import environ
+import os
+from pathlib import Path
+
 
 """
 before runnning this script you need to put this setting:
@@ -16,10 +20,24 @@ and comment this block
 
 """
 
+env = environ.Env()
+environ.Env.read_env()
+
+BASE_DIR = Path(__file__).resolve().parent.parent / "backend"
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+PRODUCTION = True if env('PRODUCTION') == 'true' else False
+
+print(PRODUCTION)
 
 def add_book(payload, category, token):
-    url = "http://localhost:8000/api/v1/book/add-book"
-    # url = "https://book-rave.onrender.com/api/v1/book/add-book"
+    
+    local_url = "http://localhost:8000/api/v1/book/add-book"
+    hosted_url = "https://book-rave.onrender.com/api/v1/book/add-book"
+
+
+    url = hosted_url if PRODUCTION else local_url
     
 
     list_of_authors = payload['author']
@@ -39,6 +57,7 @@ def add_book(payload, category, token):
     }
 
     response = requests.post(url, headers=headers, data=payload, files=files)
+    return response
 
 
 LIST_OF_CATEGORIES = [
@@ -61,11 +80,10 @@ with open("books.json", "r") as json_file:
         bundle_of_Books = json_data.get(category)
         bundle_len = len(bundle_of_Books)
         for i, book in enumerate(bundle_of_Books):
-            print(i, ' ____ ', bundle_len)
             if i == 10:
                 break
             try:
-                add_book(payload=book, category=category,
-                         token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExNDI5NjMyLCJpYXQiOjE3MTEzNjk2OTIsImp0aSI6IjdmMjNjM2VlMWZmZDQ5M2M5YTZhYTRkODA2NjkzOTMyIiwidXNlcl9pZCI6MX0.lwVcMfwvahNHezbmuXVjyqndWpqq0kucNiJ-8g3-WNk")
+                response = add_book(payload=book, category=category, token=env('JWT_TOKEN'))
+                print(i, ' / ', bundle_len, response)
             except Exception as e:
                 print(e, " went wrong")
