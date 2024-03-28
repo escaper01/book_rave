@@ -13,13 +13,15 @@ class VoteSerializer(serializers.ModelSerializer):
     def get_post_likes_count(self, obj):
         review_votes = Vote.objects.filter(
             content_type=ContentType.objects.get_for_model(Review),
-            vote_type="UP"
+            vote_type="UP",
+            object_id=obj.object_id
         )
         return review_votes.count()
 
     def get_post_dislikes_count(self, obj):
         review_votes = Vote.objects.filter(
             content_type=ContentType.objects.get_for_model(Review),
-            vote_type="DOWN"
+            vote_type="DOWN",
+            object_id=obj.object_id
         )
         return review_votes.count()
