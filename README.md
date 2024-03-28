@@ -1,3 +1,6 @@
+
+![web app demo](./demo.gif)
+
 ## Introduction
 
 Welcome to BookRave! This project aims to allows readers to build a community interactively. For more details, visit our deployed site [here](https://book-rave.vercel.app/), check out the final project blog article [here](link), or connect with the author(s) on LinkedIn|Twitter: [escaper](https://twitter.com/escaper007), [Younes Bousfiha](https://www.linkedin.com/in/younes-bousfiha-9838361a6/).
